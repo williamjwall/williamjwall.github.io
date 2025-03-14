@@ -155,10 +155,29 @@ body {
     padding: 0;
     background-color: #0a192f;
     color: #e6e6e6;
+    position: relative;
+    overflow: hidden;
+    z-index: 0;
+    min-height: 100vh;
+}
+
+#graph-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+}
+
+header, main, footer, .blog-topics, .articles {
+    position: relative;
+    z-index: 1;
 }
 
 header {
-    background-color: #0a192f;
+    background-color: rgba(10, 25, 47, 0.8);
     color: #64ffda;
     padding: 20px;
     text-align: center;
@@ -191,7 +210,7 @@ main {
 }
 
 .blog-topics li, .articles li {
-    background-color: #112240;
+    background-color: rgba(17, 34, 64, 0.8);
     margin-bottom: 10px;
     padding: 15px;
     border-radius: 8px;
@@ -210,7 +229,7 @@ main {
 }
 
 footer {
-    background-color: #0a192f;
+    background-color: rgba(10, 25, 47, 0.8);
     color: #64ffda;
     text-align: center;
     padding: 10px;
