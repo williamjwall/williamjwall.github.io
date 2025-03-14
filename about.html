@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Me - Your Name</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="dark-mode">
+    <!-- Canvas for triangles animation -->
+    <canvas id="triangles-canvas"></canvas>
+
+    <div class="container">
+        <header>
+            <div class="header-container">
+                <div class="logo">
+                    <a href="/">yoursite.com</a>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="/">@yourusername</a></li>
+                        <li><a href="/#portfolio">Portfolio</a></li>
+                        <li><a href="/about.html" class="active">About</a></li>
+                        <li><a href="/blog/">Blog</a></li>
+                        <li><a href="/contact.html">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+
+        <main>
+            <section class="about-section">
+                <h1>About Me</h1>
+                
+                <div class="about-content">
+                    <div class="profile-image">
+                        <img src="assets/images/profile.jpg" alt="Your Name">
+                    </div>
+                    
+                    <div class="bio">
+                        <p>Hello! I'm [Your Name], a [Your Profession] based in [Your Location]. I specialize in [Your Specialties] and have been working in the industry for [X] years.</p>
+                        
+                        <p>My journey in software development began when [brief story about how you got started]. Since then, I've worked on a variety of projects ranging from [type of project] to [another type of project].</p>
+                        
+                        <h2>Skills & Expertise</h2>
+                        <ul class="skills-list">
+                            <li>Frontend Development (HTML, CSS, JavaScript, React)</li>
+                            <li>Backend Development (Node.js, Python, Ruby)</li>
+                            <li>Database Design (SQL, MongoDB, Firebase)</li>
+                            <li>UI/UX Design</li>
+                            <li>Project Management</li>
+                        </ul>
+                        
+                        <h2>Experience</h2>
+                        <div class="experience-item">
+                            <h3>Senior Developer - Company Name</h3>
+                            <p class="date">January 2022 - Present</p>
+                            <p>Description of your role and responsibilities. Highlight key achievements and projects you've worked on.</p>
+                        </div>
+                        
+                        <div class="experience-item">
+                            <h3>Developer - Previous Company</h3>
+                            <p class="date">June 2019 - December 2021</p>
+                            <p>Description of your role and responsibilities. Highlight key achievements and projects you've worked on.</p>
+                        </div>
+                        
+                        <h2>Education</h2>
+                        <div class="education-item">
+                            <h3>Bachelor of Science in Computer Science</h3>
+                            <p class="institution">University Name</p>
+                            <p class="date">2015 - 2019</p>
+                        </div>
+                        
+                        <h2>Interests</h2>
+                        <p>When I'm not coding, you can find me [your hobbies and interests]. I'm also passionate about [causes or activities you care about].</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2024 Your Name. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Load libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gl-matrix/2.8.1/gl-matrix-min.js"></script>
+    
+    <!-- Simulate WebAssembly loading -->
+    <script>
+        console.log("Loading WebAssembly module for triangles animation...");
+        setTimeout(() => {
+            const script = document.createElement('script');
+            script.src = 'js/triangles.js';
+            document.body.appendChild(script);
+        }, 100);
+    </script>
+    
+    <!-- Load main script -->
+    <script src="js/script.js"></script>
+</body>
+</html> 

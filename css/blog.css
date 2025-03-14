@@ -1,0 +1,150 @@
+/* Blog-specific styles */
+
+.blog-section {
+    padding: 2rem 0;
+}
+
+.blog-intro {
+    margin-bottom: 3rem;
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: rgba(238, 238, 238, 0.8);
+}
+
+.blog-posts {
+    display: grid;
+    gap: 2.5rem;
+}
+
+.blog-post {
+    background-color: rgba(20, 20, 20, 0.7);
+    backdrop-filter: blur(5px);
+    border-radius: 8px;
+    padding: 2rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.blog-post:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+}
+
+.post-date {
+    font-size: 0.9rem;
+    color: #999;
+    margin-bottom: 0.5rem;
+}
+
+.blog-post h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+}
+
+.blog-post h2 a {
+    color: var(--text-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.blog-post h2 a:hover {
+    color: var(--primary-color);
+}
+
+.post-excerpt {
+    margin-bottom: 1.5rem;
+    color: rgba(238, 238, 238, 0.8);
+}
+
+.post-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.tag {
+    background-color: rgba(102, 176, 255, 0.1);
+    color: var(--primary-color);
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+}
+
+.read-more {
+    display: inline-block;
+    color: var(--primary-color);
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.read-more:hover {
+    color: var(--hover-color);
+}
+
+/* Blog post page styles */
+.post-header {
+    margin-bottom: 3rem;
+}
+
+.post-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.post-meta {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    color: #999;
+}
+
+.post-author {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.post-author img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.post-content {
+    font-size: 1.1rem;
+    line-height: 1.8;
+}
+
+.post-content p,
+.post-content ul,
+.post-content ol,
+.post-content blockquote {
+    margin-bottom: 1.5rem;
+}
+
+.post-content h2 {
+    font-size: 1.8rem;
+    margin: 2.5rem 0 1rem;
+}
+
+.post-content h3 {
+    font-size: 1.4rem;
+    margin: 2rem 0 1rem;
+}
+
+.post-content img {
+    max-width: 100%;
+    border-radius: 8px;
+    margin: 2rem 0;
+}
+
+.post-content code {
+    background-color: rgba(20, 20, 20, 0.8);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: 'Courier New', Courier, monospace;
+    color: #e6e6e6;
+}

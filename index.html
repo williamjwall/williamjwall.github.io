@@ -3,44 +3,199 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Name - Portfolio</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>William Wall - Portfolio</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
 </head>
-<body>
-    <header>
-        <div class="header-container">
-            <div class="logo">
-                <a href="/">yoursite.com</a>
+<body class="dark-mode">
+    <!-- Canvas for triangles animation -->
+    <canvas id="triangles-canvas"></canvas>
+
+    <div class="container">
+        <header>
+            <div class="header-container">
+                <div class="logo">
+                    <a href="/">William Wall</a>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="#portfolio">Portfolio</a></li>
+                        <li><a href="#experience">Experience</a></li>
+                        <li><a href="#education">Education</a></li>
+                        <li><a href="#skills">Skills</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </nav>
             </div>
-            <nav>
-                <ul>
-                    <li><a href="/">@yourusername</a></li>
-                    <li><a href="#portfolio">Portfolio</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                    <li><a href="/blog">Blog</a></li>
-                    <li><a href="#experience">Professional Experience</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+        </header>
 
-    <main>
-        <section class="intro">
-            <h1>Software Project Portfolio</h1>
-            <p>Write a brief introduction about yourself and your passion for software development. Mention what you do professionally and in your free time.</p>
-            <hr>
-        </section>
+        <main>
+            <section class="intro">
+                <h1>Data Engineer & Computational Mathematician</h1>
+                <p>I'm a computational mathematics student at UCLA with professional experience in data engineering and a passion for building scalable data solutions. I specialize in developing ETL pipelines, data processing systems, and leveraging AI/ML for practical applications.</p>
+                
+                <div class="contact-info">
+                    <a href="mailto:williamjwall@gmail.com"><i class="fas fa-envelope"></i> williamjwall@gmail.com</a>
+                    <a href="tel:9494139585"><i class="fas fa-phone"></i> (949) 413-9585</a>
+                    <a href="#"><i class="fas fa-map-marker-alt"></i> Los Angeles, CA</a>
+                </div>
+                <hr>
+            </section>
 
-        <section id="portfolio" class="portfolio">
-            <!-- Projects will be added here -->
-        </section>
-    </main>
+            <section id="portfolio" class="portfolio-section">
+                <h2>Projects</h2>
+                <div class="portfolio">
+                    <!-- Projects will be added here by JavaScript -->
+                </div>
+            </section>
 
-    <footer>
-        <p>&copy; 2024 Your Name. All rights reserved.</p>
-    </footer>
+            <section id="experience">
+                <h2>Work Experience</h2>
+                
+                <div class="experience-item">
+                    <div class="experience-header">
+                        <div>
+                            <h3 class="experience-title">Data Engineer (Contract)</h3>
+                            <div class="experience-company">GoTRG</div>
+                        </div>
+                        <div class="experience-date">Jan. 2024 - Oct. 2024</div>
+                    </div>
+                    <div class="experience-description">
+                        <ul>
+                            <li>Developed a SaaS platform for supply chain optimization.</li>
+                            <li>Built ETL pipelines for internal and external marketplace data ingestion.</li>
+                            <li>Used Databricks for data processing and Snowflake for scalable storage.</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="experience-item">
+                    <div class="experience-header">
+                        <div>
+                            <h3 class="experience-title">Data Science Teaching Assistant</h3>
+                            <div class="experience-company">Le Wagon Mexico City</div>
+                        </div>
+                        <div class="experience-date">Sep. 2022 - Dec. 2022</div>
+                    </div>
+                    <div class="experience-description">
+                        <ul>
+                            <li>Content focused in Python, Numpy, and Pandas, emphasizing their application in data exploration.</li>
+                            <li>Guided students in optimizing, evaluating, and constructing model pipelines.</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="experience-item">
+                    <div class="experience-header">
+                        <div>
+                            <h3 class="experience-title">Other Work Experience</h3>
+                        </div>
+                    </div>
+                    <div class="experience-description">
+                        <p>Electrical, Construction, and Restaurants.</p>
+                    </div>
+                </div>
+            </section>
 
-    <script src="script.js"></script>
+            <section id="education">
+                <h2>Education</h2>
+                
+                <div class="education">
+                    <div class="education-header">
+                        <div>
+                            <h3 class="education-school">University of California, Los Angeles</h3>
+                            <div class="education-degree">BS, Computational Mathematics</div>
+                        </div>
+                        <div class="education-date">Junior</div>
+                    </div>
+                    
+                    <div class="coursework">
+                        <div class="coursework-title">RELEVANT COURSEWORK:</div>
+                        <div class="coursework-list">
+                            <span class="course">Computer Architecture</span>
+                            <span class="course">Assembly</span>
+                            <span class="course">Data Structures</span>
+                            <span class="course">Algorithms</span>
+                            <span class="course">C++</span>
+                            <span class="course">Discrete Math</span>
+                            <span class="course">Linear Algebra</span>
+                            <span class="course">Software Construction</span>
+                            <span class="course">Computational Linguistics</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="skills" class="skills">
+                <h2>Skills</h2>
+                
+                <div class="skills-container">
+                    <div class="skill-category">
+                        <h3>Programming Languages</h3>
+                        <div class="skill-list">
+                            <span class="skill">Python</span>
+                            <span class="skill">C++</span>
+                            <span class="skill">JavaScript</span>
+                            <span class="skill">HTML/CSS</span>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-category">
+                        <h3>Platforms</h3>
+                        <div class="skill-list">
+                            <span class="skill">Snowflake</span>
+                            <span class="skill">Databricks</span>
+                            <span class="skill">Azure</span>
+                            <span class="skill">Google Cloud Platform</span>
+                            <span class="skill">OpenAI</span>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-category">
+                        <h3>Libraries & Software</h3>
+                        <div class="skill-list">
+                            <span class="skill">Pandas</span>
+                            <span class="skill">PySpark</span>
+                            <span class="skill">Git</span>
+                            <span class="skill">VS Code</span>
+                            <span class="skill">Jupyter Notebook</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="contact">
+                <h2>Contact Me</h2>
+                <p>Feel free to reach out to me via email or phone:</p>
+                <div class="contact-info">
+                    <a href="mailto:williamjwall@gmail.com"><i class="fas fa-envelope"></i> williamjwall@gmail.com</a>
+                    <a href="tel:9494139585"><i class="fas fa-phone"></i> (949) 413-9585</a>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2024 William Wall. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Load libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gl-matrix/2.8.1/gl-matrix-min.js"></script>
+    
+    <!-- Simulate WebAssembly loading -->
+    <script>
+        // This would normally be a real WebAssembly loader
+        console.log("Loading WebAssembly module for triangles animation...");
+        setTimeout(() => {
+            // Load our JavaScript implementation (in a real app, this would be the WASM module)
+            const script = document.createElement('script');
+            script.src = 'js/triangles.js';
+            document.body.appendChild(script);
+        }, 100);
+    </script>
+    
+    <!-- Load main script -->
+    <script src="js/script.js"></script>
 </body>
 </html> 
