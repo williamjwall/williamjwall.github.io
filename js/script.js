@@ -25,8 +25,17 @@ const projects = [
         links: [
             { text: "View Project", url: "#" }
         ],
-        description: "For a small hydroponic farm business in Montreal. Cleaned two years of historical data to perform a regression on past water conditions and plant locations to predict weight and health. Designed an automated relational database and set up a MySQL instance on Google Cloud for future integration with AppSheet.",
+        description: "For a small hydroponic farm in Montreal. Cleaned two years of historical data to perform a regression on past water conditions and plant locations to predict weight and health. Designed an automated relational database and set up a MySQL instance on Google Cloud for future integration with AppSheet.",
         technologies: ["Python", "SKlearn", "Pandas", "Seaborn", "GCP", "MySQL"]
+    },
+    {
+        title: "William Wall's Blog",
+        date: "2024",
+        links: [
+            { text: "Visit Blog", url: "blog/index.html" }
+        ],
+        description: "A personal blog where I share insights and tutorials on computational mathematics, AI, and more.",
+        technologies: ["HTML", "CSS", "JavaScript"]
     }
 ];
 

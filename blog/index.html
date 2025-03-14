@@ -3,106 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog - Your Name</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="../css/styles.css">
+    <title>William Wall's Blog</title>
     <link rel="stylesheet" href="../css/blog.css">
 </head>
-<body class="dark-mode">
-    <!-- Canvas for triangles animation -->
-    <canvas id="triangles-canvas"></canvas>
-
-    <div class="container">
-        <header>
-            <div class="header-container">
-                <div class="logo">
-                    <a href="/">yoursite.com</a>
-                </div>
-                <nav>
-                    <ul>
-                        <li><a href="/">@yourusername</a></li>
-                        <li><a href="/#portfolio">Portfolio</a></li>
-                        <li><a href="/about.html">About</a></li>
-                        <li><a href="/blog/" class="active">Blog</a></li>
-                        <li><a href="/contact.html">Contact</a></li>
-                    </ul>
-                </nav>
-            </div>
-        </header>
-
-        <main>
-            <section class="blog-section">
-                <h1>Blog</h1>
-                
-                <div class="blog-intro">
-                    <p>Welcome to my blog where I share thoughts, tutorials, and insights about software development, technology trends, and my personal projects.</p>
-                </div>
-                
-                <div class="blog-posts">
-                    <article class="blog-post">
-                        <div class="post-date">June 15, 2024</div>
-                        <h2><a href="posts/post1.html">Building Responsive Web Applications with React</a></h2>
-                        <div class="post-excerpt">
-                            <p>In this post, I explore modern techniques for building responsive web applications using React and CSS Grid. Learn how to create layouts that work seamlessly across all device sizes.</p>
-                        </div>
-                        <div class="post-tags">
-                            <span class="tag">React</span>
-                            <span class="tag">CSS</span>
-                            <span class="tag">Responsive Design</span>
-                        </div>
-                        <a href="posts/post1.html" class="read-more">Read More</a>
-                    </article>
-                    
-                    <article class="blog-post">
-                        <div class="post-date">May 28, 2024</div>
-                        <h2><a href="posts/post2.html">The Future of WebAssembly and Browser Performance</a></h2>
-                        <div class="post-excerpt">
-                            <p>WebAssembly is changing how we think about performance in the browser. This post dives into how WASM works, its current capabilities, and what the future holds for web performance.</p>
-                        </div>
-                        <div class="post-tags">
-                            <span class="tag">WebAssembly</span>
-                            <span class="tag">Performance</span>
-                            <span class="tag">Rust</span>
-                        </div>
-                        <a href="posts/post2.html" class="read-more">Read More</a>
-                    </article>
-                    
-                    <article class="blog-post">
-                        <div class="post-date">April 10, 2024</div>
-                        <h2><a href="posts/post3.html">Setting Up a Modern Development Environment</a></h2>
-                        <div class="post-excerpt">
-                            <p>A guide to setting up a productive development environment with the latest tools and configurations. From terminal setups to VS Code extensions that boost productivity.</p>
-                        </div>
-                        <div class="post-tags">
-                            <span class="tag">Tooling</span>
-                            <span class="tag">VS Code</span>
-                            <span class="tag">Productivity</span>
-                        </div>
-                        <a href="posts/post3.html" class="read-more">Read More</a>
-                    </article>
-                </div>
-            </section>
-        </main>
-
-        <footer>
-            <p>&copy; 2024 Your Name. All rights reserved.</p>
-        </footer>
-    </div>
-
-    <!-- Load libraries -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gl-matrix/2.8.1/gl-matrix-min.js"></script>
-    
-    <!-- Simulate WebAssembly loading -->
-    <script>
-        console.log("Loading WebAssembly module for triangles animation...");
-        setTimeout(() => {
-            const script = document.createElement('script');
-            script.src = '../js/triangles.js';
-            document.body.appendChild(script);
-        }, 100);
-    </script>
-    
-    <!-- Load main script -->
-    <script src="../js/script.js"></script>
+<body>
+    <header>
+        <h1>William Wall's Blog</h1>
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+        </nav>
+    </header>
+    <main>
+        <canvas id="graph-canvas"></canvas>
+        <section class="blog-topics">
+            <h2>Blog Topics</h2>
+            <ul>
+                <li><a href="topics/ai.html">Artificial Intelligence</a></li>
+                <li><a href="topics/bioinformatics.html">Bioinformatics</a></li>
+                <li><a href="topics/data-engineering.html">Data Engineering</a></li>
+                <!-- Add more topics as needed -->
+            </ul>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 William Wall. All rights reserved.</p>
+    </footer>
+    <script src="../js/graph.js"></script>
 </body>
 </html> 
