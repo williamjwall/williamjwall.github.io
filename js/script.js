@@ -11,13 +11,13 @@ const projects = [
         technologies: ["Python", "Databricks", "Snowflake", "Azure", "LLMs"]
     },
     {
-        title: "Gradient Boosting Algorithm Article",
-        date: "2023",
+        title: "PersonalBlog",
+        date: "2024",
         links: [
-            { text: "Read Article", url: "#" }
+            { text: "Visit Blog", url: "blog/index.html" }
         ],
-        description: "Built a pipeline that examines how a gradient boosting algorithm works with a regression and a classification task.",
-        technologies: ["Python", "SKlearn", "Pandas", "Seaborn", "LaTex"]
+        description: "A personal blog where I share everything I enjoy learning and doing.",
+        technologies: ["HTML", "CSS", "JavaScript"]
     },
     {
         title: "Hydroponic Farm",
@@ -27,16 +27,8 @@ const projects = [
         ],
         description: "For a small hydroponic farm in Montreal. Cleaned two years of historical data to perform a regression on past water conditions and plant locations to predict weight and health. Designed an automated relational database and set up a MySQL instance on Google Cloud for future integration with AppSheet.",
         technologies: ["Python", "SKlearn", "Pandas", "Seaborn", "GCP", "MySQL"]
-    },
-    {
-        title: "William Wall's Blog",
-        date: "2024",
-        links: [
-            { text: "Visit Blog", url: "blog/index.html" }
-        ],
-        description: "A personal blog where I share insights and tutorials on computational mathematics, AI, and more.",
-        technologies: ["HTML", "CSS", "JavaScript"]
     }
+    
 ];
 
 // Function to render projects
