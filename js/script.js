@@ -11,15 +11,6 @@ const projects = [
         technologies: ["Python", "Databricks", "Snowflake", "Azure", "LLMs"]
     },
     {
-        title: "Global AI Index",
-        date: "2023",
-        links: [
-            { text: "View Project", url: "#" }
-        ],
-        description: "Used Google Charts API to visualize the Global AI Index, creating interactive data visualizations to represent AI adoption and capabilities across different countries.",
-        technologies: ["JavaScript", "HTML/CSS", "Google Charts API"]
-    },
-    {
         title: "Gradient Boosting Algorithm Article",
         date: "2023",
         links: [
@@ -29,12 +20,12 @@ const projects = [
         technologies: ["Python", "SKlearn", "Pandas", "Seaborn", "LaTex"]
     },
     {
-        title: "Analysis/Regression/Database",
+        title: "Hydroponic Farm",
         date: "2023",
         links: [
             { text: "View Project", url: "#" }
         ],
-        description: "Conducted a mock project for a small hydroponic farm in Montreal. Cleaned two years of historical data to perform a regression on past water conditions and plant locations to predict weight and health.",
+        description: "For a small hydroponic farm business in Montreal. Cleaned two years of historical data to perform a regression on past water conditions and plant locations to predict weight and health. Designed an automated relational database and set up a MySQL instance on Google Cloud for future integration with AppSheet.",
         technologies: ["Python", "SKlearn", "Pandas", "Seaborn", "GCP", "MySQL"]
     }
 ];
