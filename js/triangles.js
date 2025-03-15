@@ -366,57 +366,83 @@
         }
         
         triangles.forEach((triangle, index) => {
-            // Create more varied, less spiral-prone motion
-            const uniqueOffset = index * 0.17; // Prime-number-based offset to avoid patterns
+            // Create subtle, coordinated motion while preserving shape
+            const uniqueOffset = index * 0.17; // Prime-number-based offset for variety
             
-            // More chaotic, less predictable flow with unique parameters per triangle
-            const noiseScale = 2.5;
-            const uniqueFactor1 = (index % 5) * 0.2 + 0.8; // Varied frequency 
-            const uniqueFactor2 = (index % 7) * 0.15 + 0.9; // Different frequency based on prime
+            // Gentler flow parameters
+            const noiseScale = 0.8; // Much smaller scale for subtle movement
+            const uniqueFactor1 = (index % 5) * 0.2 + 0.8;
+            const uniqueFactor2 = (index % 7) * 0.15 + 0.9;
             
-            // Create less orbital, more chaotic motion patterns with multiple frequencies
-            const flowX = Math.sin(elapsedTime * 0.3 * uniqueFactor1 + uniqueOffset) * noiseScale + 
-                          Math.cos(elapsedTime * 0.17 * uniqueFactor2 + uniqueOffset * 1.3) * noiseScale * 0.7;
+            // Calculate phase-based motion - creates wave-like effects through the spiral
+            const phase = triangle.originalAngle + (elapsedTime * 0.1);
             
-            const flowY = Math.cos(elapsedTime * 0.27 * uniqueFactor2 + uniqueOffset * 1.7) * noiseScale + 
-                          Math.sin(elapsedTime * 0.19 * uniqueFactor1 + uniqueOffset * 2.1) * noiseScale * 0.8;
+            // Create gentle breathing effect based on distance from center
+            const breathingAmount = 0.3 * Math.sin(elapsedTime * 0.4 + triangle.originalRadius * 0.5);
+            const breathingX = Math.cos(triangle.originalAngle) * breathingAmount;
+            const breathingY = Math.sin(triangle.originalAngle) * breathingAmount;
             
-            // Add true randomness to break predictable patterns
-            const randomX = (Math.random() - 0.5) * 0.6 * deltaTime; // Increased randomness
-            const randomY = (Math.random() - 0.5) * 0.6 * deltaTime; // Increased randomness
+            // Create a subtle orbiting micro-motion that preserves shape
+            const microOrbit = 0.15 * Math.sin(elapsedTime * 0.6 + uniqueOffset);
+            const microOrbitX = Math.cos(triangle.originalAngle + Math.PI/2) * microOrbit;
+            const microOrbitY = Math.sin(triangle.originalAngle + Math.PI/2) * microOrbit;
             
-            // Apply more chaotic flow with randomness
-            triangle.velocity[0] += flowX * deltaTime * 0.2 + randomX;
-            triangle.velocity[1] += flowY * deltaTime * 0.2 + randomY;
+            // Combine breathing and micro-orbiting for gentle, interesting motion
+            const flowX = breathingX + microOrbitX;
+            const flowY = breathingY + microOrbitY;
             
-            // Add attraction to original position to prevent drift without ring formation
+            // Very minimal randomness - just enough to avoid perfect uniformity
+            const randomX = (Math.random() - 0.5) * 0.05 * deltaTime;
+            const randomY = (Math.random() - 0.5) * 0.05 * deltaTime;
+            
+            // Apply gentle flow
+            triangle.velocity[0] += flowX * deltaTime * 0.6 + randomX;
+            triangle.velocity[1] += flowY * deltaTime * 0.6 + randomY;
+            
+            // Calculate distance from original position
             const originalX = triangle.initialPosition[0];
             const originalY = triangle.initialPosition[1];
             const dx = originalX - triangle.position[0];
             const dy = originalY - triangle.position[1];
+            const distFromOrigin = Math.sqrt(dx*dx + dy*dy);
             
-            // Gentle pull toward initial position
-            triangle.velocity[0] += dx * deltaTime * 0.02; // Reduced attraction for more freedom
-            triangle.velocity[1] += dy * deltaTime * 0.02; // Reduced attraction for more freedom
+            // Strong pull toward initial position when too far, gentle otherwise
+            const baseAttractionFactor = 0.1; // Default attraction
+            const maxDistBeforeStrongPull = 1.0;
             
-            // Add a subtle pulsing Z motion for depth variation
-            triangle.velocity[2] += (Math.sin(elapsedTime * 0.23 + uniqueOffset) * 0.3 + randomX) * deltaTime;
+            // Calculate attraction strength based on distance
+            let attractionFactor;
+            if (distFromOrigin > maxDistBeforeStrongPull) {
+                // Strong exponential pull when too far
+                attractionFactor = baseAttractionFactor + (distFromOrigin - maxDistBeforeStrongPull) * 0.1;
+            } else {
+                // Gentle pull when close to original position
+                attractionFactor = baseAttractionFactor * (distFromOrigin / maxDistBeforeStrongPull);
+            }
             
-            // Apply velocity with gradual damping for smoother motion
+            // Apply position-maintaining force
+            triangle.velocity[0] += dx * deltaTime * attractionFactor;
+            triangle.velocity[1] += dy * deltaTime * attractionFactor;
+            
+            // Subtle Z-axis pulsing based on radius to create depth variation
+            const zPulse = Math.sin(elapsedTime * 0.3 + triangle.originalRadius * 0.8) * 0.15; 
+            triangle.velocity[2] += zPulse * deltaTime;
+            
+            // Apply velocity
             triangle.position[0] += triangle.velocity[0] * deltaTime;
             triangle.position[1] += triangle.velocity[1] * deltaTime;
             triangle.position[2] += triangle.velocity[2] * deltaTime;
             
-            // Apply gentle damping for smoother, more fluid motion
-            const fluidDamping = 0.96; // Slightly less damping for more movement
+            // Strong damping to prevent runaway motion
+            const fluidDamping = 0.92;
             triangle.velocity[0] *= fluidDamping;
             triangle.velocity[1] *= fluidDamping;
             triangle.velocity[2] *= fluidDamping;
             
-            // Add gentle attraction toward original Z depth to maintain general structure
+            // Very strong Z position maintenance
             const zTarget = triangle.initialPosition[2];
             const zDiff = zTarget - triangle.position[2];
-            triangle.velocity[2] += zDiff * deltaTime * 0.05;
+            triangle.velocity[2] += zDiff * deltaTime * 0.15;
             
             // Bounce off edges with some elasticity
             const bounds = 25;
