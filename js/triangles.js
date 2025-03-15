@@ -235,7 +235,8 @@
                 rotationSpeed: rotationSpeed,
                 originalAngle: angle,
                 originalRadius: radius,
-                cluster: 0 // Initial cluster assignment
+                cluster: 0, // Initial cluster assignment
+                initialPosition: [x, y, z]
             });
         }
         
@@ -344,13 +345,6 @@
         
         mat4.perspective(projectionMatrix, fieldOfView, aspect, zNear, zFar);
         
-        // Mouse influence
-        const mouseInfluence = {
-            x: (mouseX / window.innerWidth) * 30 - 15,
-            y: (mouseY / window.innerHeight) * 30 - 15,
-            strength: 0.7
-        };
-        
         // Run k-means clustering every 5 frames (12 times per second at 60 FPS)
         // This gives much more frequent updates for better tracking
         if (Math.floor(elapsedTime * 60) % 5 === 0) {
@@ -358,35 +352,71 @@
             updateCentroids(triangles);
         }
         
+        // Check if one minute has passed to apply gravity reset - more gentle approach
+        const minuteInterval = 60; // seconds
+        const resetDuration = 5; // longer duration for gentler effect
+        const timeInCurrentMinute = elapsedTime % minuteInterval;
+        
+        // Create a gentle pulse that peaks at 2.5 seconds
+        let resetIntensity = 0;
+        if (timeInCurrentMinute < resetDuration) {
+            // Create a bell curve for intensity (peaks in the middle)
+            const normalizedTime = timeInCurrentMinute / resetDuration;
+            resetIntensity = Math.sin(normalizedTime * Math.PI) * 0.5; // Max 0.5 intensity
+        }
+        
         triangles.forEach((triangle, index) => {
-            // Update position with a combination of velocity and mathematical pattern
-            const oscillationFreq = 0.3;
-            const oscillationAmp = 0.5;
+            // Create more varied, less spiral-prone motion
+            const uniqueOffset = index * 0.17; // Prime-number-based offset to avoid patterns
             
-            // Wave pattern
-            const waveX = Math.sin(elapsedTime * oscillationFreq + triangle.originalAngle) * oscillationAmp;
-            const waveY = Math.cos(elapsedTime * oscillationFreq + triangle.originalAngle) * oscillationAmp;
+            // More chaotic, less predictable flow with unique parameters per triangle
+            const noiseScale = 2.5;
+            const uniqueFactor1 = (index % 5) * 0.2 + 0.8; // Varied frequency 
+            const uniqueFactor2 = (index % 7) * 0.15 + 0.9; // Different frequency based on prime
             
-            // Update position with velocity and wave pattern
-            triangle.position[0] += triangle.velocity[0] * deltaTime + waveX * deltaTime;
-            triangle.position[1] += triangle.velocity[1] * deltaTime + waveY * deltaTime;
+            // Create less orbital, more chaotic motion patterns with multiple frequencies
+            const flowX = Math.sin(elapsedTime * 0.3 * uniqueFactor1 + uniqueOffset) * noiseScale + 
+                          Math.cos(elapsedTime * 0.17 * uniqueFactor2 + uniqueOffset * 1.3) * noiseScale * 0.7;
+            
+            const flowY = Math.cos(elapsedTime * 0.27 * uniqueFactor2 + uniqueOffset * 1.7) * noiseScale + 
+                          Math.sin(elapsedTime * 0.19 * uniqueFactor1 + uniqueOffset * 2.1) * noiseScale * 0.8;
+            
+            // Add true randomness to break predictable patterns
+            const randomX = (Math.random() - 0.5) * 0.6 * deltaTime; // Increased randomness
+            const randomY = (Math.random() - 0.5) * 0.6 * deltaTime; // Increased randomness
+            
+            // Apply more chaotic flow with randomness
+            triangle.velocity[0] += flowX * deltaTime * 0.2 + randomX;
+            triangle.velocity[1] += flowY * deltaTime * 0.2 + randomY;
+            
+            // Add attraction to original position to prevent drift without ring formation
+            const originalX = triangle.initialPosition[0];
+            const originalY = triangle.initialPosition[1];
+            const dx = originalX - triangle.position[0];
+            const dy = originalY - triangle.position[1];
+            
+            // Gentle pull toward initial position
+            triangle.velocity[0] += dx * deltaTime * 0.02; // Reduced attraction for more freedom
+            triangle.velocity[1] += dy * deltaTime * 0.02; // Reduced attraction for more freedom
+            
+            // Add a subtle pulsing Z motion for depth variation
+            triangle.velocity[2] += (Math.sin(elapsedTime * 0.23 + uniqueOffset) * 0.3 + randomX) * deltaTime;
+            
+            // Apply velocity with gradual damping for smoother motion
+            triangle.position[0] += triangle.velocity[0] * deltaTime;
+            triangle.position[1] += triangle.velocity[1] * deltaTime;
             triangle.position[2] += triangle.velocity[2] * deltaTime;
             
-            // Mouse attraction/repulsion
-            const dx = mouseInfluence.x - triangle.position[0];
-            const dy = mouseInfluence.y - triangle.position[1];
-            const distSq = dx*dx + dy*dy;
-            if (distSq > 0.1) {
-                const dist = Math.sqrt(distSq);
-                const force = mouseInfluence.strength / (dist * dist);
-                triangle.velocity[0] += (dx / dist) * force * deltaTime;
-                triangle.velocity[1] += (dy / dist) * force * deltaTime;
-            }
+            // Apply gentle damping for smoother, more fluid motion
+            const fluidDamping = 0.96; // Slightly less damping for more movement
+            triangle.velocity[0] *= fluidDamping;
+            triangle.velocity[1] *= fluidDamping;
+            triangle.velocity[2] *= fluidDamping;
             
-            // Apply some drag to prevent excessive speed
-            triangle.velocity[0] *= 0.99;
-            triangle.velocity[1] *= 0.99;
-            triangle.velocity[2] *= 0.99;
+            // Add gentle attraction toward original Z depth to maintain general structure
+            const zTarget = triangle.initialPosition[2];
+            const zDiff = zTarget - triangle.position[2];
+            triangle.velocity[2] += zDiff * deltaTime * 0.05;
             
             // Bounce off edges with some elasticity
             const bounds = 25;
@@ -509,25 +539,6 @@
         }
     }
     
-    // Track mouse position for interactive effects
-    let mouseX = window.innerWidth / 2;
-    let mouseY = window.innerHeight / 2;
-    
-    document.addEventListener('mousemove', (event) => {
-        mouseX = event.clientX;
-        mouseY = event.clientY;
-        
-        // Force a cluster update on significant mouse movement
-        const dx = mouseX - lastMouseX;
-        const dy = mouseY - lastMouseY;
-        if (Math.sqrt(dx*dx + dy*dy) > 50) {
-            assignClusters(triangles);
-            updateCentroids(triangles);
-            lastMouseX = mouseX;
-            lastMouseY = mouseY;
-        }
-    });
-    
     // Animation variables
     let then = 0;
     let startTime = Date.now() * 0.001;
@@ -554,10 +565,6 @@
             textCanvas.height = window.innerHeight;
         });
     }
-    
-    // Initialize mouse tracking variables
-    let lastMouseX = window.innerWidth / 2;
-    let lastMouseY = window.innerHeight / 2;
     
     // Draw the scene repeatedly
     function render(now) {

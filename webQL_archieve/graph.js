@@ -14,35 +14,45 @@
     
     const nodes = [];
     const edges = [];
-    const numNodes = 50;
-    const maxDistance = 150;
+    const numNodes = 80;
+    const maxDistance = 200;
     
     function init() {
-        // Clear existing nodes
         nodes.length = 0;
+        edges.length = 0;
         
-        // Create nodes distributed across the entire canvas
         for (let i = 0; i < numNodes; i++) {
-            nodes.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                vx: (Math.random() - 0.5) * 0.5,
-                vy: (Math.random() - 0.5) * 0.5
-            });
+            nodes.push(createNode());
         }
+    }
+    
+    function createNode() {
+        return {
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            vx: (Math.random() - 0.5) * 0.5,
+            vy: (Math.random() - 0.5) * 0.5,
+            radius: 2 + Math.random() * 4,
+            color: `rgba(245, 213, 71, ${Math.random() * 0.5 + 0.5})`
+        };
     }
     
     function update() {
         nodes.forEach(node => {
+            // Update position
             node.x += node.vx;
             node.y += node.vy;
             
             // Bounce off edges
-            if (node.x < 0 || node.x > canvas.width) node.vx *= -1;
-            if (node.y < 0 || node.y > canvas.height) node.vy *= -1;
+            if (node.x < node.radius || node.x > canvas.width - node.radius) node.vx *= -1;
+            if (node.y < node.radius || node.y > canvas.height - node.radius) node.vy *= -1;
+            
+            // Add slight friction to prevent excessive speed
+            node.vx *= 0.995;
+            node.vy *= 0.995;
         });
         
-        // Clear edges and recalculate
+        // Clear temporary edges and recalculate
         edges.length = 0;
         for (let i = 0; i < nodes.length; i++) {
             for (let j = i + 1; j < nodes.length; j++) {
@@ -59,9 +69,11 @@
     function draw() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         
-        // Draw edges first (behind nodes)
-        ctx.strokeStyle = 'rgba(100, 255, 218, 0.2)';
+        // Draw proximity edges
         edges.forEach(edge => {
+            const opacity = 0.3 * (1 - edge.dist / maxDistance);
+            ctx.strokeStyle = `rgba(245, 213, 71, ${opacity})`;
+            ctx.lineWidth = 1;
             ctx.beginPath();
             ctx.moveTo(edge.from.x, edge.from.y);
             ctx.lineTo(edge.to.x, edge.to.y);
@@ -69,11 +81,16 @@
         });
         
         // Draw nodes
-        ctx.fillStyle = '#64ffda';
         nodes.forEach(node => {
+            ctx.fillStyle = node.color;
             ctx.beginPath();
-            ctx.arc(node.x, node.y, 3, 0, Math.PI * 2);
+            ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
             ctx.fill();
+            
+            // Add a subtle border to nodes
+            ctx.strokeStyle = 'rgba(0, 0, 0, 0.2)';
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
         });
     }
     
@@ -88,5 +105,24 @@
     animate();
     
     // Reinitialize when window is resized
-    window.addEventListener('resize', init);
+    window.addEventListener('resize', () => {
+        resizeCanvas();
+        init();
+    });
+
+    // Update any text rendering functions to use white
+    function renderGraphLabels(ctx, graph) {
+        ctx.fillStyle = 'white'; // Changed to white
+        ctx.font = '12px Arial';
+        
+        // Rest of the function
+        // ...
+    }
+
+    // Update any other text rendering in this file
+    function renderGraphInfo(ctx, data) {
+        ctx.fillStyle = 'white'; // Changed to white
+        ctx.font = '14px Arial';
+        // ...
+    }
 })(); 

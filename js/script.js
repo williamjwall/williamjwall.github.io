@@ -1,38 +1,17 @@
-// Project data
-const projects = [
-    {
-        title: "Catalog Enrichment",
-        company: "returnPro",
-        date: "2024",
-        links: [
-            { text: "Details", url: "projects/catalog-enrichment.html" }
-        ],
-        description: "Developed automated pipelines leveraging RAG/LLMs for product taxonomy classification across multiple marketplaces. Designed and optimized ETL processes in Databricks, with Snowflake as the data warehouse, deployed on Azure for real-time processing.",
-        technologies: ["Python", "Databricks", "Snowflake", "Azure", "LLMs"]
-    },
-    {
-        title: "PersonalBlog",
-        date: "2024",
-        links: [
-            { text: "Visit Blog", url: "blog/index.html" }
-        ],
-        description: "A personal blog where I share everything I enjoy learning and doing.",
-        technologies: ["HTML", "CSS", "JavaScript"]
-    },
-    {
-        title: "Hydroponic Farm",
-        date: "2023",
-        links: [
-            { text: "View Project", url: "#" }
-        ],
-        description: "For a small hydroponic farm in Montreal. Cleaned two years of historical data to perform a regression on past water conditions and plant locations to predict weight and health. Designed an automated relational database and set up a MySQL instance on Google Cloud for future integration with AppSheet.",
-        technologies: ["Python", "SKlearn", "Pandas", "Seaborn", "GCP", "MySQL"]
+async function fetchProjects() {
+    try {
+        const response = await fetch('js/projects.json');
+        if (!response.ok) throw new Error('Failed to load projects');
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching projects:', error);
+        return [];
     }
-    
-];
+}
 
 // Function to render projects
-function renderProjects() {
+async function renderProjects() {
+    const projects = await fetchProjects();
     const portfolioSection = document.querySelector('.portfolio');
     
     projects.forEach(project => {
@@ -93,6 +72,6 @@ function renderProjects() {
 }
 
 // Initialize the page
-document.addEventListener('DOMContentLoaded', () => {
-    renderProjects();
+document.addEventListener('DOMContentLoaded', async () => {
+    await renderProjects();
 }); 

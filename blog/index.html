@@ -4,32 +4,135 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>William Wall's Blog</title>
-    <link rel="stylesheet" href="../css/blog.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/blog/styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="../js/markdown-loader.js"></script>
+    <style>
+        .text-element {
+            color: white !important;
+        }
+        
+        /* Clean up UI elements */
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+        
+        .info-panel {
+            background-color: rgba(30, 30, 30, 0.7);
+            border-radius: 6px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+        
+        /* Make sure content is above the canvas */
+        main, header {
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Style for the phylogenetic canvas */
+        #phylogenetic-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+    </style>
 </head>
 <body>
+    <!-- Canvas for the phylogenetic trees - positioned as background -->
+    <canvas id="phylogenetic-canvas"></canvas>
+    
     <header>
-        <h1>William Wall's Blog</h1>
+        <h1 class="blog-title">Will Wall BLOG</h1>
         <nav>
             <a href="../index.html">Home</a>
-            <a href="#">About</a>
-            <a href="#">Contact</a>
         </nav>
+        <button id="toggle-animation" class="toggle-btn">Toggle Animation</button>
     </header>
     <main>
         <section class="blog-topics">
-            <h2>Blog Topics</h2>
             <ul>
-                <li><a href="topics/ai.html">Artificial Intelligence</a></li>
-                <li><a href="topics/bioinformatics.html">Bioinformatics</a></li>
-                <li><a href="topics/data-engineering.html">Data Engineering</a></li>
-                <!-- Add more topics as needed -->
+                <li>
+                    <h3>AI/ML Related</h3>
+                    <ul>
+                        <li><a href="post.html?file=posts/ai/neural-networks.md">Understanding Neural Networks</a></li>
+                        <li><a href="post.html?file=posts/ai/ml-basics.md">Machine Learning Basics</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <h3>Bioinformatics</h3>
+                    <ul>
+                        <li><a href="post.html?file=posts/bioinformatics/genomic-analysis.md">Genomic Data Analysis</a></li>
+                        <li><a href="post.html?file=posts/bioinformatics/protein-structure.md">Protein Structure Prediction</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <h3>Articles/Reviews</h3>
+                    <ul>
+                        <li><a href="post.html?file=posts/articles/future-tech.md">The Future of Technology</a></li>
+                        <li><a href="post.html?file=posts/articles/ai-ethics.md">Ethics in AI Development</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <h3>Random/Hobbies</h3>
+                    <ul>
+                        <li><a href="post.html?file=posts/hobbies/photography.md">Photography Tips</a></li>
+                        <li><a href="post.html?file=posts/hobbies/hiking.md">Hiking Adventures</a></li>
+                    </ul>
+                </li>
             </ul>
         </section>
-        <canvas id="graph-canvas"></canvas>
+        
+        <section id="blog-posts-list">
+            <!-- Dynamic blog posts will be loaded here -->
+        </section>
     </main>
-    <footer>
-        <p>&copy; 2024 William Wall. All rights reserved.</p>
-    </footer>
-    <script src="../js/graph.js"></script>
+    <section id="ant-simulation" class="simulation-section">
+        <div class="canvas-container">
+            <canvas id="ant-canvas"></canvas>
+        </div>
+    </section>
+    <script src="../js/ants.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load blog posts into the existing category structure
+            loadBlogPosts();
+        });
+        
+        document.getElementById('toggle-animation').addEventListener('click', function() {
+            const canvas = document.getElementById('phylogenetic-canvas');
+            if (canvas.style.display === 'none') {
+                canvas.style.display = 'block';
+            } else {
+                canvas.style.display = 'none';
+            }
+        });
+    </script>
+    <!-- Add a spacer to allow scrolling further down -->
+    <div style="height: 500px;"></div>
+    <canvas id="plankton-canvas"></canvas>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="../js/plankton.js"></script>
+    <script>
+        document.getElementById('toggle-animation').addEventListener('click', function() {
+            const canvas = document.getElementById('plankton-canvas');
+            if (canvas.style.display === 'none') {
+                canvas.style.display = 'block';
+            } else {
+                canvas.style.display = 'none';
+            }
+        });
+    </script>
+    <!-- Include the phylogenetic trees script -->
+    <script src="../js/phylogenetic_trees.js"></script>
 </body>
 </html> 

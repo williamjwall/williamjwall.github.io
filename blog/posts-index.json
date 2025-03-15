@@ -1,0 +1,23 @@
+[
+  {
+    "title": "Deep Learning Fundamentals",
+    "path": "posts/ai/deep-learning.md",
+    "date": "2023-05-15",
+    "topics": ["AI", "Deep Learning"],
+    "excerpt": "An introduction to the fundamentals of deep learning and neural networks."
+  },
+  {
+    "title": "Data Engineering Best Practices",
+    "path": "posts/data-engineering/best-practices.md",
+    "date": "2023-04-10",
+    "topics": ["Data Engineering"],
+    "excerpt": "Learn about the best practices in modern data engineering."
+  },
+  {
+    "title": "Bioinformatics and AI",
+    "path": "posts/bioinformatics/ai-applications.md",
+    "date": "2023-03-22",
+    "topics": ["Bioinformatics", "AI"],
+    "excerpt": "Exploring the applications of artificial intelligence in bioinformatics."
+  }
+] 
