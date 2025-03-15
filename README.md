@@ -1,6 +1,6 @@
 # Personal Portfolio
 
-Welcome to my personal portfolio page! This project showcases my skills, projects, and experience as a software engineer with a focus on computational mathematics, bioinformatics, machine learning, and AI.
+my personal portfolio page
 
 ## Contact
 
