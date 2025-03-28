@@ -1,17 +1,17 @@
 {
-  "generatedAt": "2025-03-28T06:13:53.361Z",
+  "generatedAt": "2025-03-28T06:15:20.000Z",
   "count": 8,
   "posts": [
     {
       "path": "articles/celestial-structures.md",
       "title": "Seven Heavens and One Throne",
-      "date": "2023-03-20",
+      "date": "2025-03-28",
       "author": "William Wall"
     },
     {
-      "path": "articles/etl-pipelines.md",
-      "title": "ETL Pipelines",
-      "date": "2023-03-20",
+      "path": "tech/etl-pipelines.md",
+      "title": "The History of ETL Pipelines",
+      "date": "2025-03-28",
       "author": "William Wall"
     },
     {
