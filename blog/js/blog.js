@@ -36,7 +36,14 @@ const blogSystem = {
     // Get post path from URL if we're on a single post page
     getPostPathFromUrl: function() {
         const urlParams = new URLSearchParams(window.location.search);
-        return urlParams.get('path') || urlParams.get('file'); // Support both formats
+        const postPath = urlParams.get('post');
+        
+        if (!postPath) {
+            return null;
+        }
+        
+        // Make sure the path is relative to your repository
+        return `/blog/posts/${postPath}`;
     },
     
     // Extract category from file path
@@ -217,8 +224,8 @@ const blogSystem = {
     // Render a single post
     renderSinglePost: async function(postPath) {
         try {
-            console.log("Loading post content from:", this.config.postsDirectory + postPath);
-            const response = await fetch(this.config.postsDirectory + postPath);
+            console.log("Loading post content from:", postPath);
+            const response = await fetch(postPath);
             if (!response.ok) {
                 throw new Error(`Failed to load post: ${response.status} ${response.statusText}`);
             }
@@ -355,3 +362,100 @@ const blogSystem = {
 document.addEventListener('DOMContentLoaded', () => {
     blogSystem.init();
 });
+
+// Function to load markdown content
+async function loadMarkdownPost(postPath) {
+    try {
+        // Get the correct path relative to the GitHub Pages domain
+        const response = await fetch(postPath);
+        
+        if (!response.ok) {
+            throw new Error(`Failed to load post: ${response.status}`);
+        }
+        
+        const markdownContent = await response.text();
+        
+        // Use a markdown parser (you'll need to include one like marked.js)
+        const htmlContent = marked.parse(markdownContent);
+        
+        // Display the content
+        document.getElementById('post-content').innerHTML = htmlContent;
+    } catch (error) {
+        console.error('Error loading post:', error);
+        document.getElementById('post-content').innerHTML = '<p>Error loading post content.</p>';
+    }
+}
+
+// Function to get post path from URL parameters
+function getPostPathFromUrl() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const postPath = urlParams.get('post');
+    
+    if (!postPath) {
+        return null;
+    }
+    
+    // Make sure the path is relative to your repository
+    return `/blog/posts/${postPath}`;
+}
+
+// Initialize the blog post
+function initializeBlogPost() {
+    const postPath = getPostPathFromUrl();
+    
+    if (postPath) {
+        loadMarkdownPost(postPath);
+    } else {
+        // Handle home page or post list
+        loadPostList();
+    }
+}
+
+// Function to load list of posts
+async function loadPostList() {
+    try {
+        const response = await fetch('/blog/posts-manifest.json');
+        
+        if (!response.ok) {
+            throw new Error(`Failed to load post list: ${response.status}`);
+        }
+        
+        const postManifest = await response.json();
+        const postListElement = document.getElementById('post-list');
+        
+        if (!postListElement) {
+            console.error('Post list element not found');
+            return;
+        }
+        
+        // Group posts by category
+        const categories = {};
+        postManifest.forEach(post => {
+            if (!categories[post.category]) {
+                categories[post.category] = [];
+            }
+            categories[post.category].push(post);
+        });
+        
+        // Generate HTML for the post list
+        let html = '';
+        
+        for (const [category, posts] of Object.entries(categories)) {
+            html += `<h2>${category}</h2><ul>`;
+            
+            posts.forEach(post => {
+                html += `<li><a href="post.html?post=${post.path}">${post.title}</a></li>`;
+            });
+            
+            html += '</ul>';
+        }
+        
+        postListElement.innerHTML = html;
+    } catch (error) {
+        console.error('Error loading post list:', error);
+        document.getElementById('post-list').innerHTML = '<p>Error loading post list.</p>';
+    }
+}
+
+// Initialize the blog when the DOM is loaded
+document.addEventListener('DOMContentLoaded', initializeBlogPost);

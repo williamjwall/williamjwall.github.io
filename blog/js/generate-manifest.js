@@ -8,23 +8,35 @@ const config = {
     excerptLength: 150
 };
 
-// Function to recursively find all markdown files
-function findMarkdownFiles(dir, baseDir = dir) {
-    const files = [];
-    const entries = fs.readdirSync(dir, { withFileTypes: true });
+// Function to walk through directories recursively
+function walkSync(dir, fileList = []) {
+    const files = fs.readdirSync(dir);
     
-    for (const entry of entries) {
-        const fullPath = path.join(dir, entry.name);
+    files.forEach(file => {
+        const filePath = path.join(dir, file);
+        const stat = fs.statSync(filePath);
         
-        if (entry.isDirectory()) {
-            files.push(...findMarkdownFiles(fullPath, baseDir));
-        } else if (entry.name.endsWith('.md')) {
-            const relativePath = path.relative(baseDir, fullPath);
-            files.push(relativePath.replace(/\\/g, '/'));
+        if (stat.isDirectory()) {
+            walkSync(filePath, fileList);
+        } else if (file.endsWith('.md')) {
+            // Get relative path from posts directory
+            const relativePath = path.relative(config.postsDir, filePath);
+            
+            // Read the file to extract metadata if needed
+            const content = fs.readFileSync(filePath, 'utf8');
+            const titleMatch = content.match(/^# (.*)/m);
+            const title = titleMatch ? titleMatch[1] : file.replace('.md', '');
+            
+            // Add to file list
+            fileList.push({
+                title,
+                path: relativePath.replace(/\\/g, '/'),
+                category: path.dirname(relativePath)
+            });
         }
-    }
+    });
     
-    return files;
+    return fileList;
 }
 
 // Parse front matter from markdown (if it exists)
@@ -101,16 +113,16 @@ function generateManifest() {
         }
         
         // Find all markdown files
-        const markdownFiles = findMarkdownFiles(config.postsDir);
+        const markdownFiles = walkSync(config.postsDir);
         console.log(`Found ${markdownFiles.length} markdown files`);
         
         // Parse each file and extract metadata
         const posts = markdownFiles.map(file => {
-            const fullPath = path.join(config.postsDir, file);
+            const fullPath = path.join(config.postsDir, file.path);
             const content = fs.readFileSync(fullPath, 'utf8');
             const { metadata, content: postContent } = parseMarkdown(content);
             
-            const filename = path.basename(file);
+            const filename = path.basename(file.path);
             
             // Generate an excerpt if not provided in front matter
             if (!metadata.excerpt) {
@@ -119,10 +131,11 @@ function generateManifest() {
             
             // Return the post data
             return {
-                path: file,
+                path: file.path,
                 title: metadata.title || formatTitle(filename),
                 date: metadata.date || new Date().toISOString().split('T')[0],
                 author: metadata.author || null,
+                category: file.category
             };
         });
         

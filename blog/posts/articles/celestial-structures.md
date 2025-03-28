@@ -75,4 +75,4 @@ This cross-cultural synthesis gave rise to the majestic cosmologies of the Abrah
 
 ## Conclusion
 
-Though we now chart the stars with telescopes and satellites, the ancient vision of layered heavens and a sovereign Throne endures in religious imagination. These celestial structures are not mere myth—they are **spiritual cartographies**, maps of longing and moral aspiration. In Judaism, Christianity, and Islam, the heavens declare not only the glory of God but also the hope of humanity: that above all, there is order, mercy, and a Throne that endures forever.
+These celestial structures are not mere myth—they are **spiritual cartographies**, maps of longing and moral aspiration. In Judaism, Christianity, and Islam, the heavens declare not only the glory of God but also the hope of humanity: that above all, there is order, mercy, and a Throne that endures forever.
