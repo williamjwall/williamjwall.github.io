@@ -1,16 +1,10 @@
 {
-  "generatedAt": "2025-03-28T06:15:20.000Z",
-  "count": 8,
+  "generatedAt": "2025-03-28T21:37:39.924Z",
+  "count": 6,
   "posts": [
     {
       "path": "articles/celestial-structures.md",
-      "title": "Seven Heavens and One Throne",
-      "date": "2025-03-28",
-      "author": "William Wall"
-    },
-    {
-      "path": "tech/etl-pipelines.md",
-      "title": "The History of ETL Pipelines",
+      "title": "Seven Heavens and One Throne: The Celestial Structures of Judaism, Christianity, and Islam",
       "date": "2025-03-28",
       "author": "William Wall"
     },
@@ -27,10 +21,10 @@
       "author": "William Wall"
     },
     {
-      "path": "notes/computational-biology.md",
-      "title": "Computational Biology",
-      "date": "2023-02-10",
-      "author": "William Wall"
+      "path": "notes/syntax-history.md",
+      "title": "The History of Syntactic Structures in Language and Their Development",
+      "date": "2025-03-28",
+      "author": "Markdown Article Generator"
     },
     {
       "path": "projects/glossary-map.md",
@@ -39,16 +33,10 @@
       "author": "William Wall"
     },
     {
-      "path": "tech/deep-learning.md",
-      "title": "Deep Learning: A Comprehensive Guide",
-      "date": "2023-11-15",
-      "author": "William Wall"
-    },
-    {
-      "path": "tech/understanding-ai.md",
-      "title": "Understanding AI",
-      "date": "2023-01-15",
-      "author": "William Wall"
+      "path": "tech/etl-pipelines.md",
+      "title": "The History of ETL Pipelines",
+      "date": "2025-03-28",
+      "author": "Markdown Article Generator"
     }
   ]
 }
