@@ -364,25 +364,27 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Function to load markdown content
-async function loadMarkdownPost(postPath) {
+async function loadPost(postPath) {
+    const postElement = document.getElementById('post-content') || document.querySelector('.post-content');
+    
     try {
-        // Get the correct path relative to the GitHub Pages domain
+        // Make sure the path is relative to the site root
         const response = await fetch(postPath);
         
         if (!response.ok) {
             throw new Error(`Failed to load post: ${response.status}`);
         }
         
-        const markdownContent = await response.text();
+        const markdown = await response.text();
         
-        // Use a markdown parser (you'll need to include one like marked.js)
-        const htmlContent = marked.parse(markdownContent);
+        // Assuming you have a markdown parser like marked.js
+        // If not, you'll need to add: <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script> to your HTML
+        const htmlContent = marked.parse(markdown);
         
-        // Display the content
-        document.getElementById('post-content').innerHTML = htmlContent;
+        postElement.innerHTML = htmlContent;
     } catch (error) {
         console.error('Error loading post:', error);
-        document.getElementById('post-content').innerHTML = '<p>Error loading post content.</p>';
+        postElement.innerHTML = `<p>Error loading post: ${error.message}</p>`;
     }
 }
 
@@ -404,7 +406,7 @@ function initializeBlogPost() {
     const postPath = getPostPathFromUrl();
     
     if (postPath) {
-        loadMarkdownPost(postPath);
+        loadPost(postPath);
     } else {
         // Handle home page or post list
         loadPostList();
@@ -459,3 +461,12 @@ async function loadPostList() {
 
 // Initialize the blog when the DOM is loaded
 document.addEventListener('DOMContentLoaded', initializeBlogPost);
+
+// If you have code that gets the post URL, make sure it uses the correct path format
+function getPostURL(postId) {
+    // For GitHub Pages, ensure the path is relative to the site root
+    return `/blog/posts/${postId}.md`;
+    
+    // If your blog is in a subdirectory of your GitHub Pages site, use:
+    // return `/your-repo-name/blog/posts/${postId}.md`;
+}
