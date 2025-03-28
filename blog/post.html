@@ -5,54 +5,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog Post</title>
     <link rel="stylesheet" href="styles.css">
-    <!-- Include the marked.js library for markdown parsing -->
+    <!-- Font imports -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Markdown parsing -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="../js/markdown-loader.js"></script>
+    <!-- Syntax highlighting with better theme -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/tokyo-night-dark.css">
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/lib/highlight.min.js"></script>
 </head>
 <body>
     <header>
-        <h1>William Wall's Blog</h1>
-        <nav>
-            <a href="../index.html">Home</a>
-            <a href="index.html">Blog Home</a>
-            <a href="#">About</a>
-            <a href="#">Contact</a>
-        </nav>
+        <div class="header-content">
+            <div class="title-container">
+                <h1 class="blog-title">The Metastructure Blog</h1>
+                <div class="author-byline">by Will Wall</div>
+            </div>
+            <nav>
+                <a href="../index.html">Portfolio</a>
+                <a href="index.html">Blog Home</a>
+            </nav>
+        </div>
     </header>
-    <main>
-        <canvas id="graph-canvas"></canvas>
-        <article id="blog-post-content">
-            <!-- Blog post content will be loaded here -->
-            <p>Loading post...</p>
-        </article>
-    </main>
-    <footer>
-        <p>&copy; 2024 William Wall. All rights reserved.</p>
-    </footer>
-    <script src="../js/graph.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Get the post path from the URL query parameter
-            const urlParams = new URLSearchParams(window.location.search);
-            const postPath = urlParams.get('path');
+    
+    <main class="post-container">
+        <div class="post-wrapper">
+            <article id="blog-post-content">
+                <!-- Blog post content will be loaded here -->
+                <p class="loading">Loading post...</p>
+            </article>
             
-            if (postPath) {
-                // Load the blog post content
-                loadBlogPost(postPath, 'blog-post-content');
-                
-                // Update the page title based on the post filename (you could improve this)
-                const postName = postPath.split('/').pop().replace('.md', '');
-                document.title = postName.split('-').map(word => 
-                    word.charAt(0).toUpperCase() + word.slice(1)
-                ).join(' ');
-            } else {
-                document.getElementById('blog-post-content').innerHTML = 
-                    '<p>No blog post specified.</p>';
-            }
-        });
-    </script>
-    <canvas id="plankton-canvas"></canvas>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="../../js/plankton.js"></script>
+            <div class="post-navigation">
+                <a href="index.html" class="back-to-blog">← Back to Blog</a>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <div class="centered-content">
+            <p>&copy; 2024 William Wall. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script src="js/blog.js"></script>
 </body>
 </html> 
