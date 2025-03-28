@@ -100,24 +100,62 @@
     };
     
     // K-means clustering parameters
-    const K = 4; // Change back to 4 clusters
+    const K = 4;
     let centroids = [];
     const clusterColors = [
-        [0.2, 0.8, 0.4, 0.7],  // Green
-        [0.3, 0.5, 0.9, 0.7],  // Blue
-        [0.9, 0.4, 0.3, 0.7],  // Red-orange
-        [0.8, 0.7, 0.1, 0.7]   // Gold/yellow
+        [0.2, 0.9, 0.3, 0.8],  // Brighter Green
+        [0.3, 0.5, 0.95, 0.8], // Brighter Blue
+        [0.95, 0.4, 0.3, 0.8], // Brighter Red-orange
+        [0.95, 0.85, 0.2, 0.8] // Brighter Gold/yellow
     ];
     
-    // Initialize K-means centroids
+    // Initialize K-means centroids with better spacing
     function initCentroids() {
         centroids = [];
-        for (let i = 0; i < K; i++) {
-            centroids.push({
-                x: (Math.random() * 2 - 1) * 15,
-                y: (Math.random() * 2 - 1) * 15
-            });
-        }
+        
+        // Position centroids in a more distributed pattern
+        // First centroid at center
+        centroids.push({
+            x: 0,
+            y: 0,
+            vx: 0,
+            vy: 0,
+            targetX: 0,
+            targetY: 0
+        });
+        
+        // Position other centroids in different quadrants
+        const radius = 10; // Distance from center for other centroids
+        
+        // Second centroid - upper right
+        centroids.push({
+            x: radius,
+            y: radius,
+            vx: 0,
+            vy: 0,
+            targetX: radius,
+            targetY: radius
+        });
+        
+        // Third centroid - lower right
+        centroids.push({
+            x: radius,
+            y: -radius,
+            vx: 0,
+            vy: 0,
+            targetX: radius,
+            targetY: -radius
+        });
+        
+        // Fourth centroid - lower left
+        centroids.push({
+            x: -radius,
+            y: -radius,
+            vx: 0,
+            vy: 0,
+            targetX: -radius,
+            targetY: -radius
+        });
     }
     
     // Calculate Euclidean distance
@@ -148,7 +186,7 @@
         });
     }
     
-    // Update centroids based on assigned triangles with a stronger adjustment
+    // Update centroids with fluid motion
     function updateCentroids(triangles) {
         const clusterSums = Array(K).fill().map(() => ({ x: 0, y: 0, count: 0 }));
         
@@ -159,84 +197,100 @@
             clusterSums[cluster].count++;
         });
         
-        // Calculate new centroid positions with much bigger jumps
+        // Calculate target positions for centroids
         for (let i = 0; i < K; i++) {
-            if (clusterSums[i].count > 0) {
+            // Force centroids to stay in different regions of the screen
+            const regionAngle = (i / K) * Math.PI * 2;
+            const regionX = Math.cos(regionAngle) * 8; // Base position in region
+            const regionY = Math.sin(regionAngle) * 8;
+            
+            if (i === 0) {
+                // First centroid stays near center with gentle flowing motion
+                const time = performance.now() * 0.0005;
+                centroids[0].targetX = Math.sin(time * 0.2) * 3;
+                centroids[0].targetY = Math.cos(time * 0.3) * 3;
+            } else if (clusterSums[i].count > 0) {
+                // Calculate average position
                 const avgX = clusterSums[i].x / clusterSums[i].count;
                 const avgY = clusterSums[i].y / clusterSums[i].count;
                 
-                // Use a much stronger cheat factor for faster convergence
-                const cheatFactor = 0.8; // 80% of the way to target for very quick convergence
-                centroids[i].x = centroids[i].x * (1 - cheatFactor) + avgX * cheatFactor;
-                centroids[i].y = centroids[i].y * (1 - cheatFactor) + avgY * cheatFactor;
+                // Limit how far the centroid can move from its home region
+                const maxDistance = 10;
+                const dx = avgX - regionX;
+                const dy = avgY - regionY;
+                const dist = Math.sqrt(dx*dx + dy*dy);
+                
+                if (dist > maxDistance) {
+                    // Limit the centroid movement to stay somewhat in its region
+                    const scale = maxDistance / dist;
+                    centroids[i].targetX = regionX + dx * scale;
+                    centroids[i].targetY = regionY + dy * scale;
+                } else {
+                    centroids[i].targetX = avgX;
+                    centroids[i].targetY = avgY;
+                }
+            } else {
+                // For empty clusters, move toward the region base position
+                centroids[i].targetX = regionX + (Math.random() * 2 - 1) * 3;
+                centroids[i].targetY = regionY + (Math.random() * 2 - 1) * 3;
             }
         }
         
-        // Handle empty clusters by repositioning them
+        // Apply fluid physics to centroid movement
+        const deltaTime = 1/60; // Assuming ~60fps
         for (let i = 0; i < K; i++) {
-            if (clusterSums[i].count === 0) {
-                // Find the most populated cluster
-                let maxCount = 0;
-                let maxCluster = 0;
-                for (let j = 0; j < K; j++) {
-                    if (clusterSums[j].count > maxCount) {
-                        maxCount = clusterSums[j].count;
-                        maxCluster = j;
-                    }
-                }
-                
-                // Split the most populated cluster with a bigger jump
-                if (maxCount > 0) {
-                    centroids[i].x = centroids[maxCluster].x + (Math.random() * 2 - 1) * 10; // Even bigger random offset
-                    centroids[i].y = centroids[maxCluster].y + (Math.random() * 2 - 1) * 10;
-                }
-            }
+            // Calculate force towards target (spring-like behavior)
+            const dx = centroids[i].targetX - centroids[i].x;
+            const dy = centroids[i].targetY - centroids[i].y;
+            
+            // Add acceleration towards target - reduced spring factor for slower movement
+            const springFactor = 0.2; // Was 0.8, reduced for slower movement
+            centroids[i].vx += dx * springFactor * deltaTime;
+            centroids[i].vy += dy * springFactor * deltaTime;
+            
+            // Add some flowing motion - reduced flow factor
+            const flowTime = performance.now() * 0.0002; // Was 0.0005, reduced for slower flow
+            const flowFactor = 0.03; // Was 0.1, reduced for gentler flowing motion
+            centroids[i].vx += Math.sin(flowTime + i * 1.5) * flowFactor * deltaTime;
+            centroids[i].vy += Math.cos(flowTime + i * 1.5) * flowFactor * deltaTime;
+            
+            // Apply velocity to position with a scaling factor to slow down movement
+            const velocityScale = 0.5; // New parameter to directly scale down movement speed
+            centroids[i].x += centroids[i].vx * velocityScale;
+            centroids[i].y += centroids[i].vy * velocityScale;
+            
+            // Apply damping for smooth deceleration - increased slightly for more stability
+            const damping = 0.97; // Was 0.95, increased slightly
+            centroids[i].vx *= damping;
+            centroids[i].vy *= damping;
         }
     }
     
-    // Create triangles with mathematical patterns
+    // Create triangles with a simpler approach
     function initBuffers(gl) {
         const numTriangles = 120;
         const triangles = [];
         
-        // Create triangles in a Fibonacci spiral pattern
         for (let i = 0; i < numTriangles; i++) {
-            // Fibonacci spiral parameters
-            const goldenRatio = 1.618033988749895;
-            const angle = i * goldenRatio * Math.PI * 2;
-            const radius = Math.sqrt(i) * 0.7;
+            // Simple random distribution
+            const x = (Math.random() * 2 - 1) * 15;
+            const y = (Math.random() * 2 - 1) * 15;
+            const z = -15 - (Math.random() * 10);
+            const size = 0.3 + Math.random() * 0.4;
             
-            // Position based on spiral - wider distribution
-            const x = Math.cos(angle) * radius * 1.5;
-            const y = Math.sin(angle) * radius * 1.5;
-            const z = -15 - (i * 0.05);
-            
-            // Size decreases as we move outward
-            const size = 0.9 - (i / numTriangles) * 0.6;
-            
-            // Initial neutral color (will be updated by k-means)
-            const alpha = 0.5; // Transparency
-            
-            // Velocity includes a circular component and a random component
-            const vx = Math.cos(angle + Math.PI/2) * 0.05 + (Math.random() - 0.5) * 0.04;
-            const vy = Math.sin(angle + Math.PI/2) * 0.05 + (Math.random() - 0.5) * 0.04;
-            const vz = (Math.random() - 0.5) * 0.02;
-            
-            // Rotation speed
-            const rotationSpeed = (Math.random() - 0.5) * 0.8;
+            // Random rotation and velocity
+            const rotationSpeed = (Math.random() - 0.5) * 3; // Increased rotation
             
             triangles.push({
                 position: [x, y, z],
-                velocity: [vx, vy, vz],
+                velocity: [(Math.random() - 0.5) * 0.5, (Math.random() - 0.5) * 0.5, (Math.random() - 0.5) * 0.2], // Faster initial velocity
                 size: size,
-                color: [0.5, 0.5, 0.5, alpha], // Initial neutral color
-                baseColor: [0.5, 0.5, 0.5, alpha], // Will be updated by k-means
+                color: [0.5, 0.5, 0.5, 1.0],
+                baseColor: [0.5, 0.5, 0.5, 1.0],
                 angle: Math.random() * Math.PI * 2,
                 rotationSpeed: rotationSpeed,
-                originalAngle: angle,
-                originalRadius: radius,
-                cluster: 0, // Initial cluster assignment
-                initialPosition: [x, y, z]
+                initialSize: size,
+                cluster: 0
             });
         }
         
@@ -324,16 +378,15 @@
         gl.drawArrays(gl.TRIANGLE_FAN, segments + 1, segments + 1);
     }
     
-    // Draw the scene
+    // Draw the scene with simpler, more active movement
     function drawScene(gl, programInfo, triangles, deltaTime, elapsedTime) {
-        gl.clearColor(0.04, 0.09, 0.18, 1.0); // Dark navy blue
+        gl.clearColor(0.04, 0.09, 0.18, 1.0);
         gl.clearDepth(1.0);
         gl.enable(gl.DEPTH_TEST);
         gl.depthFunc(gl.LEQUAL);
         gl.enable(gl.BLEND);
         gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
         
-        // Clear the canvas
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
         
         // Create perspective matrix
@@ -345,133 +398,79 @@
         
         mat4.perspective(projectionMatrix, fieldOfView, aspect, zNear, zFar);
         
-        // Run k-means clustering every 5 frames (12 times per second at 60 FPS)
-        // This gives much more frequent updates for better tracking
+        // Run k-means clustering
         if (Math.floor(elapsedTime * 60) % 5 === 0) {
             assignClusters(triangles);
             updateCentroids(triangles);
         }
         
-        // Check if one minute has passed to apply gravity reset - more gentle approach
-        const minuteInterval = 60; // seconds
-        const resetDuration = 5; // longer duration for gentler effect
-        const timeInCurrentMinute = elapsedTime % minuteInterval;
-        
-        // Create a gentle pulse that peaks at 2.5 seconds
-        let resetIntensity = 0;
-        if (timeInCurrentMinute < resetDuration) {
-            // Create a bell curve for intensity (peaks in the middle)
-            const normalizedTime = timeInCurrentMinute / resetDuration;
-            resetIntensity = Math.sin(normalizedTime * Math.PI) * 0.5; // Max 0.5 intensity
-        }
-        
         triangles.forEach((triangle, index) => {
-            // Create subtle, coordinated motion while preserving shape
-            const uniqueOffset = index * 0.17; // Prime-number-based offset for variety
+            // Update rotation - faster rotation
+            triangle.angle += triangle.rotationSpeed * deltaTime * 0.5;
             
-            // Gentler flow parameters
-            const noiseScale = 0.8; // Much smaller scale for subtle movement
-            const uniqueFactor1 = (index % 5) * 0.2 + 0.8;
-            const uniqueFactor2 = (index % 7) * 0.15 + 0.9;
+            // Add random movement - keeping the existing behavior but with better containment
+            const randomForce = 0.08;
+            triangle.velocity[0] += (Math.random() - 0.5) * randomForce;
+            triangle.velocity[1] += (Math.random() - 0.5) * randomForce;
+            triangle.velocity[2] += (Math.random() - 0.5) * randomForce * 0.3;
             
-            // Calculate phase-based motion - creates wave-like effects through the spiral
-            const phase = triangle.originalAngle + (elapsedTime * 0.1);
+            // Calculate distance from center
+            const distFromCenter = Math.sqrt(
+                triangle.position[0] * triangle.position[0] + 
+                triangle.position[1] * triangle.position[1]
+            );
             
-            // Create gentle breathing effect based on distance from center
-            const breathingAmount = 0.3 * Math.sin(elapsedTime * 0.4 + triangle.originalRadius * 0.5);
-            const breathingX = Math.cos(triangle.originalAngle) * breathingAmount;
-            const breathingY = Math.sin(triangle.originalAngle) * breathingAmount;
+            // Add gentle attraction force toward center when triangles are far from center
+            const centerAttraction = 0.02;
+            const outerRadius = 20; // When to start applying force
             
-            // Create a subtle orbiting micro-motion that preserves shape
-            const microOrbit = 0.15 * Math.sin(elapsedTime * 0.6 + uniqueOffset);
-            const microOrbitX = Math.cos(triangle.originalAngle + Math.PI/2) * microOrbit;
-            const microOrbitY = Math.sin(triangle.originalAngle + Math.PI/2) * microOrbit;
-            
-            // Combine breathing and micro-orbiting for gentle, interesting motion
-            const flowX = breathingX + microOrbitX;
-            const flowY = breathingY + microOrbitY;
-            
-            // Very minimal randomness - just enough to avoid perfect uniformity
-            const randomX = (Math.random() - 0.5) * 0.05 * deltaTime;
-            const randomY = (Math.random() - 0.5) * 0.05 * deltaTime;
-            
-            // Apply gentle flow
-            triangle.velocity[0] += flowX * deltaTime * 0.6 + randomX;
-            triangle.velocity[1] += flowY * deltaTime * 0.6 + randomY;
-            
-            // Calculate distance from original position
-            const originalX = triangle.initialPosition[0];
-            const originalY = triangle.initialPosition[1];
-            const dx = originalX - triangle.position[0];
-            const dy = originalY - triangle.position[1];
-            const distFromOrigin = Math.sqrt(dx*dx + dy*dy);
-            
-            // Strong pull toward initial position when too far, gentle otherwise
-            const baseAttractionFactor = 0.1; // Default attraction
-            const maxDistBeforeStrongPull = 1.0;
-            
-            // Calculate attraction strength based on distance
-            let attractionFactor;
-            if (distFromOrigin > maxDistBeforeStrongPull) {
-                // Strong exponential pull when too far
-                attractionFactor = baseAttractionFactor + (distFromOrigin - maxDistBeforeStrongPull) * 0.1;
-            } else {
-                // Gentle pull when close to original position
-                attractionFactor = baseAttractionFactor * (distFromOrigin / maxDistBeforeStrongPull);
+            if (distFromCenter > outerRadius) {
+                const angle = Math.atan2(triangle.position[1], triangle.position[0]);
+                // Force increases with distance from center
+                const attractionStrength = centerAttraction * ((distFromCenter - outerRadius) / 10);
+                triangle.velocity[0] -= Math.cos(angle) * attractionStrength;
+                triangle.velocity[1] -= Math.sin(angle) * attractionStrength;
             }
             
-            // Apply position-maintaining force
-            triangle.velocity[0] += dx * deltaTime * attractionFactor;
-            triangle.velocity[1] += dy * deltaTime * attractionFactor;
-            
-            // Subtle Z-axis pulsing based on radius to create depth variation
-            const zPulse = Math.sin(elapsedTime * 0.3 + triangle.originalRadius * 0.8) * 0.15; 
-            triangle.velocity[2] += zPulse * deltaTime;
-            
-            // Apply velocity
+            // Apply velocity - faster movement
             triangle.position[0] += triangle.velocity[0] * deltaTime;
             triangle.position[1] += triangle.velocity[1] * deltaTime;
             triangle.position[2] += triangle.velocity[2] * deltaTime;
             
-            // Strong damping to prevent runaway motion
-            const fluidDamping = 0.92;
-            triangle.velocity[0] *= fluidDamping;
-            triangle.velocity[1] *= fluidDamping;
-            triangle.velocity[2] *= fluidDamping;
+            // Less damping for more momentum
+            const damping = 0.98;
+            triangle.velocity[0] *= damping;
+            triangle.velocity[1] *= damping;
+            triangle.velocity[2] *= damping;
             
-            // Very strong Z position maintenance
-            const zTarget = triangle.initialPosition[2];
-            const zDiff = zTarget - triangle.position[2];
-            triangle.velocity[2] += zDiff * deltaTime * 0.15;
-            
-            // Bounce off edges with some elasticity
-            const bounds = 25;
-            for (let i = 0; i < 2; i++) {
-                if (triangle.position[i] > bounds || triangle.position[i] < -bounds) {
-                    triangle.velocity[i] *= -0.8;
-                    triangle.position[i] = Math.max(-bounds, Math.min(bounds, triangle.position[i]));
+            // More effective boundary handling - stronger bounce
+            const bounds = 24; // Slightly reduced bounds
+            for (let i = 0; i < 2; i++) { // Just handle x and y
+                if (Math.abs(triangle.position[i]) > bounds) {
+                    // Stronger bounce with position correction
+                    triangle.velocity[i] *= -0.9;
+                    // Push back into bounds more aggressively
+                    triangle.position[i] = Math.sign(triangle.position[i]) * bounds * 0.95;
                 }
             }
             
-            // Z-axis bounds
-            if (triangle.position[2] > -5 || triangle.position[2] < -30) {
-                triangle.velocity[2] *= -0.8;
-                triangle.position[2] = Math.max(-30, Math.min(-5, triangle.position[2]));
+            // Z-axis boundaries - keep triangles visible
+            const zMin = -28;
+            const zMax = -7;
+            if (triangle.position[2] > zMax || triangle.position[2] < zMin) {
+                triangle.velocity[2] *= -0.9;
+                triangle.position[2] = Math.max(zMin, Math.min(zMax, triangle.position[2]));
             }
             
-            // Update rotation
-            triangle.angle += triangle.rotationSpeed * deltaTime;
+            // Size variations
+            triangle.size = triangle.initialSize * (0.8 + Math.sin(elapsedTime * 0.5) * 0.3);
             
-            // Set drawing position to the "identity" point
+            // Draw triangle
             const modelViewMatrix = mat4.create();
-            
-            // Move the drawing position
             mat4.translate(modelViewMatrix, modelViewMatrix, triangle.position);
-            
-            // Rotate the triangle
             mat4.rotateZ(modelViewMatrix, modelViewMatrix, triangle.angle);
             
-            // Tell WebGL how to pull out the positions from the position buffer
+            // Set up positions
             const positions = [
                 0, triangle.size, 0,
                 -triangle.size, -triangle.size, 0,
@@ -480,77 +479,48 @@
             const positionBuffer = gl.createBuffer();
             gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
             gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
-            
-            const numComponents = 3;
-            const type = gl.FLOAT;
-            const normalize = false;
-            const stride = 0;
-            const offset = 0;
             gl.vertexAttribPointer(
                 programInfo.attribLocations.vertexPosition,
-                numComponents,
-                type,
-                normalize,
-                stride,
-                offset);
+                3, gl.FLOAT, false, 0, 0
+            );
             gl.enableVertexAttribArray(programInfo.attribLocations.vertexPosition);
             
-            // Pulse the color based on time
-            const pulseFreq = 0.2;
-            const pulseAmp = 0.15;
-            const pulse = Math.sin(elapsedTime * pulseFreq + index * 0.1) * pulseAmp + 1.0;
-            
-            // Use the cluster-assigned color
+            // Set up color
             const baseColor = triangle.baseColor;
             const colors = [
-                baseColor[0] * pulse, baseColor[1] * pulse, baseColor[2] * pulse, baseColor[3],
-                baseColor[0] * pulse, baseColor[1] * pulse, baseColor[2] * pulse, baseColor[3],
-                baseColor[0] * pulse, baseColor[1] * pulse, baseColor[2] * pulse, baseColor[3]
+                baseColor[0], baseColor[1], baseColor[2], 1.0,
+                baseColor[0], baseColor[1], baseColor[2], 1.0,
+                baseColor[0], baseColor[1], baseColor[2], 1.0
             ];
-            
             const colorBuffer = gl.createBuffer();
             gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
             gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
-            
-            const numComponentsColor = 4;
             gl.vertexAttribPointer(
                 programInfo.attribLocations.vertexColor,
-                numComponentsColor,
-                type,
-                normalize,
-                stride,
-                offset);
+                4, gl.FLOAT, false, 0, 0
+            );
             gl.enableVertexAttribArray(programInfo.attribLocations.vertexColor);
             
-            // Tell WebGL to use our program when drawing
+            // Use shader
             gl.useProgram(programInfo.program);
+            gl.uniformMatrix4fv(programInfo.uniformLocations.projectionMatrix, false, projectionMatrix);
+            gl.uniformMatrix4fv(programInfo.uniformLocations.modelViewMatrix, false, modelViewMatrix);
             
-            // Set the shader uniforms
-            gl.uniformMatrix4fv(
-                programInfo.uniformLocations.projectionMatrix,
-                false,
-                projectionMatrix);
-            gl.uniformMatrix4fv(
-                programInfo.uniformLocations.modelViewMatrix,
-                false,
-                modelViewMatrix);
-            
-            // Draw the triangles
+            // Draw
             gl.drawArrays(gl.TRIANGLES, 0, 3);
         });
         
-        // Draw the centroids
+        // Draw centroids
         for (let i = 0; i < K; i++) {
             drawCentroid(gl, programInfo, projectionMatrix, centroids[i], clusterColors[i]);
         }
         
-        // Draw text overlay explaining the algorithm
+        // Draw text overlay
         const textCanvas = document.getElementById('text-overlay');
         if (textCanvas) {
             const ctx = textCanvas.getContext('2d');
             ctx.clearRect(0, 0, textCanvas.width, textCanvas.height);
             
-            // Position in bottom right for less intrusion
             const rightEdge = textCanvas.width - 20;
             const bottomEdge = textCanvas.height - 20;
             

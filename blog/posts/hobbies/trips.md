@@ -2,7 +2,6 @@
 title: Recent Trips
 date: 2023-05-10
 author: William Wall
-tags: [hobbies, travel, adventures]
 ---
 
 # Recent Trips and Adventures
@@ -13,7 +12,6 @@ Traveling opens up our minds to new experiences, cultures, and perspectives. Her
 
 Last summer, I spent three weeks exploring the North Cascades in Washington. The alpine lakes, rugged peaks, and wildflower meadows were absolutely breathtaking. Some highlights included:
 
-- Summit attempt of Mount Baker
 - Backpacking the Enchantments
 - Fly fishing in remote mountain streams
 - Wildlife encounters (including a black bear and mountain goats)

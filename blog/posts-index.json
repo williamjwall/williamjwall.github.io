@@ -1,136 +1,54 @@
 {
-  "generatedAt": "2025-03-28T03:09:04.671Z",
-  "count": 11,
+  "generatedAt": "2025-03-28T06:13:53.361Z",
+  "count": 8,
   "posts": [
     {
-      "path": "ai/deep-learning.md",
-      "title": "Deep Learning: A Comprehensive Guide",
-      "date": "2023-11-15",
-      "author": "William Wall",
-      "tags": [
-        "Deep Learning",
-        "Neural Networks",
-        "AI"
-      ],
-      "excerpt": "Deep learning has revolutionized artificial intelligence by enabling machines to learn from vast amounts of data through neural networks with multiple..."
-    },
-    {
-      "path": "ai/understanding-ai.md",
-      "title": "Understanding AI: Trends and Techniques",
-      "date": "2023-10-10",
-      "author": "William Wall",
-      "tags": [
-        "AI",
-        "Machine Learning",
-        "Deep Learning"
-      ],
-      "excerpt": "Artificial Intelligence (AI) has evolved dramatically over the past decade, transforming from a niche academic field to a powerful technology that imp..."
+      "path": "articles/celestial-structures.md",
+      "title": "Seven Heavens and One Throne",
+      "date": "2023-03-20",
+      "author": "William Wall"
     },
     {
       "path": "articles/etl-pipelines.md",
       "title": "ETL Pipelines",
       "date": "2023-03-20",
-      "author": "William Wall",
-      "tags": [
-        "articles",
-        "data engineering",
-        "pipelines"
-      ],
-      "excerpt": "[Content of your ETL pipelines post]"
-    },
-    {
-      "path": "bioinformatics/computational-biology.md",
-      "title": "Computational Biology: Algorithms and Applications",
-      "date": "2023-12-05",
-      "author": "William Wall",
-      "tags": [
-        "Bioinformatics",
-        "Computational Biology",
-        "Genomics"
-      ],
-      "excerpt": "Computational biology sits at the intersection of biology, computer science, and data analysis. This field uses computational approaches to understand..."
-    },
-    {
-      "path": "data-engineering/etl-pipelines.md",
-      "title": "Building Robust ETL Pipelines for Data Science",
-      "date": "2024-01-20",
-      "author": "William Wall",
-      "tags": [
-        "Data Engineering",
-        "ETL",
-        "Databricks",
-        "Snowflake"
-      ],
-      "excerpt": "Extract, Transform, Load (ETL) pipelines are the backbone of any data-driven organization. This article explores best practices for designing and impl..."
-    },
-    {
-      "path": "example-post.md",
-      "title": "Untitled Post",
-      "date": "2025-03-28",
-      "author": null,
-      "tags": [],
-      "excerpt": ""
+      "author": "William Wall"
     },
     {
       "path": "hobbies/bike-packing.md",
       "title": "Bike Packing Adventures",
       "date": "2023-04-05",
-      "author": "William Wall",
-      "tags": [
-        "hobbies",
-        "biking",
-        "adventure"
-      ],
-      "excerpt": "Exploring the great outdoors on two wheels has been one of my favorite ways to experience nature. Join me as I share my experiences, tips, and favorit..."
+      "author": "William Wall"
     },
     {
       "path": "hobbies/trips.md",
       "title": "Recent Trips",
       "date": "2023-05-10",
-      "author": "William Wall",
-      "tags": [
-        "hobbies",
-        "travel",
-        "adventures"
-      ],
-      "excerpt": "Traveling opens up our minds to new experiences, cultures, and perspectives. Here I'll share some highlights from my recent journeys.\n\n\nLast summer, I..."
+      "author": "William Wall"
     },
     {
       "path": "notes/computational-biology.md",
       "title": "Computational Biology",
       "date": "2023-02-10",
-      "author": "William Wall",
-      "tags": [
-        "notes",
-        "biology",
-        "computation"
-      ],
-      "excerpt": "[Content of your computational biology post]"
+      "author": "William Wall"
     },
     {
       "path": "projects/glossary-map.md",
       "title": "Glossary Map Project",
       "date": "2023-06-01",
-      "author": "William Wall",
-      "tags": [
-        "projects",
-        "technical",
-        "ai",
-        "documentation"
-      ],
-      "excerpt": "Technical fields are filled with specialized terminology that can be overwhelming for newcomers. The Glossary Map project aims to create an interactiv..."
+      "author": "William Wall"
+    },
+    {
+      "path": "tech/deep-learning.md",
+      "title": "Deep Learning: A Comprehensive Guide",
+      "date": "2023-11-15",
+      "author": "William Wall"
     },
     {
       "path": "tech/understanding-ai.md",
       "title": "Understanding AI",
       "date": "2023-01-15",
-      "author": "William Wall",
-      "tags": [
-        "tech",
-        "ai",
-        "machine learning"
-      ],
-      "excerpt": "[Content of your AI post]"
+      "author": "William Wall"
     }
   ]
 }

@@ -123,8 +123,6 @@ function generateManifest() {
                 title: metadata.title || formatTitle(filename),
                 date: metadata.date || new Date().toISOString().split('T')[0],
                 author: metadata.author || null,
-                tags: metadata.tags || [],
-                excerpt: metadata.excerpt
             };
         });
         
@@ -145,4 +143,9 @@ function generateManifest() {
 }
 
 // Run the generator
-generateManifest(); 
+if (require.main === module) {
+    generateManifest();
+}
+
+// Export the function for when you need to use it programmatically
+module.exports = generateManifest; 
