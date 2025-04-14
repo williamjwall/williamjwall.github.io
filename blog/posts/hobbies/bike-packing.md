@@ -2,7 +2,6 @@
 title: Bike Packing Adventures
 date: 2023-04-05
 author: William Wall
-tags: [hobbies, biking, adventure]
 ---
 
 # Bike Packing Adventures

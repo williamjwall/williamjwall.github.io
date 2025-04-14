@@ -1,49 +1,72 @@
-// Enhanced blog system that maintains original styling
+// Simplified blog system
 const blogSystem = {
     config: {
         postsDirectory: '/blog/posts/',
-        manifestPath: 'posts-index.json',
-        categoriesOrder: ['tech', 'notes', 'articles', 'hobbies', 'projects']
+        manifestPath: '/blog/manifest.json',
+        categoriesOrder: ['notes','projects','hobbies', 'random'],
+        baseUrl: '' // Will be dynamically set
     },
     
     posts: [],
     
     // Initialize the blog system
     init: async function() {
+        console.log("Initializing blog system...");
+        
+        // Determine base URL for GitHub Pages
+        this.setBaseUrl();
+        
         try {
-            console.log("Initializing blog system...");
-            
-            // If we're on a post page, render the single post
+            // Check if we're on a post page or index page
             const postPath = this.getPostPathFromUrl();
-            if (postPath) {
-                console.log("Rendering single post:", postPath);
-                await this.renderSinglePost(postPath);
-                return;
-            }
             
-            // Otherwise load all posts for the index
-            await this.loadAllPosts();
-            this.renderPostsList();
-        } catch (error) {
-            console.error('Blog system initialization failed:', error);
-            const container = document.getElementById('blog-posts-list') || document.getElementById('blog-content');
-            if (container) {
-                container.innerHTML = '<div class="error">Failed to load blog content. Please try again later.</div>';
+            if (postPath) {
+                await this.renderSinglePost(postPath);
+            } else {
+                await this.loadPosts();
+                this.renderPostsList();
             }
+        } catch (error) {
+            console.error('Blog system error:', error);
+            this.showError('Failed to load blog content. Please try again later.');
+        }
+    },
+    
+    // Set the base URL based on the current location
+    setBaseUrl: function() {
+        // For GitHub Pages, the format is typically username.github.io/repo-name/
+        const pathSegments = window.location.pathname.split('/');
+        
+        // Check if we're on GitHub Pages (username.github.io/repo-name/)
+        if (window.location.hostname.endsWith('github.io') && pathSegments.length > 1) {
+            // The first segment after the domain will be the repository name
+            this.config.baseUrl = '/' + pathSegments[1];
+            console.log(`Running on GitHub Pages with base URL: ${this.config.baseUrl}`);
+            
+            // Update paths to include the base URL
+            this.config.postsDirectory = `${this.config.baseUrl}/blog/posts/`;
+            this.config.manifestPath = `${this.config.baseUrl}/blog/manifest.json`;
+        } else {
+            console.log('Running on standard server, using root-relative paths');
+            this.config.baseUrl = '';
+        }
+    },
+    
+    // Show error message in appropriate container
+    showError: function(message) {
+        const container = document.getElementById('blog-posts-list') || 
+                          document.getElementById('blog-post-content') || 
+                          document.getElementById('blog-content');
+        
+        if (container) {
+            container.innerHTML = `<div class="error">${message}</div>`;
         }
     },
     
     // Get post path from URL if we're on a single post page
     getPostPathFromUrl: function() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const postPath = urlParams.get('post');
-        
-        if (!postPath) {
-            return null;
-        }
-        
-        // Make sure the path is relative to your repository
-        return `/blog/posts/${postPath}`;
+        const postPath = new URLSearchParams(window.location.search).get('post');
+        return postPath ? `${this.config.postsDirectory}${postPath}` : null;
     },
     
     // Extract category from file path
@@ -59,95 +82,127 @@ const blogSystem = {
             .replace(/\b\w/g, l => l.toUpperCase());
     },
     
-    // Load all posts from manifest
-    loadAllPosts: async function() {
+    // Load posts from manifest with improved error handling
+    loadPosts: async function() {
+        console.log("Loading posts from manifest:", this.config.manifestPath);
+        
         try {
-            console.log("Loading posts from manifest:", this.config.manifestPath);
+            // Update possible paths to include base URL
+            const possiblePaths = [
+                this.config.manifestPath,            // Base URL + path from config
+                'manifest.json',                     // Relative path
+                `${this.config.baseUrl}/manifest.json`,  // Root of repo
+                `${this.config.baseUrl}/blog/manifest.json`,
+                'blog/manifest.json',
+                '/blog/manifest.json',
+                '/manifest.json',
+                '../manifest.json',
+                './manifest.json'
+            ];
             
-            // Try to fetch the manifest file
-            try {
-                const response = await fetch(this.config.manifestPath);
-                
-                if (response.ok) {
-                    const manifest = await response.json();
-                    console.log("Manifest loaded successfully");
+            // Try all possible paths
+            let manifestData = null;
+            let loadedPath = null;
+            
+            for (const path of possiblePaths) {
+                try {
+                    console.log(`Trying path: ${path}`);
+                    const response = await fetch(path);
                     
-                    if (manifest.posts && Array.isArray(manifest.posts)) {
-                        this.posts = manifest.posts;
-                        console.log(`Loaded ${this.posts.length} posts from manifest`);
+                    if (response.ok) {
+                        console.log(`Successfully found manifest at: ${path}`);
+                        manifestData = await response.json();
+                        loadedPath = path;
+                        break;
                     } else {
-                        console.warn("Manifest format incorrect, no posts array found");
-                        this.posts = [];
+                        console.log(`Path ${path} returned status: ${response.status}`);
                     }
-                } else {
-                    console.warn(`Failed to load manifest: ${response.status} ${response.statusText}`);
-                    this.posts = [];
+                } catch (e) {
+                    console.log(`Error fetching from ${path}:`, e.message);
                 }
-            } catch (error) {
-                console.warn("Error loading manifest:", error);
-                this.posts = [];
             }
             
-            // If no posts loaded from manifest, use hardcoded fallback
-            if (this.posts.length === 0) {
-                console.log("No posts found in manifest, using fallback data");
-                this.posts = this.getFallbackPosts();
+            // If we found a manifest, use it and update the path for future use
+            if (manifestData) {
+                console.log(`Using manifest found at: ${loadedPath}`);
+                this.config.manifestPath = loadedPath;
+                
+                // Check manifest format
+                if (manifestData.posts && Array.isArray(manifestData.posts)) {
+                    this.posts = manifestData.posts;
+                    console.log(`Loaded ${this.posts.length} posts from manifest`);
+                    
+                    // If we have posts but the array is empty
+                    if (this.posts.length === 0) {
+                        console.warn("Manifest loaded but contains no posts");
+                    }
+                    
+                    // Generate some default posts if none found
+                    if (this.posts.length === 0) {
+                        console.log("Creating sample posts based on directory structure");
+                        this.generateSamplePosts();
+                    }
+                } else {
+                    console.warn("Manifest has invalid format, no posts array found:", manifestData);
+                    // We found a file but wrong format
+                    this.generateSamplePosts();
+                }
+            } else {
+                console.warn("Could not find manifest file at any location, generating sample posts");
+                this.generateSamplePosts();
             }
             
             // Sort posts by date (newest first)
-            if (this.posts.length > 0) {
-                this.posts.sort((a, b) => {
-                    if (!a.date) return 1;
-                    if (!b.date) return -1;
-                    return new Date(b.date) - new Date(a.date);
-                });
-            }
+            this.posts.sort((a, b) => {
+                if (!a.date) return 1;
+                if (!b.date) return -1;
+                return new Date(b.date) - new Date(a.date);
+            });
         } catch (error) {
             console.error('Failed to load posts:', error);
-            this.posts = this.getFallbackPosts();
+            this.generateSamplePosts();
         }
     },
     
-    // Return hardcoded fallback posts if manifest loading fails
-    getFallbackPosts: function() {
-        return [
-            {
-                path: 'tech/understanding-ai.md',
-                title: 'Understanding AI',
-                date: '2023-01-15',
-                excerpt: 'An introduction to artificial intelligence and its applications.'
-            },
-            {
-                path: 'notes/computational-biology.md',
-                title: 'Computational Biology',
-                date: '2023-02-10',
-                excerpt: 'How computational methods are revolutionizing biology research.'
-            },
-            {
-                path: 'articles/etl-pipelines.md',
-                title: 'ETL Pipelines',
-                date: '2023-03-20',
-                excerpt: 'Building efficient Extract, Transform, Load pipelines for data processing.'
-            },
+    // Generate some sample posts based on known directory structure
+    generateSamplePosts: function() {
+        console.log("Generating sample posts from directory structure");
+        
+        // Based on the directory structure you shared - fixed case sensitivity
+        this.posts = [
             {
                 path: 'hobbies/bike-packing.md',
-                title: 'Bike Packing Adventures',
-                date: '2023-04-05',
-                excerpt: 'Exploring the great outdoors on two wheels.'
+                title: 'Bike Packing',
+                date: new Date().toISOString().split('T')[0]
             },
             {
-                path: 'hobbies/trips.md',
-                title: 'Recent Trips',
-                date: '2023-05-10',
-                excerpt: 'Sharing my experiences from recent travels.'
+                path: 'notes/math/linear algebra.md',
+                title: 'Linear Algebra',
+                date: new Date().toISOString().split('T')[0]
             },
             {
                 path: 'projects/glossary-map.md',
                 title: 'Glossary Map',
-                date: '2023-06-01',
-                excerpt: 'A comprehensive glossary of terms used in my projects.'
+                date: new Date().toISOString().split('T')[0]
+            },
+            {
+                path: 'random/celestial-structures.md',  // Changed to lowercase
+                title: 'Celestial Structures',
+                date: new Date().toISOString().split('T')[0]
+            },
+            {
+                path: 'random/etl-pipelines.md',  // Changed to lowercase
+                title: 'ETL Pipelines',
+                date: new Date().toISOString().split('T')[0]
+            },
+            {
+                path: 'random/syntax-history.md',  // Changed to lowercase
+                title: 'Syntax History',
+                date: new Date().toISOString().split('T')[0]
             }
         ];
+        
+        console.log(`Generated ${this.posts.length} sample posts`);
     },
     
     // Render the posts list for the blog index
@@ -155,63 +210,134 @@ const blogSystem = {
         const container = document.getElementById('blog-posts-list');
         
         if (!container) {
-            console.error('Blog posts container not found');
-            return;
+            return console.error('Blog posts container not found');
         }
         
-        if (!this.posts || this.posts.length === 0) {
-            container.innerHTML = '<div class="no-posts">No blog posts found.</div>';
-            return;
+        if (this.posts.length === 0) {
+            return container.innerHTML = '<div class="no-posts">No blog posts found here man.</div>';
         }
         
-        // Group posts by category
-        const categories = {};
-        this.posts.forEach(post => {
-            const category = this.getCategoryFromPath(post.path);
-            if (!categories[category]) {
-                categories[category] = [];
-            }
-            categories[category].push(post);
-        });
+        // Create hierarchical structure for categories/subcategories
+        const categoriesTree = this.buildCategoriesTree();
         
-        // Create HTML with original styling
+        // Build HTML for categories in order
         let html = '';
         
-        // First render categories in preferred order
+        // First render preferred categories
         this.config.categoriesOrder.forEach(category => {
-            if (categories[category] && categories[category].length > 0) {
-                html += this.renderCategorySection(category, categories[category]);
-                delete categories[category]; // Remove to avoid duplicates
+            if (categoriesTree[category]) {
+                html += this.renderCategorySection(category, categoriesTree[category]);
+                delete categoriesTree[category];
             }
         });
         
-        // Then add any remaining categories
-        Object.keys(categories).forEach(category => {
-            if (categories[category].length > 0) {
-                html += this.renderCategorySection(category, categories[category]);
-            }
+        // Then render any remaining categories
+        Object.entries(categoriesTree).forEach(([category, categoryData]) => {
+            html += this.renderCategorySection(category, categoryData);
         });
         
         container.innerHTML = html;
+        
+        // Add event listeners for accordion functionality
+        this.initAccordion();
     },
     
-    // Render a category section
-    renderCategorySection: function(category, posts) {
-        const categoryName = category.charAt(0).toUpperCase() + category.slice(1).replace('-', ' ');
+    // Build hierarchical category tree from post paths
+    buildCategoriesTree: function() {
+        const tree = {};
         
+        this.posts.forEach(post => {
+            // Split path into parts (e.g., "notes/math/linear algebra.md" -> ["notes", "math", "linear algebra.md"])
+            const pathParts = post.path.split('/');
+            const mainCategory = pathParts[0];
+            
+            // Initialize category if not exists
+            if (!tree[mainCategory]) {
+                tree[mainCategory] = {
+                    subcategories: {},
+                    posts: []
+                };
+            }
+            
+            // If there's a subcategory
+            if (pathParts.length > 2) {
+                // Handle subcategories, going as deep as needed
+                let currentLevel = tree[mainCategory];
+                
+                // Process all parts except the first (main category) and last (filename)
+                for (let i = 1; i < pathParts.length - 1; i++) {
+                    const subcat = pathParts[i];
+                    if (!currentLevel.subcategories[subcat]) {
+                        currentLevel.subcategories[subcat] = {
+                            subcategories: {},
+                            posts: []
+                        };
+                    }
+                    currentLevel = currentLevel.subcategories[subcat];
+                }
+                
+                // Add post to the deepest level
+                currentLevel.posts.push(post);
+            } else {
+                // No subcategory, add directly to main category
+                tree[mainCategory].posts.push(post);
+            }
+        });
+        
+        return tree;
+    },
+    
+    // Render a category section with support for subcategories
+    renderCategorySection: function(category, categoryData) {
+        const categoryName = category.charAt(0).toUpperCase() + category.slice(1).replace('-', ' ');
         let html = `
-            <li>
+            <li class="category">
                 <h3>${categoryName}</h3>
-                <ul>
+                <ul class="posts-list">
         `;
         
-        posts.forEach(post => {
-            html += `
-                <li>
-                    <a href="post.html?path=${post.path}">${post.title}</a>
+        // Add direct posts under this category
+        if (categoryData.posts && categoryData.posts.length > 0) {
+            html += categoryData.posts.map(post => `
+                <li class="post-item" style="width: auto; display: inline-block; margin-right: 10px; margin-bottom: 8px;">
+                    <a href="${this.config.baseUrl}/blog/post.html?post=${post.path}" class="post-link">${post.title}</a>
                 </li>
-            `;
-        });
+            `).join('');
+        }
+        
+        // Add subcategories with accordion style
+        if (categoryData.subcategories && Object.keys(categoryData.subcategories).length > 0) {
+            Object.entries(categoryData.subcategories).forEach(([subcat, subcatData]) => {
+                const subcatName = subcat.charAt(0).toUpperCase() + subcat.slice(1).replace('-', ' ');
+                
+                html += `
+                    <li class="subcategory">
+                        <div class="subcategory-header" data-toggle="accordion">
+                            <span class="toggle-indicator">▶</span> ${subcatName}
+                        </div>
+                        <ul class="subcategory-posts" style="display: none;">
+                `;
+                
+                // Add posts in this subcategory
+                html += subcatData.posts.map(post => `
+                    <li class="post-item" style="width: auto; display: inline-block; margin-right: 10px; margin-bottom: 8px;">
+                        <a href="${this.config.baseUrl}/blog/post.html?post=${post.path}" class="post-link">${post.title}</a>
+                    </li>
+                `).join('');
+                
+                // Recursively add nested subcategories if any
+                if (Object.keys(subcatData.subcategories).length > 0) {
+                    Object.entries(subcatData.subcategories).forEach(([nestedSubcat, nestedData]) => {
+                        html += this.renderNestedSubcategory(nestedSubcat, nestedData);
+                    });
+                }
+                
+                html += `
+                        </ul>
+                    </li>
+                `;
+            });
+        }
         
         html += `
                 </ul>
@@ -221,140 +347,265 @@ const blogSystem = {
         return html;
     },
     
-    // Render a single post
+    // Render nested subcategories recursively
+    renderNestedSubcategory: function(subcategory, subcatData, level = 1) {
+        const subcatName = subcategory.charAt(0).toUpperCase() + subcategory.slice(1).replace('-', ' ');
+        const padding = level * 10; // Increase padding for deeper levels
+        
+        let html = `
+            <li class="subcategory nested-level-${level}">
+                <div class="subcategory-header" data-toggle="accordion" style="padding-left: ${padding}px;">
+                    <span class="toggle-indicator">▶</span> ${subcatName}
+                </div>
+                <ul class="subcategory-posts" style="display: none;">
+        `;
+        
+        // Add posts
+        html += subcatData.posts.map(post => `
+            <li class="post-item" style="width: auto; display: inline-block; margin-right: 10px; margin-bottom: 8px;">
+                <a href="${this.config.baseUrl}/blog/post.html?post=${post.path}" class="post-link">${post.title}</a>
+            </li>
+        `).join('');
+        
+        // Add nested subcategories recursively
+        if (Object.keys(subcatData.subcategories).length > 0) {
+            Object.entries(subcatData.subcategories).forEach(([nestedSubcat, nestedData]) => {
+                html += this.renderNestedSubcategory(nestedSubcat, nestedData, level + 1);
+            });
+        }
+        
+        html += `
+                </ul>
+            </li>
+        `;
+        
+        return html;
+    },
+    
+    // Initialize accordion functionality
+    initAccordion: function() {
+        document.querySelectorAll('[data-toggle="accordion"]').forEach(header => {
+            header.addEventListener('click', function() {
+                // Toggle visibility of subcategory posts
+                const subcategoryPosts = this.nextElementSibling;
+                const isExpanded = subcategoryPosts.style.display !== 'none';
+                
+                // Update toggle indicator
+                const indicator = this.querySelector('.toggle-indicator');
+                indicator.textContent = isExpanded ? '▶' : '▼';
+                
+                // Toggle the subcategory content
+                subcategoryPosts.style.display = isExpanded ? 'none' : 'block';
+            });
+        });
+    },
+    
+    // Render a single post with improved container detection
     renderSinglePost: async function(postPath) {
+        console.log("Loading post content from original path:", postPath);
+        
+        // Try multiple container IDs that might exist in post.html
+        const contentContainer = 
+            document.getElementById('blog-post-content') || 
+            document.getElementById('post-content') || 
+            document.getElementById('content') || 
+            document.querySelector('.post-content') ||
+            document.querySelector('.content') ||
+            document.querySelector('main');
+        
+        if (!contentContainer) {
+            console.error('No suitable blog post container found. Available elements:', 
+                document.querySelectorAll('div, main, article, section'));
+            
+            // As a last resort, create a container
+            const body = document.querySelector('body');
+            if (body) {
+                console.log('Creating fallback content container');
+                const fallbackContainer = document.createElement('div');
+                fallbackContainer.id = 'blog-post-content';
+                body.appendChild(fallbackContainer);
+                this.renderPostInContainer(fallbackContainer, postPath);
+                return;
+            } else {
+                alert('Cannot display blog post: No suitable container found');
+                return;
+            }
+        }
+        
+        this.renderPostInContainer(contentContainer, postPath);
+    },
+    
+    // Separate method to render post in a specific container
+    renderPostInContainer: async function(container, postPath) {
         try {
-            console.log("Loading post content from:", postPath);
-            const response = await fetch(postPath);
-            if (!response.ok) {
-                throw new Error(`Failed to load post: ${response.status} ${response.statusText}`);
+            // Include base URL in the paths to try
+            const pathsToTry = [
+                postPath,                               // Original path
+                `${this.config.baseUrl}${postPath}`,    // Base URL + path
+                postPath.replace(/^\//, ''),            // Without leading slash
+                `${this.config.baseUrl}/blog/posts/${postPath.split('/').pop()}`,  // Repo path to file
+                `blog/posts/${postPath.split('/').pop()}`,  // Relative path
+                `posts/${postPath.split('/').pop()}`,        // Alternative path
+                postPath.replace('/blog/posts/', 'posts/')    // Different prefix
+            ];
+            
+            let response = null;
+            let successPath = null;
+            
+            console.log("Trying multiple path formats...");
+            for (const path of pathsToTry) {
+                try {
+                    console.log(`Attempting to fetch: ${path}`);
+                    const attemptResponse = await fetch(path);
+                    if (attemptResponse.ok) {
+                        response = attemptResponse;
+                        successPath = path;
+                        console.log(`Successfully loaded from: ${path}`);
+                        break;
+                    } else {
+                        console.log(`Failed to load from ${path}: ${attemptResponse.status}`);
+                    }
+                } catch (e) {
+                    console.log(`Error fetching from ${path}:`, e.message);
+                }
+            }
+            
+            if (!response || !response.ok) {
+                throw new Error(`Could not load post from any attempted path`);
             }
             
             const markdownText = await response.text();
+            console.log(`Loaded ${markdownText.length} bytes of markdown content`);
             
             // Update page title based on file name
-            const fileName = postPath.split('/').pop().replace('.md', '');
+            const fileName = successPath.split('/').pop().replace('.md', '');
             const postTitle = this.formatTitle(fileName);
             document.title = `${postTitle} | Will Wall's Blog`;
             
-            // Find the content container
-            const contentContainer = document.getElementById('blog-post-content');
-            
-            if (!contentContainer) {
-                console.error('Blog post content container not found');
-                return;
+            // Process markdown content
+            if (!window.marked) {
+                return this.renderPlainPost(container, postTitle, markdownText);
             }
             
-            // Process the markdown with enhanced styling
-            if (window.marked) {
-                // Configure marked.js for better styling
-                marked.setOptions({
-                    highlight: function(code, lang) {
-                        if (window.hljs) {
-                            try {
-                                if (lang && hljs.getLanguage(lang)) {
-                                    return hljs.highlight(lang, code).value;
-                                } else {
-                                    return hljs.highlightAuto(code).value;
-                                }
-                            } catch (e) {
-                                console.error('Highlighting error:', e);
-                            }
-                        }
-                        return code; // Fallback to plain code
-                    },
-                    breaks: true,
-                    gfm: true
+            // Configure marked.js
+            marked.setOptions({
+                highlight: this.highlightCode,
+                breaks: true,
+                gfm: true
+            });
+            
+            // Parse front matter and content
+            const { title, date, author, tags, content } = this.parseFrontMatter(markdownText, postTitle);
+            
+            // Render the post
+            container.innerHTML = `
+                <article class="blog-post">
+                    <h1>${title}</h1>
+                    
+                    <div class="post-meta">
+                        ${date ? `<time datetime="${date.toISOString()}">${date.toLocaleDateString()}</time>` : ''}
+                        ${author ? `<span class="author">by ${author}</span>` : ''}
+                    </div>
+                    
+                    ${tags.length > 0 ? `
+                    <div class="tags">
+                        ${tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                    </div>
+                    ` : ''}
+                    
+                    <div class="post-content">
+                        ${marked.parse(content)}
+                    </div>
+                </article>
+            `;
+            
+            // Apply syntax highlighting
+            if (window.hljs) {
+                document.querySelectorAll('pre code').forEach(block => {
+                    hljs.highlightBlock(block);
                 });
-                
-                // Parse the front matter if it exists
-                let title = postTitle;
-                let date = null;
-                let author = null;
-                let tags = [];
-                
-                const frontMatterMatch = markdownText.match(/^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)$/);
-                let contentToRender = markdownText;
-                
-                if (frontMatterMatch) {
-                    const frontMatter = frontMatterMatch[1];
-                    contentToRender = frontMatterMatch[2];
-                    
-                    // Extract metadata from front matter
-                    const titleMatch = frontMatter.match(/title:\s*(.*)/);
-                    if (titleMatch) title = titleMatch[1].trim();
-                    
-                    const dateMatch = frontMatter.match(/date:\s*(.*)/);
-                    if (dateMatch) date = new Date(dateMatch[1].trim());
-                    
-                    const authorMatch = frontMatter.match(/author:\s*(.*)/);
-                    if (authorMatch) author = authorMatch[1].trim();
-                    
-                    const tagsMatch = frontMatter.match(/tags:\s*\[(.*)\]/);
-                    if (tagsMatch) {
-                        tags = tagsMatch[1].split(',').map(tag => tag.trim());
-                    }
-                }
-                
-                // Create the post HTML with enhanced styling
-                contentContainer.innerHTML = `
-                    <article class="blog-post">
-                        <h1>${title}</h1>
-                        
-                        <div class="post-meta">
-                            ${date ? `<time datetime="${date.toISOString()}">${date.toLocaleDateString()}</time>` : ''}
-                            ${author ? `<span class="author">by ${author}</span>` : ''}
-                        </div>
-                        
-                        ${tags.length > 0 ? `
-                        <div class="tags">
-                            ${tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
-                        </div>
-                        ` : ''}
-                        
-                        <div class="post-content">
-                            ${marked.parse(contentToRender)}
-                        </div>
-                    </article>
-                `;
-                
-                // Add syntax highlighting if available
-                if (window.hljs) {
-                    document.querySelectorAll('pre code').forEach((block) => {
-                        hljs.highlightBlock(block);
-                    });
-                }
-            } else {
-                // Simple fallback if marked.js is not available
-                contentContainer.innerHTML = `
-                    <article class="blog-post">
-                        <h1>${postTitle}</h1>
-                        <div class="post-content">
-                            <pre>${markdownText}</pre>
-                        </div>
-                    </article>
-                `;
             }
             
-            // Remove the entire canvas animation code section from renderSinglePost
+            // Hide canvas animation if present
             if (document.getElementById('graph-canvas')) {
                 document.getElementById('graph-canvas').style.display = 'none';
             }
-            
         } catch (error) {
             console.error('Failed to render post:', error);
-            const contentContainer = document.getElementById('blog-post-content');
-            
-            if (contentContainer) {
-                contentContainer.innerHTML = `
-                    <div class="error">
-                        <h2>Error Loading Post</h2>
-                        <p>Failed to load the requested post: ${error.message}</p>
-                        <p><a href="index.html">Return to blog index</a></p>
-                    </div>
-                `;
+            container.innerHTML = `
+                <div class="error">
+                    <h2>Error Loading Post</h2>
+                    <p>Failed to load the requested post: ${error.message}</p>
+                    <p>Path attempted: ${postPath}</p>
+                    <p><a href="index.html">Return to blog index</a></p>
+                </div>
+            `;
+        }
+    },
+    
+    // Render plain text post when marked.js is not available
+    renderPlainPost: function(container, title, text) {
+        container.innerHTML = `
+            <article class="blog-post">
+                <h1>${title}</h1>
+                <div class="post-content">
+                    <pre>${text}</pre>
+                </div>
+            </article>
+        `;
+    },
+    
+    // Highlight code blocks
+    highlightCode: function(code, lang) {
+        if (window.hljs) {
+            try {
+                if (lang && hljs.getLanguage(lang)) {
+                    return hljs.highlight(lang, code).value;
+                } else {
+                    return hljs.highlightAuto(code).value;
+                }
+            } catch (e) {
+                console.error('Highlighting error:', e);
             }
         }
+        return code;
+    },
+    
+    // Parse front matter from markdown
+    parseFrontMatter: function(markdownText, defaultTitle) {
+        const frontMatterMatch = markdownText.match(/^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)$/);
+        
+        const result = {
+            title: defaultTitle,
+            date: null,
+            author: null,
+            tags: [],
+            content: markdownText
+        };
+        
+        if (!frontMatterMatch) {
+            return result;
+        }
+        
+        const frontMatter = frontMatterMatch[1];
+        result.content = frontMatterMatch[2];
+        
+        // Extract metadata
+        const titleMatch = frontMatter.match(/title:\s*(.*)/);
+        if (titleMatch) result.title = titleMatch[1].trim();
+        
+        const dateMatch = frontMatter.match(/date:\s*(.*)/);
+        if (dateMatch) result.date = new Date(dateMatch[1].trim());
+        
+        const authorMatch = frontMatter.match(/author:\s*(.*)/);
+        if (authorMatch) result.author = authorMatch[1].trim();
+        
+        const tagsMatch = frontMatter.match(/tags:\s*\[(.*)\]/);
+        if (tagsMatch) {
+            result.tags = tagsMatch[1].split(',').map(tag => tag.trim());
+        }
+        
+        return result;
     }
 };
 
@@ -362,111 +613,3 @@ const blogSystem = {
 document.addEventListener('DOMContentLoaded', () => {
     blogSystem.init();
 });
-
-// Function to load markdown content
-async function loadPost(postPath) {
-    const postElement = document.getElementById('post-content') || document.querySelector('.post-content');
-    
-    try {
-        // Make sure the path is relative to the site root
-        const response = await fetch(postPath);
-        
-        if (!response.ok) {
-            throw new Error(`Failed to load post: ${response.status}`);
-        }
-        
-        const markdown = await response.text();
-        
-        // Assuming you have a markdown parser like marked.js
-        // If not, you'll need to add: <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script> to your HTML
-        const htmlContent = marked.parse(markdown);
-        
-        postElement.innerHTML = htmlContent;
-    } catch (error) {
-        console.error('Error loading post:', error);
-        postElement.innerHTML = `<p>Error loading post: ${error.message}</p>`;
-    }
-}
-
-// Function to get post path from URL parameters
-function getPostPathFromUrl() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const postPath = urlParams.get('post');
-    
-    if (!postPath) {
-        return null;
-    }
-    
-    // Make sure the path is relative to your repository
-    return `/blog/posts/${postPath}`;
-}
-
-// Initialize the blog post
-function initializeBlogPost() {
-    const postPath = getPostPathFromUrl();
-    
-    if (postPath) {
-        loadPost(postPath);
-    } else {
-        // Handle home page or post list
-        loadPostList();
-    }
-}
-
-// Function to load list of posts
-async function loadPostList() {
-    try {
-        const response = await fetch('/blog/posts-manifest.json');
-        
-        if (!response.ok) {
-            throw new Error(`Failed to load post list: ${response.status}`);
-        }
-        
-        const postManifest = await response.json();
-        const postListElement = document.getElementById('post-list');
-        
-        if (!postListElement) {
-            console.error('Post list element not found');
-            return;
-        }
-        
-        // Group posts by category
-        const categories = {};
-        postManifest.forEach(post => {
-            if (!categories[post.category]) {
-                categories[post.category] = [];
-            }
-            categories[post.category].push(post);
-        });
-        
-        // Generate HTML for the post list
-        let html = '';
-        
-        for (const [category, posts] of Object.entries(categories)) {
-            html += `<h2>${category}</h2><ul>`;
-            
-            posts.forEach(post => {
-                html += `<li><a href="post.html?post=${post.path}">${post.title}</a></li>`;
-            });
-            
-            html += '</ul>';
-        }
-        
-        postListElement.innerHTML = html;
-    } catch (error) {
-        console.error('Error loading post list:', error);
-        document.getElementById('post-list').innerHTML = '<p>Error loading post list.</p>';
-    }
-}
-
-// Initialize the blog when the DOM is loaded
-document.addEventListener('DOMContentLoaded', initializeBlogPost);
-
-// If you have code that gets the post URL, make sure it uses the correct path format
-function getPostURL(postId) {
-    // For GitHub Pages, ensure the path is relative to the site root
-    return `/blog/posts/${postId}.md`;
-    
-    // If your blog is in a subdirectory of your GitHub Pages site, use:
-    // return `/your-repo-name/blog/posts/${postId}.md`;
-}

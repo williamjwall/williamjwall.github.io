@@ -1,48 +1,5 @@
 {
-  "generatedAt": "2025-03-28T21:55:50.430Z",
-  "count": 6,
-  "posts": [
-    {
-      "path": "articles/celestial-structures.md",
-      "title": "Seven Heavens and One Throne: The Celestial Structures of Judaism, Christianity, and Islam",
-      "date": "2025-03-28",
-      "author": "William Wall",
-      "category": "articles"
-    },
-    {
-      "path": "hobbies/bike-packing.md",
-      "title": "Bike Packing Adventures",
-      "date": "2023-04-05",
-      "author": "William Wall",
-      "category": "hobbies"
-    },
-    {
-      "path": "hobbies/trips.md",
-      "title": "Recent Trips",
-      "date": "2023-05-10",
-      "author": "William Wall",
-      "category": "hobbies"
-    },
-    {
-      "path": "notes/syntax-history.md",
-      "title": "The History of Syntactic Structures in Language and Their Development",
-      "date": "2025-03-28",
-      "author": "Markdown Article Generator",
-      "category": "notes"
-    },
-    {
-      "path": "projects/glossary-map.md",
-      "title": "Glossary Map Project",
-      "date": "2023-06-01",
-      "author": "William Wall",
-      "category": "projects"
-    },
-    {
-      "path": "tech/etl-pipelines.md",
-      "title": "The History of ETL Pipelines",
-      "date": "2025-03-28",
-      "author": "Markdown Article Generator",
-      "category": "tech"
-    }
-  ]
+  "generatedAt": "2025-04-14T17:50:45.417Z",
+  "count": 0,
+  "posts": []
 }

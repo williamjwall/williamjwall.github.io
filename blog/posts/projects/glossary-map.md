@@ -2,7 +2,6 @@
 title: Glossary Map Project
 date: 2023-06-01
 author: William Wall
-tags: [projects, technical, ai, documentation]
 ---
 
 # The Glossary Map Project

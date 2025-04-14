@@ -1,0 +1,51 @@
+{
+  "hobbies": [
+    {
+      "title": "Bike Packing Adventures",
+      "slug": "bike-packing",
+      "date": "2023-04-05T00:00:00.000Z",
+      "nestedPath": "",
+      "author": "William Wall"
+    }
+  ],
+  "notes": [
+    {
+      "title": "linear algebra",
+      "slug": "linear algebra",
+      "date": null,
+      "nestedPath": "math"
+    }
+  ],
+  "projects": [
+    {
+      "title": "Glossary Map Project",
+      "slug": "glossary-map",
+      "date": "2023-06-01T00:00:00.000Z",
+      "nestedPath": "",
+      "author": "William Wall"
+    }
+  ],
+  "random": [
+    {
+      "title": "Seven Heavens and One Throne: The Celestial Structures of Judaism, Christianity, and Islam",
+      "slug": "celestial-structures",
+      "date": "2025-03-28T00:00:00.000Z",
+      "nestedPath": "",
+      "author": "William Wall"
+    },
+    {
+      "title": "The History of ETL Pipelines",
+      "slug": "etl-pipelines",
+      "date": "2025-03-28T00:00:00.000Z",
+      "nestedPath": "",
+      "author": "Markdown Article Generator"
+    },
+    {
+      "title": "The History of Syntactic Structures in Language and Their Development",
+      "slug": "syntax-history",
+      "date": "2025-03-28T00:00:00.000Z",
+      "nestedPath": "",
+      "author": "Markdown Article Generator"
+    }
+  ]
+}
