@@ -276,7 +276,7 @@ const blogSystem = {
         if (categoryData.posts && categoryData.posts.length > 0) {
             html += categoryData.posts.map(post => `
                 <li class="post-item" style="width: auto; display: inline-block; margin-right: 10px; margin-bottom: 8px;">
-                    <a href="${this.config.baseUrl}/blog/post.html?post=${post.path.toLowerCase()}" class="post-link">${post.title}</a>
+                    <a href="${this.config.baseUrl}/post.html?post=${encodeURIComponent(post.path.toLowerCase())}" class="post-link">${post.title}</a>
                 </li>
             `).join('');
         }
@@ -297,7 +297,7 @@ const blogSystem = {
                 // Add posts in this subcategory
                 html += subcatData.posts.map(post => `
                     <li class="post-item" style="width: auto; display: inline-block; margin-right: 10px; margin-bottom: 8px;">
-                        <a href="${this.config.baseUrl}/blog/post.html?post=${post.path.toLowerCase()}" class="post-link">${post.title}</a>
+                        <a href="${this.config.baseUrl}/post.html?post=${encodeURIComponent(post.path.toLowerCase())}" class="post-link">${post.title}</a>
                     </li>
                 `).join('');
                 
@@ -339,7 +339,7 @@ const blogSystem = {
         // Add posts
         html += subcatData.posts.map(post => `
             <li class="post-item" style="width: auto; display: inline-block; margin-right: 10px; margin-bottom: 8px;">
-                <a href="${this.config.baseUrl}/blog/post.html?post=${post.path.toLowerCase()}" class="post-link">${post.title}</a>
+                <a href="${this.config.baseUrl}/post.html?post=${encodeURIComponent(post.path.toLowerCase())}" class="post-link">${post.title}</a>
             </li>
         `).join('');
         
