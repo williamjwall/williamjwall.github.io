@@ -132,13 +132,40 @@ const blogSystem = {
                 }
             }
             
-            if (manifestData && manifestData.posts && Array.isArray(manifestData.posts)) {
-                this.posts = manifestData.posts;
+            if (manifestData) {
+                // Handle manifest with category-based structure
+                if (manifestData.posts && Array.isArray(manifestData.posts)) {
+                    // Original expected format
+                    this.posts = manifestData.posts;
+                } else {
+                    // Category-based format
+                    this.posts = [];
+                    
+                    // Extract posts from each category
+                    Object.entries(manifestData).forEach(([category, categoryPosts]) => {
+                        if (Array.isArray(categoryPosts)) {
+                            categoryPosts.forEach(post => {
+                                // Add category and full path information to each post
+                                this.posts.push({
+                                    ...post,
+                                    category: category,
+                                    path: post.nestedPath 
+                                        ? `${category}/${post.nestedPath}/${post.slug}`
+                                        : `${category}/${post.slug}`
+                                });
+                            });
+                        }
+                    });
+                    
+                    console.log(`Processed ${this.posts.length} posts from categories:`, 
+                              Object.keys(manifestData));
+                }
+                
                 // Log the first few posts to verify their structure
                 console.log(`Loaded ${this.posts.length} posts from manifest:`, 
                             this.posts.slice(0, 3));
             } else {
-                console.warn("No valid posts found in manifest. Structure:", manifestData);
+                console.warn("No valid manifest found in any location");
                 this.posts = [];
             }
             
