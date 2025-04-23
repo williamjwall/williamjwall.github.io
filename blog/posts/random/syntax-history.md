@@ -92,7 +92,5 @@ Syntactic theory continues to evolve under pressures from cross-linguistic typol
 
 Minimalist-inspired derivational models are also being explored in neuro-symbolic and logic programming paradigms for explainable language reasoning.
 
-## Conclusion
-
 The historical development of syntactic theory represents a synthesis of logical abstraction, empirical data, and computational formalism. From ancient grammatical treatises to neural representation models, syntactic structures remain central to our understanding of language as a structured, generative, and interpretable system. The field continues to bridge linguistics, philosophy, computer science, and cognitive neuroscience, shaping both theoretical frameworks and technological applications in language processing.
 

@@ -40,12 +40,13 @@ const blogSystem = {
         // Check if we're on GitHub Pages (username.github.io/repo-name/)
         if (window.location.hostname.endsWith('github.io') && pathSegments.length > 1) {
             // The first segment after the domain will be the repository name
-            this.config.baseUrl = '/' + pathSegments[1];
+            const repoName = pathSegments[1];
+            this.config.baseUrl = '/' + repoName;
             console.log(`Running on GitHub Pages with base URL: ${this.config.baseUrl}`);
             
-            // Update paths to include the base URL
-            this.config.postsDirectory = `${this.config.baseUrl}/blog/posts/`;
-            this.config.manifestPath = `${this.config.baseUrl}/blog/manifest.json`;
+            // Update paths to include the base URL - ensure lowercase for consistency
+            this.config.postsDirectory = `${this.config.baseUrl}/blog/posts/`.toLowerCase();
+            this.config.manifestPath = `${this.config.baseUrl}/blog/manifest.json`.toLowerCase();
         } else {
             console.log('Running on standard server, using root-relative paths');
             this.config.baseUrl = '';
@@ -300,7 +301,7 @@ const blogSystem = {
         if (categoryData.posts && categoryData.posts.length > 0) {
             html += categoryData.posts.map(post => `
                 <li class="post-item" style="width: auto; display: inline-block; margin-right: 10px; margin-bottom: 8px;">
-                    <a href="${this.config.baseUrl}/blog/post.html?post=${post.path}" class="post-link">${post.title}</a>
+                    <a href="${this.config.baseUrl}/blog/post.html?post=${post.path.toLowerCase()}" class="post-link">${post.title}</a>
                 </li>
             `).join('');
         }
@@ -321,7 +322,7 @@ const blogSystem = {
                 // Add posts in this subcategory
                 html += subcatData.posts.map(post => `
                     <li class="post-item" style="width: auto; display: inline-block; margin-right: 10px; margin-bottom: 8px;">
-                        <a href="${this.config.baseUrl}/blog/post.html?post=${post.path}" class="post-link">${post.title}</a>
+                        <a href="${this.config.baseUrl}/blog/post.html?post=${post.path.toLowerCase()}" class="post-link">${post.title}</a>
                     </li>
                 `).join('');
                 
@@ -363,7 +364,7 @@ const blogSystem = {
         // Add posts
         html += subcatData.posts.map(post => `
             <li class="post-item" style="width: auto; display: inline-block; margin-right: 10px; margin-bottom: 8px;">
-                <a href="${this.config.baseUrl}/blog/post.html?post=${post.path}" class="post-link">${post.title}</a>
+                <a href="${this.config.baseUrl}/blog/post.html?post=${post.path.toLowerCase()}" class="post-link">${post.title}</a>
             </li>
         `).join('');
         
@@ -438,47 +439,63 @@ const blogSystem = {
     // Separate method to render post in a specific container
     renderPostInContainer: async function(container, postPath) {
         try {
-            // Include base URL in the paths to try
+            // Extract the file name and its parts
+            const pathParts = postPath.split('/');
+            const fileName = pathParts[pathParts.length - 1];
+            const category = pathParts.length > 2 ? pathParts[pathParts.length - 2] : '';
+            
+            // Create more comprehensive path variations with proper case handling
             const pathsToTry = [
-                postPath,                               // Original path
-                `${this.config.baseUrl}${postPath}`,    // Base URL + path
-                postPath.replace(/^\//, ''),            // Without leading slash
-                `${this.config.baseUrl}/blog/posts/${postPath.split('/').pop()}`,  // Repo path to file
-                `blog/posts/${postPath.split('/').pop()}`,  // Relative path
-                `posts/${postPath.split('/').pop()}`,        // Alternative path
-                postPath.replace('/blog/posts/', 'posts/')    // Different prefix
+                postPath,                                                    // Original path
+                `${this.config.baseUrl}${postPath}`,                         // Base URL + path
+                postPath.toLowerCase(),                                       // Lowercase version
+                `${this.config.baseUrl}${postPath.toLowerCase()}`,           // Base URL + lowercase
+                // GitHub-specific paths
+                `${this.config.baseUrl}/blog/posts/${fileName}`,              // Direct to file
+                `${this.config.baseUrl}/blog/posts/${fileName.toLowerCase()}`, // Lowercase filename
+                `${this.config.baseUrl}/blog/posts/${category}/${fileName}`,  // With category
+                `${this.config.baseUrl}/blog/posts/${category.toLowerCase()}/${fileName.toLowerCase()}`, // All lowercase
+                // Relative paths
+                `blog/posts/${fileName}`,
+                `blog/posts/${category}/${fileName}`,
+                `posts/${fileName}`,
+                // Path without blog prefix
+                postPath.replace('/blog/posts/', '/posts/'),
+                // Raw GitHub content URL (if applicable)
+                `https://raw.githubusercontent.com/${window.location.hostname.split('.')[0]}/${window.location.pathname.split('/')[1]}/main${postPath}`
             ];
+            
+            // Log all paths we'll try
+            console.log("Attempting to load post with these paths:", pathsToTry);
             
             let response = null;
             let successPath = null;
             
-            console.log("Trying multiple path formats...");
             for (const path of pathsToTry) {
                 try {
-                    console.log(`Attempting to fetch: ${path}`);
+                    console.log(`Trying: ${path}`);
                     const attemptResponse = await fetch(path);
                     if (attemptResponse.ok) {
                         response = attemptResponse;
                         successPath = path;
-                        console.log(`Successfully loaded from: ${path}`);
+                        console.log(`✓ Success! Loaded from: ${path}`);
                         break;
                     } else {
-                        console.log(`Failed to load from ${path}: ${attemptResponse.status}`);
+                        console.log(`✗ Failed with status ${attemptResponse.status}: ${path}`);
                     }
                 } catch (e) {
-                    console.log(`Error fetching from ${path}:`, e.message);
+                    console.log(`✗ Error fetching: ${path}`, e.message);
                 }
             }
             
             if (!response || !response.ok) {
-                throw new Error(`Could not load post from any attempted path`);
+                throw new Error(`Could not load post from any attempted path. Check your file paths and case sensitivity.`);
             }
             
             const markdownText = await response.text();
             console.log(`Loaded ${markdownText.length} bytes of markdown content`);
             
             // Update page title based on file name
-            const fileName = successPath.split('/').pop().replace('.md', '');
             const postTitle = this.formatTitle(fileName);
             document.title = `${postTitle} | Will Wall's Blog`;
             

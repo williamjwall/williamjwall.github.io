@@ -155,8 +155,6 @@ Emerging concepts:
 - **Semantic layers:** Centralized definition of metrics and KPIs
 - **Query federation:** ELT across multiple engines and storage systems
 
-## Conclusion
-
 ETL pipelines have evolved from handcrafted batch jobs to composable, versioned, and observable workflows that span batch and streaming contexts. They form the backbone of every serious data architecture and remain essential for enabling data accessibility, trust, and usability.
 
 Understanding their technical history reveals not only how far we've come, but also the foundational design patterns and principles that remain relevant. Whether orchestrated as DAGs, defined in SQL, or executed as microservices, ETL remains a cornerstone of scalable, reliable data engineering.
