@@ -3,7 +3,7 @@ const blogSystem = {
     config: {
         postsDirectory: '/blog/posts/',
         manifestPath: '/blog/manifest.json',
-        categoriesOrder: ['notes','projects','hobbies', 'random'],
+        categoriesOrder: ['notes', 'random','projects'],
         baseUrl: '' // Will be dynamically set
     },
     
@@ -123,34 +123,12 @@ const blogSystem = {
                 }
             }
             
-            // If we found a manifest, use it and update the path for future use
-            if (manifestData) {
-                console.log(`Using manifest found at: ${loadedPath}`);
-                this.config.manifestPath = loadedPath;
-                
-                // Check manifest format
-                if (manifestData.posts && Array.isArray(manifestData.posts)) {
-                    this.posts = manifestData.posts;
-                    console.log(`Loaded ${this.posts.length} posts from manifest`);
-                    
-                    // If we have posts but the array is empty
-                    if (this.posts.length === 0) {
-                        console.warn("Manifest loaded but contains no posts");
-                    }
-                    
-                    // Generate some default posts if none found
-                    if (this.posts.length === 0) {
-                        console.log("Creating sample posts based on directory structure");
-                        this.generateSamplePosts();
-                    }
-                } else {
-                    console.warn("Manifest has invalid format, no posts array found:", manifestData);
-                    // We found a file but wrong format
-                    this.generateSamplePosts();
-                }
+            if (manifestData && manifestData.posts && Array.isArray(manifestData.posts)) {
+                this.posts = manifestData.posts;
+                console.log(`Loaded ${this.posts.length} posts from manifest`);
             } else {
-                console.warn("Could not find manifest file at any location, generating sample posts");
-                this.generateSamplePosts();
+                console.warn("No valid posts found in manifest");
+                this.posts = [];
             }
             
             // Sort posts by date (newest first)
@@ -161,49 +139,8 @@ const blogSystem = {
             });
         } catch (error) {
             console.error('Failed to load posts:', error);
-            this.generateSamplePosts();
+            this.posts = [];
         }
-    },
-    
-    // Generate some sample posts based on known directory structure
-    generateSamplePosts: function() {
-        console.log("Generating sample posts from directory structure");
-        
-        // Based on the directory structure you shared - fixed case sensitivity
-        this.posts = [
-            {
-                path: 'hobbies/bike-packing.md',
-                title: 'Bike Packing',
-                date: new Date().toISOString().split('T')[0]
-            },
-            {
-                path: 'notes/math/linear algebra.md',
-                title: 'Linear Algebra',
-                date: new Date().toISOString().split('T')[0]
-            },
-            {
-                path: 'projects/glossary-map.md',
-                title: 'Glossary Map',
-                date: new Date().toISOString().split('T')[0]
-            },
-            {
-                path: 'random/celestial-structures.md',  // Changed to lowercase
-                title: 'Celestial Structures',
-                date: new Date().toISOString().split('T')[0]
-            },
-            {
-                path: 'random/etl-pipelines.md',  // Changed to lowercase
-                title: 'ETL Pipelines',
-                date: new Date().toISOString().split('T')[0]
-            },
-            {
-                path: 'random/syntax-history.md',  // Changed to lowercase
-                title: 'Syntax History',
-                date: new Date().toISOString().split('T')[0]
-            }
-        ];
-        
-        console.log(`Generated ${this.posts.length} sample posts`);
     },
     
     // Render the posts list for the blog index
