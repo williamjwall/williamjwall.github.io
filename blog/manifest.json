@@ -1,19 +1,10 @@
 {
-  "hobbies": [
-    {
-      "title": "Bike Packing Adventures",
-      "slug": "bike-packing",
-      "date": "2023-04-05T00:00:00.000Z",
-      "nestedPath": "",
-      "author": "William Wall"
-    }
-  ],
   "notes": [
     {
       "title": "linear algebra",
       "slug": "linear algebra",
       "date": null,
-      "nestedPath": "math"
+      "nestedPath": ""
     }
   ],
   "projects": [
@@ -26,6 +17,13 @@
     }
   ],
   "random": [
+    {
+      "title": "Bike Packing Adventures",
+      "slug": "bike-packing",
+      "date": "2023-04-05T00:00:00.000Z",
+      "nestedPath": "",
+      "author": "William Wall"
+    },
     {
       "title": "Seven Heavens and One Throne: The Celestial Structures of Judaism, Christianity, and Islam",
       "slug": "celestial-structures",

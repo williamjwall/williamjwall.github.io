@@ -4,35 +4,19 @@ date: 2023-04-05
 author: William Wall
 ---
 
-# Bike Packing Adventures
+# Bikepacking the West Coast
 
-Exploring the great outdoors on two wheels has been one of my favorite ways to experience nature. Join me as I share my experiences, tips, and favorite routes for bike packing.
+#### Rode from San Francisco to Portland, Oregon—on a whim.
 
-## What is Bike Packing?
+- 783 miles  
+- 42,100 feet of climbing  
+- 14 days  
 
-Bike packing combines cycling with minimalist camping. Unlike traditional bicycle touring with panniers, bike packing uses lightweight bags attached directly to the bike frame, handlebars, and seat post. This setup allows for better weight distribution and handling on varied terrain.
+I started on the north side of San Francisco with a new bike I had just bought and headed north, figuring it out as I went. Picked up supplies and bikepacking gear along the way. The route mostly followed the coastline, and I camped fairly randomly.
 
-## Essential Gear
+The stretch from Fort Bragg, CA to Crescent City, CA was my favorite.
 
-- **Bike**: A gravel, mountain, or touring bike works best
-- **Frame Bags**: Handlebar bag, frame bag, and seat pack
-- **Camping Equipment**: Lightweight tent or bivy, sleeping bag, and pad
-- **Navigation**: GPS device or smartphone with offline maps
-- **Tools**: Multi-tool, spare tubes, pump, and basic repair kit
+![IMG_2250-min.jpg](/imgs/IMG_2250-min.jpg)
 
-## My Favorite Routes
 
-1. **Olympic Peninsula Loop** - Washington state's stunning coastline and rainforest
-2. **Arizona Trail Segments** - Desert beauty with technical challenges
-3. **Central Oregon Bikepacking Route** - Volcanic landscapes and stunning vistas
 
-## Lessons Learned
-
-Every trip teaches me something new. The most important lessons have been:
-
-1. Pack less than you think you need
-2. Always carry more water than planned
-3. Expect the unexpected with weather
-4. Take time to enjoy the journey
-
-Stay tuned for more detailed trip reports and gear reviews in upcoming posts! 
