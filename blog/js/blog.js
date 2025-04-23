@@ -45,8 +45,13 @@ const blogSystem = {
             console.log(`Running on GitHub Pages with base URL: ${this.config.baseUrl}`);
             
             // Update paths to include the base URL - ensure lowercase for consistency
-            this.config.postsDirectory = `${this.config.baseUrl}/blog/posts/`.toLowerCase();
-            this.config.manifestPath = `${this.config.baseUrl}/blog/manifest.json`.toLowerCase();
+            if(repoName === 'blog') {
+                this.config.postsDirectory = `${this.config.baseUrl}/posts/`.toLowerCase();
+                this.config.manifestPath = `${this.config.baseUrl}/manifest.json`.toLowerCase();
+            } else {
+                this.config.postsDirectory = `${this.config.baseUrl}/blog/posts/`.toLowerCase();
+                this.config.manifestPath = `${this.config.baseUrl}/blog/manifest.json`.toLowerCase();
+            }
         } else {
             console.log('Running on standard server, using root-relative paths');
             this.config.baseUrl = '';
@@ -90,9 +95,9 @@ const blogSystem = {
         try {
             // Update possible paths to include base URL
             const possiblePaths = [
-                this.config.manifestPath,            // Base URL + path from config
-                'manifest.json',                     // Relative path
-                `${this.config.baseUrl}/manifest.json`,  // Root of repo
+                this.config.manifestPath,
+                'manifest.json',
+                `${this.config.baseUrl}/manifest.json`,
                 `${this.config.baseUrl}/blog/manifest.json`,
                 'blog/manifest.json',
                 '/blog/manifest.json',
@@ -100,6 +105,9 @@ const blogSystem = {
                 '../manifest.json',
                 './manifest.json'
             ];
+            
+            // Log all possible paths we'll try
+            console.log("Will try these manifest paths:", possiblePaths);
             
             // Try all possible paths
             let manifestData = null;
@@ -111,8 +119,9 @@ const blogSystem = {
                     const response = await fetch(path);
                     
                     if (response.ok) {
-                        console.log(`Successfully found manifest at: ${path}`);
-                        manifestData = await response.json();
+                        const data = await response.json();
+                        console.log(`Successfully found manifest at: ${path}`, data);
+                        manifestData = data;
                         loadedPath = path;
                         break;
                     } else {
@@ -125,9 +134,11 @@ const blogSystem = {
             
             if (manifestData && manifestData.posts && Array.isArray(manifestData.posts)) {
                 this.posts = manifestData.posts;
-                console.log(`Loaded ${this.posts.length} posts from manifest`);
+                // Log the first few posts to verify their structure
+                console.log(`Loaded ${this.posts.length} posts from manifest:`, 
+                            this.posts.slice(0, 3));
             } else {
-                console.warn("No valid posts found in manifest");
+                console.warn("No valid posts found in manifest. Structure:", manifestData);
                 this.posts = [];
             }
             
@@ -381,25 +392,42 @@ const blogSystem = {
             const fileName = pathParts[pathParts.length - 1];
             const category = pathParts.length > 2 ? pathParts[pathParts.length - 2] : '';
             
+            // Add debug output for path parts
+            console.log("Path parts:", {
+                original: postPath,
+                parts: pathParts,
+                fileName: fileName, 
+                category: category
+            });
+            
             // Create more comprehensive path variations with proper case handling
             const pathsToTry = [
-                postPath,                                                    // Original path
-                `${this.config.baseUrl}${postPath}`,                         // Base URL + path
-                postPath.toLowerCase(),                                       // Lowercase version
-                `${this.config.baseUrl}${postPath.toLowerCase()}`,           // Base URL + lowercase
-                // GitHub-specific paths
-                `${this.config.baseUrl}/blog/posts/${fileName}`,              // Direct to file
-                `${this.config.baseUrl}/blog/posts/${fileName.toLowerCase()}`, // Lowercase filename
-                `${this.config.baseUrl}/blog/posts/${category}/${fileName}`,  // With category
-                `${this.config.baseUrl}/blog/posts/${category.toLowerCase()}/${fileName.toLowerCase()}`, // All lowercase
+                postPath,
+                `${this.config.baseUrl}${postPath}`,
+                postPath.toLowerCase(),
+                `${this.config.baseUrl}${postPath.toLowerCase()}`,
+                // Direct GitHub paths
+                `${this.config.baseUrl}/blog/posts/${category}/${fileName}`,
+                `${this.config.baseUrl}/blog/posts/${category.toLowerCase()}/${fileName.toLowerCase()}`,
+                `${this.config.baseUrl}/posts/${category}/${fileName}`,
+                `${this.config.baseUrl}/posts/${category.toLowerCase()}/${fileName.toLowerCase()}`,
+                // Without category
+                `${this.config.baseUrl}/blog/posts/${fileName}`,
+                `${this.config.baseUrl}/blog/posts/${fileName.toLowerCase()}`,
+                `${this.config.baseUrl}/posts/${fileName}`,
+                `${this.config.baseUrl}/posts/${fileName.toLowerCase()}`,
                 // Relative paths
-                `blog/posts/${fileName}`,
                 `blog/posts/${category}/${fileName}`,
-                `posts/${fileName}`,
-                // Path without blog prefix
-                postPath.replace('/blog/posts/', '/posts/'),
+                `blog/posts/${category.toLowerCase()}/${fileName.toLowerCase()}`,
+                `posts/${category}/${fileName}`,
+                `posts/${category.toLowerCase()}/${fileName.toLowerCase()}`,
+                `${category}/${fileName}`,
+                `${category.toLowerCase()}/${fileName.toLowerCase()}`,
+                // Just filename
+                fileName,
+                fileName.toLowerCase(),
                 // Raw GitHub content URL (if applicable)
-                `https://raw.githubusercontent.com/${window.location.hostname.split('.')[0]}/${window.location.pathname.split('/')[1]}/main${postPath}`
+                `https://raw.githubusercontent.com/${window.location.hostname.split('.')[0]}/${window.location.pathname.split('/')[1]}/main/${postPath}`
             ];
             
             // Log all paths we'll try
