@@ -1,15 +1,13 @@
 {
-  "name": "meta-structure-blog",
+  "name": "personal-website",
   "version": "1.0.0",
-  "description": "Personal blog with categories for Notes, Random, Hobbies, and Projects",
+  "description": "William Wall's personal website",
   "scripts": {
-    "generate": "node blog/js/generate-manifest.js",
     "serve": "npx http-server .",
-    "start": "npm run generate && npm run serve"
+    "start": "npm run serve"
   },
   "license": "ISC",
   "dependencies": {
-    "gray-matter": "^4.0.3",
     "http-server": "^14.1.1"
   }
 }

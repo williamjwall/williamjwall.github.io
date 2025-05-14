@@ -1,26 +1,24 @@
 [
     {
-        "title": "Personal Blog",
-        "date": "2024",
+        "title": "Tree-LSTM Semantic Visualizer",
+        "date": "2025",
         "links": [
-            { "text": "Visit Blog", "url": "blog/index.html" }
+            { "text": "Visit Project", "url": "https://lstm-tree-generator.streamlit.app/" }
         ],
-        "description": "A personal blog where I share everything I enjoy learning and doing."
+        "description": "An interactive app for visualizing syntactic and semantic structure using Tree-LSTM models. Parses natural language input, generates constituency trees with semantic embeddings, and allows users to explore how meaning composition works in hierarchical structures.",
+        "technologies": ["Natural Language Processing"]
     },
     {
         "title": "Catalog Enrichment",
-        "company": "returnPro",
         "date": "2024",
-        "description": "Developed automated pipelines leveraging RAG/LLMs for product taxonomy classification across multiple marketplaces. Designed and optimized ETL processes in Databricks, with Snowflake as the data warehouse, deployed on Azure for real-time processing.",
-        "technologies": ["Python", "Databricks", "Snowflake", "Azure", "LLMs"]
+
+        "description": "Built end-to-end pipelines using Retrieval-Augmented Generation (RAG) and LLMs to enrich product metadata and classify taxonomy across diverse e-commerce platforms. Designed scalable ETL pipelines in Databricks, orchestrated Snowflake workloads, and deployed solutions via Azure for near real-time enrichment.",
+        "technologies": ["Python", "Databricks", "Snowflake", "Azure", "LLMs", "RAG"]
     },
     {
         "title": "Hydroponic Farm",
         "date": "2023",
-        "links": [
-            { "text": "View Project", "url": "#" }
-        ],
-        "description": "For a small hydroponic farm in Montreal. Cleaned two years of historical data to perform a regression on past water conditions and plant locations to predict weight and health. Designed an automated relational database and set up a MySQL instance on Google Cloud for future integration with AppSheet.",
-        "technologies": ["Python", "SKlearn", "Pandas", "Seaborn", "GCP", "MySQL"]
+        "description": "Designed predictive analytics pipeline for a small farm in Montreal. Cleaned multi-year agricultural sensor data, modeled plant weight and health based on nutrient flow and location using regression techniques, and deployed a relational database backend on Google Cloud for integration with no-code tools.",
+        "technologies": ["scikit-learn", "Data-Visualization", "GCP", "MySQL"]
     }
-] 
+]
