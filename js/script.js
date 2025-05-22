@@ -5,73 +5,150 @@ async function fetchProjects() {
         return await response.json();
     } catch (error) {
         console.error('Error fetching projects:', error);
-        return [];
+        return { professionalProjects: [], personalProjects: [] };
     }
+}
+
+// Function to create a project element
+function createProjectElement(project) {
+    const projectElement = document.createElement('div');
+    projectElement.className = 'project animated';
+    
+    // Create project title
+    const titleElement = document.createElement('h2');
+    titleElement.textContent = project.title;
+    projectElement.appendChild(titleElement);
+    
+    // Add company tag for ReturnPro if present in technologies
+    if (project.technologies && project.technologies.includes("ReturnPro")) {
+        const companyTag = document.createElement('div');
+        companyTag.className = 'company-tag';
+        companyTag.textContent = "ReturnPro";
+        projectElement.appendChild(companyTag);
+        
+        // Remove ReturnPro from technologies so it doesn't appear twice
+        project.technologies = project.technologies.filter(tech => tech !== "ReturnPro");
+    }
+    
+    // Create project date
+    const dateElement = document.createElement('div');
+    dateElement.className = 'project-date';
+    dateElement.textContent = project.date;
+    projectElement.appendChild(dateElement);
+    
+    // Create project links
+    if (project.links && project.links.length > 0) {
+        const linksElement = document.createElement('div');
+        linksElement.className = 'project-links';
+        
+        project.links.forEach(link => {
+            const linkElement = document.createElement('a');
+            linkElement.href = link.url;
+            linkElement.textContent = link.text;
+            linkElement.target = "_blank";
+            linkElement.rel = "noopener noreferrer"; // Security best practice
+            linksElement.appendChild(linkElement);
+        });
+        
+        projectElement.appendChild(linksElement);
+    }
+    
+    // Create project description
+    const descriptionElement = document.createElement('div');
+    descriptionElement.className = 'project-description';
+    descriptionElement.textContent = project.description;
+    projectElement.appendChild(descriptionElement);
+    
+    // Create project technologies below description
+    if (project.technologies && project.technologies.length > 0) {
+        const techElement = document.createElement('div');
+        techElement.className = 'project-tech';
+        
+        project.technologies.forEach(tech => {
+            const techTag = document.createElement('span');
+            techTag.className = 'tech-tag';
+            techTag.textContent = tech;
+            techElement.appendChild(techTag);
+        });
+        
+        projectElement.appendChild(techElement);
+    }
+    
+    return projectElement;
 }
 
 // Function to render projects
 async function renderProjects() {
-    const projects = await fetchProjects();
-    const portfolioSection = document.querySelector('.portfolio');
-    
-    projects.forEach(project => {
-        const projectElement = document.createElement('div');
-        projectElement.className = 'project animated';
+    try {
+        const projectsData = await fetchProjects();
+        const portfolioSection = document.getElementById('portfolio');
         
-        // Create project title
-        const titleElement = document.createElement('h2');
-        titleElement.textContent = project.title;
-        projectElement.appendChild(titleElement);
-        
-        // Create project date
-        const dateElement = document.createElement('div');
-        dateElement.className = 'project-date';
-        dateElement.textContent = project.date;
-        projectElement.appendChild(dateElement);
-        
-        // Create project links
-        if (project.links && project.links.length > 0) {
-            const linksElement = document.createElement('div');
-            linksElement.className = 'project-links';
-            
-            project.links.forEach(link => {
-                const linkElement = document.createElement('a');
-                linkElement.href = link.url;
-                linkElement.textContent = link.text;
-                linkElement.target = "_blank";
-                linksElement.appendChild(linkElement);
-            });
-            
-            projectElement.appendChild(linksElement);
+        if (!portfolioSection) {
+            console.error('Portfolio section not found! Make sure there is an element with id="portfolio"');
+            return;
         }
         
-        // Create project description
-        const descriptionElement = document.createElement('div');
-        descriptionElement.className = 'project-description';
-        descriptionElement.textContent = project.description;
-        projectElement.appendChild(descriptionElement);
+        // Ensure the element has the portfolio-section class
+        portfolioSection.className = 'portfolio-section';
         
-        // Create project technologies
-        if (project.technologies && project.technologies.length > 0) {
-            const techElement = document.createElement('div');
-            techElement.className = 'project-tech';
+        // Clear existing content
+        portfolioSection.innerHTML = '<h2>Projects</h2>';
+        
+        // Create professional projects section
+        if (projectsData.professionalProjects && projectsData.professionalProjects.length > 0) {
+            const profSectionTitle = document.createElement('h3');
+            profSectionTitle.textContent = 'Professional Work';
+            portfolioSection.appendChild(profSectionTitle);
             
-            project.technologies.forEach(tech => {
-                const techTag = document.createElement('span');
-                techTag.className = 'tech-tag';
-                techTag.textContent = tech;
-                techElement.appendChild(techTag);
+            const profPortfolio = document.createElement('div');
+            profPortfolio.className = 'portfolio';
+            
+            projectsData.professionalProjects.forEach(project => {
+                profPortfolio.appendChild(createProjectElement(project));
             });
             
-            projectElement.appendChild(techElement);
+            portfolioSection.appendChild(profPortfolio);
         }
         
-        // Add project to portfolio section
-        portfolioSection.appendChild(projectElement);
-    });
+        // Create personal projects section as a single scrollable container
+        if (projectsData.personalProjects && projectsData.personalProjects.length > 0) {
+            const personalSectionTitle = document.createElement('h3');
+            personalSectionTitle.textContent = 'Personal Projects';
+            portfolioSection.appendChild(personalSectionTitle);
+            
+            // Create a single container for all personal projects
+            const personalContainer = document.createElement('div');
+            personalContainer.className = 'personal-projects-container';
+            
+            projectsData.personalProjects.forEach(project => {
+                const projectEl = createProjectElement(project);
+                // Remove the standalone project box styling for personal projects
+                projectEl.style.boxShadow = 'none';
+                projectEl.style.borderRadius = '0';
+                projectEl.style.backgroundColor = 'transparent';
+                personalContainer.appendChild(projectEl);
+            });
+            
+            portfolioSection.appendChild(personalContainer);
+        }
+        
+        // Apply staggered animation to project cards
+        const animateElements = document.querySelectorAll('.animated');
+        animateElements.forEach((element, index) => {
+            setTimeout(() => {
+                element.style.animationDelay = `${index * 0.1}s`;
+                element.style.opacity = 1;
+            }, 100);
+        });
+    } catch (error) {
+        console.error('Error rendering projects:', error);
+    }
 }
 
-// Initialize the page
-document.addEventListener('DOMContentLoaded', async () => {
-    await renderProjects();
-}); 
+// Make sure the DOM is fully loaded before running the script
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', renderProjects);
+} else {
+    // If DOMContentLoaded has already fired, run immediately
+    renderProjects();
+} 

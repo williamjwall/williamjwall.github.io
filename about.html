@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body class="dark-mode">
-    <!-- Canvas for triangles animation -->
-    <canvas id="triangles-canvas"></canvas>
+    <!-- Canvas for binary trees animation -->
+    <canvas id="binary-trees-canvas"></canvas>
 
     <div class="container">
         <header>
@@ -88,11 +88,20 @@
     
     <!-- Simulate WebAssembly loading -->
     <script>
-        console.log("Loading WebAssembly module for triangles animation...");
+        console.log("Loading WebAssembly module for binary trees animation...");
         setTimeout(() => {
             const script = document.createElement('script');
-            script.src = 'js/triangles.js';
+            script.src = 'js/binary_trees.js';
             document.body.appendChild(script);
+            
+            // Initialize the binary trees animation after script is loaded
+            script.onload = function() {
+                if (window.BinaryTrees && typeof window.BinaryTrees.init === 'function') {
+                    window.BinaryTrees.init();
+                } else {
+                    console.error("BinaryTrees.init not found");
+                }
+            };
         }, 100);
     </script>
     

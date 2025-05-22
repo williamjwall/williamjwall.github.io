@@ -1,12 +1,14 @@
 /* Base styles */
 :root {
-    --primary-color: #4CAF50;         /* Green */
-    --secondary-color: #2196F3;       /* Blue accent */
-    --background-color: #0a192f;      /* Dark navy blue */
-    --text-color: #ffffff;            /* Pure white for all text */
-    --border-color: #1e3a5f;          /* Lighter navy blue */
-    --hover-color: #81c784;           /* Light green for hover states */
-    --card-bg: rgba(16, 33, 65, 0.7); /* Slightly lighter than background */
+    --primary-color: #ffffff;         /* Changed to white */
+    --secondary-color: #ffffff;       /* Changed to white */
+    --background-color: #080a03;      /* Dark green-black */
+    --text-color: #ffffff;            /* White for all text */
+    --border-color: #444444;          /* Gray for borders */
+    --hover-color: #ffffff;           /* Changed to white */
+    --card-bg: rgba(10, 14, 5, 0.85); /* Dark background for cards */
+    --border-width: 1px;             /* Thin borders */
+    --border-hover-width: 2px;       /* Slightly thicker for hover effects */
 }
 
 * {
@@ -18,10 +20,11 @@
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     line-height: 1.6;
-    color: var(--text-color);
-    background-color: var(--background-color);
+    color: #ffffff; /* White text color for all content */
+    background-color: #080a03; /* Dark background in case canvas fails */
     position: relative;
     overflow-x: hidden;
+    text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.8); /* Stronger shadow for better readability */
 }
 
 .container {
@@ -29,7 +32,9 @@ body {
     margin: 0 auto;
     padding: 0 20px;
     position: relative;
-    z-index: 10;
+    z-index: 2; /* Ensure content appears above the canvas */
+    background-color: transparent; /* Fully transparent background */
+    border-radius: 8px;
 }
 
 a {
@@ -43,25 +48,35 @@ a:hover {
 }
 
 /* Canvas for background animation */
-#triangles-canvas {
+#triangles-canvas, #binary-trees-canvas {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 1;
+    z-index: -1; /* Behind content */
+    opacity: 0.95; /* Almost fully opaque */
+    filter: brightness(0.6) contrast(1.2); /* Much darker with more contrast */
+    background-color: #080a03; /* Ensure dark background even before canvas loads */
 }
 
 /* Header styles */
 header {
     padding: 20px 0;
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: var(--border-width) solid var(--border-color); /* Gray border */
+    background-color: rgba(8, 10, 3, 0.85); 
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
 }
 
 .header-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border: var(--border-width) solid var(--border-color); /* Gray border */
+    border-radius: 8px;
+    padding: 10px 15px;
+    background-color: rgba(10, 12, 4, 0.5);
 }
 
 .logo a {
@@ -81,10 +96,17 @@ nav ul li {
 
 nav ul li a {
     color: #ffffff;
+    text-decoration: none;
+    transition: color 0.3s ease;
 }
 
 nav ul li a:hover {
     color: var(--hover-color);
+}
+
+/* Ensure the experience link is white */
+nav ul li a[href="#experience"] {
+    color: #ffffff;
 }
 
 /* Main content styles */
@@ -100,8 +122,9 @@ main {
 h1 {
     font-size: 2.5rem;
     margin-bottom: 20px;
-    color: #ffffff;
+    color: #ffffff; /* White text */
     font-weight: bold;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .intro p {
@@ -134,34 +157,92 @@ h1 {
 hr {
     margin: 30px 0;
     border: none;
-    border-top: 1px solid var(--border-color);
+    border-top: var(--border-width) solid var(--border-color); /* Gray border */
 }
 
 /* Portfolio section */
+.portfolio-section {
+    margin-bottom: 50px;
+}
+
+.portfolio-section h2 {
+    font-size: 2rem;
+    margin-bottom: 15px;
+    color: #ffffff;
+    border-bottom: var(--border-width) solid var(--border-color); /* Gray border */
+    padding-bottom: 10px;
+    text-shadow: 0 2px 3px rgba(0, 0, 0, 0.5);
+}
+
+.portfolio-section h3 {
+    font-size: 1.6rem;
+    margin: 30px 0 20px;
+    color: #ffffff; /* White text */
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
 .portfolio {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     gap: 30px;
-    margin-bottom: 60px;
+    margin-bottom: 40px;
+}
+
+/* Personal Projects Scrollable Container */
+.personal-projects-container {
+    background-color: rgba(10, 12, 4, 0.85);
+    border-radius: 8px;
+    padding: 25px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    border: var(--border-width) solid var(--border-color); /* Gray border */
+    margin-bottom: 40px;
+    max-height: 600px; /* Set a fixed height for scrolling */
+    overflow-y: auto; /* Enable vertical scrolling */
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+}
+
+.personal-projects-container::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
+
+.personal-projects-container .project {
+    margin-bottom: 30px;
+    border-bottom: 1px solid var(--border-color); /* Gray border */
+    padding-bottom: 25px;
+}
+
+.personal-projects-container .project:last-child {
+    margin-bottom: 0;
+    border-bottom: none;
+    padding-bottom: 0;
 }
 
 .project {
-    background-color: var(--card-bg);
+    background-color: rgba(10, 12, 4, 0.85); /* Semi-transparent dark background */
     border-radius: 8px;
     padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    border: var(--border-width) solid var(--border-color); /* Gray border */
+    margin-bottom: 20px;
+    max-height: 500px;
+    overflow-y: auto; /* Make projects scrollable */
+    backdrop-filter: blur(5px); /* Add blur behind the container */
+    -webkit-backdrop-filter: blur(5px); /* Safari support */
 }
 
 .project:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-    border-left: 3px solid var(--hover-color);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    border-left: var(--border-hover-width) solid var(--hover-color); /* White border on hover */
 }
 
 .project h2 {
     font-size: 1.5rem;
     margin-bottom: 10px;
+    color: #ffffff; /* White text */
 }
 
 .project-date {
@@ -169,6 +250,18 @@ hr {
     color: #cccccc; /* Light gray for dates instead of #999 */
     margin-bottom: 15px;
     font-size: 0.9rem;
+}
+
+.company-tag {
+    background-color: rgba(76, 175, 80, 0.3);
+    border: 1px solid rgba(76, 175, 80, 0.5);
+    color: #ffffff;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    display: inline-block;
+    margin-bottom: 12px;
+    font-weight: 500;
 }
 
 .project-links {
@@ -182,15 +275,15 @@ hr {
     display: inline-block;
     padding: 5px 10px;
     color: #ffffff;
-    background-color: rgba(76, 175, 80, 0.2);
-    border: 1px solid rgba(76, 175, 80, 0.4);
+    background-color: rgba(255, 255, 255, 0.1); /* White background with low opacity */
+    border: var(--border-width) solid rgba(68, 68, 68, 0.5); /* Gray border with transparency */
     border-radius: 4px;
     font-size: 0.9rem;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 .project-links a:hover {
-    background-color: rgba(76, 175, 80, 0.4);
+    background-color: rgba(255, 255, 255, 0.2); /* Slightly more opaque white on hover */
     color: #ffffff;
 }
 
@@ -204,6 +297,7 @@ hr {
     flex-wrap: wrap;
     gap: 8px;
     margin-top: 15px;
+    margin-bottom: 15px; /* Add margin to separate from description below */
 }
 
 .tech-tag {
@@ -218,14 +312,23 @@ hr {
 /* Experience section */
 #experience {
     margin-bottom: 60px;
+    color: #ffffff;
+}
+
+#experience h2 {
+    color: #ffffff;
 }
 
 .experience-item {
     margin-bottom: 40px;
     padding: 25px;
-    background-color: var(--card-bg);
+    background-color: rgba(10, 12, 4, 0.85); /* Match project background */
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    border: var(--border-width) solid var(--border-color); /* Gray border */
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    color: #ffffff;
 }
 
 .experience-header {
@@ -233,39 +336,50 @@ hr {
     justify-content: space-between;
     margin-bottom: 15px;
     flex-wrap: wrap;
+    color: #ffffff;
 }
 
 .experience-title {
     font-size: 1.5rem;
     margin-bottom: 5px;
+    color: #ffffff;
 }
 
 .experience-company {
     font-size: 1.2rem;
-    color: var(--primary-color);
+    color: #ffffff;
 }
 
 .experience-date {
     font-style: italic;
-    color: #cccccc; /* Light gray for dates instead of #999 */
+    color: #ffffff;
+}
+
+.experience-description {
+    color: #ffffff;
 }
 
 .experience-description ul {
     list-style-position: inside;
     margin-left: 10px;
+    color: #ffffff;
 }
 
 .experience-description li {
     margin-bottom: 8px;
+    color: #ffffff;
 }
 
 /* Education section */
 .education {
     margin-bottom: 60px;
     padding: 25px;
-    background-color: var(--card-bg);
+    background-color: rgba(10, 12, 4, 0.85); /* Match other section backgrounds */
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    border: var(--border-width) solid var(--border-color); /* Gray border */
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
 }
 
 .education-header {
@@ -278,6 +392,7 @@ hr {
 .education-school {
     font-size: 1.5rem;
     margin-bottom: 5px;
+    color: #ffffff;
 }
 
 .education-degree {
@@ -287,7 +402,7 @@ hr {
 
 .education-date {
     font-style: italic;
-    color: #cccccc; /* Light gray for dates instead of #999 */
+    color: #ffffff; /* Light gray for dates instead of #999 */
 }
 
 .coursework {
@@ -317,6 +432,11 @@ hr {
 /* Skills section */
 .skills {
     margin-bottom: 60px;
+    color: #ffffff;
+}
+
+.skills h2 {
+    color: #ffffff;
 }
 
 .skills-container {
@@ -326,10 +446,20 @@ hr {
 }
 
 .skill-category {
-    background-color: var(--card-bg);
+    background-color: rgba(10, 12, 4, 0.9); /* Darker background for skills container */
     border-radius: 8px;
     padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    border: var(--border-width) solid var(--border-color); /* Gray border */
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.skill-category:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+    border-left: var(--border-hover-width) solid var(--hover-color); /* White border on hover */
 }
 
 .skill-category h3 {
@@ -346,8 +476,8 @@ hr {
 }
 
 .skill {
-    background-color: rgba(76, 175, 80, 0.2);
-    border: 1px solid rgba(76, 175, 80, 0.4);
+    background-color: rgba(255, 255, 255, 0.1); /* White background with low opacity */
+    border: var(--border-width) solid rgba(68, 68, 68, 0.5); /* Gray border with transparency */
     color: #ffffff;
     padding: 5px 10px;
     border-radius: 4px;
@@ -359,9 +489,12 @@ hr {
 /* Footer styles */
 footer {
     padding: 20px 0;
-    border-top: 1px solid var(--border-color);
+    border-top: var(--border-width) solid var(--border-color); /* Gray border */
     text-align: center;
     margin-top: 40px;
+    background-color: rgba(8, 10, 3, 0.85);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
 }
 
 /* Responsive styles */
@@ -406,6 +539,7 @@ footer {
 .project-details h1 {
     font-size: 2.5rem;
     margin-bottom: 10px;
+    color: #ffffff; /* White text */
 }
 
 .project-details .project-date {
@@ -449,14 +583,19 @@ footer {
 
 /* Update course and tech tags for consistency */
 .course, .tech-tag {
-    background-color: rgba(76, 175, 80, 0.2);
-    border: 1px solid rgba(76, 175, 80, 0.4);
+    background-color: rgba(255, 255, 255, 0.1); /* White background with low opacity */
+    border: var(--border-width) solid rgba(68, 68, 68, 0.5); /* Gray border with transparency */
     color: #ffffff;
     padding: 5px 10px;
     border-radius: 4px;
     font-size: 0.9rem;
     margin: 0 5px 5px 0;
     display: inline-block;
+}
+
+/* Ensure all headings are white */
+h1, h2, h3, h4, h5, h6 {
+    color: #ffffff;
 }
 
 /* Ensure education degree text is white */
@@ -475,4 +614,17 @@ h2 {
     color: #ffffff;
     margin-bottom: 25px;
     font-size: 1.8rem;
+    text-shadow: 0 2px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* Add white border to intro container */
+.intro-container {
+    background-color: rgba(10, 12, 4, 0.85);
+    padding: 25px;
+    border-radius: 8px;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    margin-bottom: 40px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    border: var(--border-width) solid var(--border-color); /* Gray border */
 } 

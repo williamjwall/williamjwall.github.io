@@ -1,24 +1,37 @@
-[
-    {
-        "title": "Tree-LSTM Semantic Visualizer",
-        "date": "2025",
-        "links": [
-            { "text": "Visit Project", "url": "https://lstm-tree-generator.streamlit.app/" }
-        ],
-        "description": "An interactive app for visualizing syntactic and semantic structure using Tree-LSTM models. Parses natural language input, generates constituency trees with semantic embeddings, and allows users to explore how meaning composition works in hierarchical structures.",
-        "technologies": ["Natural Language Processing"]
-    },
-    {
-        "title": "Catalog Enrichment",
-        "date": "2024",
+{
+    "professionalProjects": [
+        {
+            "title": "Catalog Enrichment",
+            "company": "ReturnPro",
+            "date": "2024",
+            "description": "Built end-to-end pipelines using Retrieval-Augmented Generation (RAG) and LLMs to enrich product metadata and classify taxonomy across diverse e-commerce platforms. Designed scalable ETL pipelines in Databricks, orchestrated Snowflake workloads, and deployed solutions via Azure for near real-time enrichment.",
+            "technologies": ["Python", "Databricks", "Snowflake", "Azure", "LLMs", "RAG"]
+        },
+        {
+            "title": "Hydroponic Farm",
+            "date": "2023",
+            "description": "Designed predictive analytics pipeline for a small farm in Montreal. Cleaned multi-year agricultural sensor data, modeled plant weight and health based on nutrient flow and location using regression techniques, and deployed a relational database backend on Google Cloud for integration with no-code tools.",
+            "technologies": ["scikit-learn", "Data-Visualization", "GCP"]
+        }
+    ],
+    "personalProjects": [
+        {
+            "title": "Tree-LSTM Semantic Visualizer",
+            "date": "2025",
+            "links": [
+                { "text": "GitHub", "url": "https://github.com/williamjwall/tree-lstm-generator" }
+            ],
+            "description": "An interactive tool for visualizing compositional semantics through constituency parse trees and Tree-LSTM networks. Combines constituency parsing via spaCy/Benepar, contextual embeddings via BERT, and compositional semantics via Child-Sum Tree-LSTM with interactive 2D and 3D visualizations.",
+            "technologies": ["Natural Language Processing"]
+        },
+        {
+            "title": "WebGL Art Backgrounds",
+            "date": "2024",
+            "links": [
+                { "text": "View Here", "url": "https://williamjwall.github.io/webGL-art-backgrounds/" }
+            ],
+            "description": "random webGL canvas I make as a hobby"
 
-        "description": "Built end-to-end pipelines using Retrieval-Augmented Generation (RAG) and LLMs to enrich product metadata and classify taxonomy across diverse e-commerce platforms. Designed scalable ETL pipelines in Databricks, orchestrated Snowflake workloads, and deployed solutions via Azure for near real-time enrichment.",
-        "technologies": ["Python", "Databricks", "Snowflake", "Azure", "LLMs", "RAG"]
-    },
-    {
-        "title": "Hydroponic Farm",
-        "date": "2023",
-        "description": "Designed predictive analytics pipeline for a small farm in Montreal. Cleaned multi-year agricultural sensor data, modeled plant weight and health based on nutrient flow and location using regression techniques, and deployed a relational database backend on Google Cloud for integration with no-code tools.",
-        "technologies": ["scikit-learn", "Data-Visualization", "GCP", "MySQL"]
-    }
-]
+        }
+    ]
+}

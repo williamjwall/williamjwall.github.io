@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body class="dark-mode">
-    <!-- Canvas for triangles animation -->
-    <canvas id="triangles-canvas"></canvas>
+    <!-- Canvas for binary trees animation -->
+    <canvas id="binary-trees-canvas"></canvas>
 
     <div class="container">
         <header>
@@ -44,15 +44,15 @@
                             </li>
                             <li>
                                 <i class="fab fa-github"></i>
-                                <a href="https://github.com/yourusername" target="_blank">github.com/yourusername</a>
+                                <a href="https://github.com/yourusername" target="_blank" rel="noopener">github.com/yourusername</a>
                             </li>
                             <li>
                                 <i class="fab fa-linkedin"></i>
-                                <a href="https://linkedin.com/in/yourusername" target="_blank">linkedin.com/in/yourusername</a>
+                                <a href="https://linkedin.com/in/yourusername" target="_blank" rel="noopener">linkedin.com/in/yourusername</a>
                             </li>
                             <li>
                                 <i class="fab fa-twitter"></i>
-                                <a href="https://twitter.com/yourusername" target="_blank">@yourusername</a>
+                                <a href="https://twitter.com/yourusername" target="_blank" rel="noopener">@yourusername</a>
                             </li>
                         </ul>
                         
@@ -102,11 +102,20 @@
     
     <!-- Simulate WebAssembly loading -->
     <script>
-        console.log("Loading WebAssembly module for triangles animation...");
+        console.log("Loading WebAssembly module for binary trees animation...");
         setTimeout(() => {
             const script = document.createElement('script');
-            script.src = 'js/triangles.js';
+            script.src = 'js/binary_trees.js';
             document.body.appendChild(script);
+            
+            // Initialize the binary trees animation after script is loaded
+            script.onload = function() {
+                if (window.BinaryTrees && typeof window.BinaryTrees.init === 'function') {
+                    window.BinaryTrees.init();
+                } else {
+                    console.error("BinaryTrees.init not found");
+                }
+            };
         }, 100);
     </script>
     

@@ -8,23 +8,28 @@
     <link rel="stylesheet" href="css/styles.css">
     <style>
         .intro-container {
-            background-color: rgba(10, 25, 47, 0.7); /* Semi-transparent dark blue */
+            background-color: rgba(10, 12, 4, 0.85); /* Match other container backgrounds */
             padding: 25px;
             border-radius: 8px;
-            backdrop-filter: blur(5px); /* Adds a slight blur effect behind the text */
+            -webkit-backdrop-filter: blur(5px); /* Safari support */
+            backdrop-filter: blur(5px); /* Adds a blur effect behind the text */
             margin-bottom: 40px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            border: 1px solid #444444; /* Gray border to match other containers */
         }
         
-        /* Optional: Add a subtle border */
-        .intro-container {
-            border: 1px solid rgba(76, 175, 80, 0.3); /* Subtle green border */
+        /* Software Engineer title with thin white outline */
+        .intro-container h1 {
+            color: #ffffff;
+            text-shadow: 0 0 1px #ffffff, 0 0 2px rgba(255, 255, 255, 0.5);
+            padding-bottom: 10px;
+            border-bottom: 1px solid #444444; /* Gray border under title */
         }
     </style>
 </head>
 <body class="dark-mode">
-    <!-- Canvas for triangles animation -->
-    <canvas id="triangles-canvas"></canvas>
+    <!-- Canvas for binary trees animation -->
+    <canvas id="binary-trees-canvas"></canvas>
 
     <div class="container">
         <header>
@@ -53,6 +58,7 @@
                     
                     <div class="contact-info">
                         <a href="mailto:williamjwall@gmail.com"><i class="fas fa-envelope"></i> williamjwall@gmail.com</a>
+                        <a href="https://www.linkedin.com/in/william-wall-82b1a923a/" target="_blank" rel="noopener"><i class="fab fa-linkedin"></i> LinkedIn</a>
                         <a href="#"><i class="fas fa-map-marker-alt"></i> Los Angeles, CA</a>
                     </div>
                 </div>
@@ -60,10 +66,7 @@
             </section>
 
             <section id="portfolio" class="portfolio-section">
-                <h2>Projects</h2>
-                <div class="portfolio">
-                    <!-- Projects will be added here by JavaScript -->
-                </div>
+                <!-- Projects will be added here by JavaScript -->
             </section>
 
             <section id="experience">
@@ -169,9 +172,10 @@
 
             <section id="contact">
                 <h2>Contact Me</h2>
-                <p>Feel free to reach out to me via email or phone:</p>
+                <p>Feel free to reach out via email or LinkedIn:</p>
                 <div class="contact-info">
                     <a href="mailto:williamjwall@gmail.com"><i class="fas fa-envelope"></i> williamjwall@gmail.com</a>
+                    <a href="https://www.linkedin.com/in/william-wall-82b1a923a/" target="_blank" rel="noopener"><i class="fab fa-linkedin"></i> LinkedIn</a>
                 </div>
             </section>
         </main>
@@ -187,19 +191,28 @@
     <!-- Simulate WebAssembly loading -->
     <script>
         // This would normally be a real WebAssembly loader
-        console.log("Loading WebAssembly module for triangles animation...");
+        console.log("Loading WebAssembly module for binary trees animation...");
         setTimeout(() => {
             // Load our JavaScript implementation (in a real app, this would be the WASM module)
             const script = document.createElement('script');
-            script.src = 'js/triangles.js';
+            script.src = 'js/binary_trees.js';
             document.body.appendChild(script);
+            
+            // Initialize the binary trees animation after script is loaded
+            script.onload = function() {
+                if (window.BinaryTrees && typeof window.BinaryTrees.init === 'function') {
+                    window.BinaryTrees.init();
+                } else {
+                    console.error("BinaryTrees.init not found");
+                }
+            };
         }, 100);
     </script>
     
-    <!-- Load main script -->
-    <script src="js/script.js"></script>
-
     <!-- Add marked.js for Markdown parsing -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
+    <!-- Load main script after all other resources -->
+    <script src="js/script.js"></script>
 </body>
 </html> 
