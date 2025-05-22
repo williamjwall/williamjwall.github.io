@@ -19,17 +19,6 @@ function createProjectElement(project) {
     titleElement.textContent = project.title;
     projectElement.appendChild(titleElement);
     
-    // Add company tag for ReturnPro if present in technologies
-    if (project.technologies && project.technologies.includes("ReturnPro")) {
-        const companyTag = document.createElement('div');
-        companyTag.className = 'company-tag';
-        companyTag.textContent = "ReturnPro";
-        projectElement.appendChild(companyTag);
-        
-        // Remove ReturnPro from technologies so it doesn't appear twice
-        project.technologies = project.technologies.filter(tech => tech !== "ReturnPro");
-    }
-    
     // Create project date
     const dateElement = document.createElement('div');
     dateElement.className = 'project-date';
@@ -51,6 +40,14 @@ function createProjectElement(project) {
         });
         
         projectElement.appendChild(linksElement);
+    }
+    
+    // Create company tag if it exists
+    if (project.company) {
+        const companyTag = document.createElement('div');
+        companyTag.className = 'company-tag';
+        companyTag.textContent = project.company;
+        projectElement.appendChild(companyTag);
     }
     
     // Create project description
@@ -104,7 +101,12 @@ async function renderProjects() {
             profPortfolio.className = 'portfolio';
             
             projectsData.professionalProjects.forEach(project => {
-                profPortfolio.appendChild(createProjectElement(project));
+                if (project && typeof project === 'object') {
+                    const projectElement = createProjectElement(project);
+                    if (projectElement) {
+                        profPortfolio.appendChild(projectElement);
+                    }
+                }
             });
             
             portfolioSection.appendChild(profPortfolio);
@@ -121,12 +123,16 @@ async function renderProjects() {
             personalContainer.className = 'personal-projects-container';
             
             projectsData.personalProjects.forEach(project => {
-                const projectEl = createProjectElement(project);
-                // Remove the standalone project box styling for personal projects
-                projectEl.style.boxShadow = 'none';
-                projectEl.style.borderRadius = '0';
-                projectEl.style.backgroundColor = 'transparent';
-                personalContainer.appendChild(projectEl);
+                if (project && typeof project === 'object') {
+                    const projectEl = createProjectElement(project);
+                    if (projectEl) {
+                        // Remove the standalone project box styling for personal projects
+                        projectEl.style.boxShadow = 'none';
+                        projectEl.style.borderRadius = '0';
+                        projectEl.style.backgroundColor = 'transparent';
+                        personalContainer.appendChild(projectEl);
+                    }
+                }
             });
             
             portfolioSection.appendChild(personalContainer);
@@ -135,20 +141,27 @@ async function renderProjects() {
         // Apply staggered animation to project cards
         const animateElements = document.querySelectorAll('.animated');
         animateElements.forEach((element, index) => {
-            setTimeout(() => {
-                element.style.animationDelay = `${index * 0.1}s`;
-                element.style.opacity = 1;
-            }, 100);
+            if (element) {
+                setTimeout(() => {
+                    element.style.animationDelay = `${index * 0.1}s`;
+                    element.style.opacity = 1;
+                }, 100);
+            }
         });
     } catch (error) {
         console.error('Error rendering projects:', error);
     }
 }
 
-// Make sure the DOM is fully loaded before running the script
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', renderProjects);
-} else {
-    // If DOMContentLoaded has already fired, run immediately
-    renderProjects();
-} 
+// Ensure DOM is fully loaded before running the script
+function initializeProjects() {
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', renderProjects);
+    } else {
+        // If DOMContentLoaded has already fired, run immediately
+        renderProjects();
+    }
+}
+
+// Initialize after a short delay to ensure all other scripts are loaded
+setTimeout(initializeProjects, 100); 
