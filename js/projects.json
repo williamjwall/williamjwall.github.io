@@ -11,7 +11,7 @@
             "title": "NeuroThink Research",
             "company": "NeuroThink",
             "date": "Present",
-            "description": "Working on computational neuroscience research and AI platform tools. Developing advanced models for neural network analysis and simulation within the computational neuroscience space.",
+            "description": "Working on computational neuroscience research and AI platform tools at NeuroThink based in Berkeley, California. Developing advanced models for neural network analysis and simulation within the computational neuroscience space.",
             "technologies": ["Python", "Neural Networks", "Computational Neuroscience", "AI"]
         }
     ],
@@ -35,7 +35,7 @@
         },
         {
             "title": "ClipSage",
-            "date": "2024",
+            "date": "2025",
             "links": [
                 { "text": "GitHub", "url": "https://github.com/williamjwall/clipsage" }
             ],
@@ -53,7 +53,7 @@
         },
         {
             "title": "Discursa",
-            "date": "2023",
+            "date": "2024",
             "links": [
                 { "text": "GitHub", "url": "https://github.com/williamjwall/discursa" }
             ],
