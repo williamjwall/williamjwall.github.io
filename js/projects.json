@@ -8,10 +8,11 @@
             "technologies": ["Python", "Databricks", "Snowflake", "Azure", "LLMs", "RAG"]
         },
         {
-            "title": "Hydroponic Farm",
-            "date": "2023",
-            "description": "Designed predictive analytics pipeline for a small farm in Montreal. Cleaned multi-year agricultural sensor data, modeled plant weight and health based on nutrient flow and location using regression techniques, and deployed a relational database backend on Google Cloud for integration with no-code tools.",
-            "technologies": ["scikit-learn", "Data-Visualization", "GCP"]
+            "title": "NeuroThink Research",
+            "company": "NeuroThink",
+            "date": "Present",
+            "description": "Working on computational neuroscience research and AI platform tools. Developing advanced models for neural network analysis and simulation within the computational neuroscience space.",
+            "technologies": ["Python", "Neural Networks", "Computational Neuroscience", "AI"]
         }
     ],
     "personalProjects": [
@@ -31,7 +32,33 @@
                 { "text": "View Here", "url": "https://williamjwall.github.io/webGL-art-backgrounds/" }
             ],
             "description": "random webGL canvas I make as a hobby"
-
+        },
+        {
+            "title": "ClipSage",
+            "date": "2024",
+            "links": [
+                { "text": "GitHub", "url": "https://github.com/williamjwall/clipsage" }
+            ],
+            "description": "A Rust-based project for advanced content processing and analysis.",
+            "technologies": ["Rust"]
+        },
+        {
+            "title": "NeuroBencher",
+            "date": "2024",
+            "links": [
+                { "text": "GitHub", "url": "https://github.com/williamjwall/nuerobencher" }
+            ],
+            "description": "A Python-based benchmarking tool for neural network performance (in progress).",
+            "technologies": ["Python", "Neural Networks"]
+        },
+        {
+            "title": "Discursa",
+            "date": "2023",
+            "links": [
+                { "text": "GitHub", "url": "https://github.com/williamjwall/discursa" }
+            ],
+            "description": "A JavaScript project for discourse analysis and natural language processing.",
+            "technologies": ["JavaScript", "NLP"]
         }
     ]
 }
