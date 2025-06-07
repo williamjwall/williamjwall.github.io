@@ -88,13 +88,14 @@ async function renderProjects() {
         // Ensure the element has the portfolio-section class
         portfolioSection.className = 'portfolio-section';
         
-        // Clear existing content
-        portfolioSection.innerHTML = '<h2>Projects</h2>';
+        // Clear existing content but don't add Projects header
+        portfolioSection.innerHTML = '';
         
         // Create professional projects section
         if (projectsData.professionalProjects && projectsData.professionalProjects.length > 0) {
-            const profSectionTitle = document.createElement('h3');
-            profSectionTitle.textContent = 'Professional Work';
+            const profSectionTitle = document.createElement('h2');
+            profSectionTitle.textContent = 'Projects';
+            profSectionTitle.style.color = 'white';
             portfolioSection.appendChild(profSectionTitle);
             
             const profPortfolio = document.createElement('div');
@@ -114,9 +115,10 @@ async function renderProjects() {
         
         // Create personal projects section as a single scrollable container
         if (projectsData.personalProjects && projectsData.personalProjects.length > 0) {
-            const personalSectionTitle = document.createElement('h3');
-            personalSectionTitle.textContent = 'Personal Projects';
-            portfolioSection.appendChild(personalSectionTitle);
+            // Remove the personal section title
+            // const personalSectionTitle = document.createElement('h3');
+            // personalSectionTitle.textContent = 'Personal Projects';
+            // portfolioSection.appendChild(personalSectionTitle);
             
             // Create a single container for all personal projects
             const personalContainer = document.createElement('div');

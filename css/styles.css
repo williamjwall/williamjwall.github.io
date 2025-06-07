@@ -1,86 +1,100 @@
 /* Base styles */
 :root {
-    --primary-color: #ffffff;         /* Changed to white */
-    --secondary-color: #ffffff;       /* Changed to white */
-    --background-color: #080a03;      /* Dark green-black */
-    --text-color: #ffffff;            /* White for all text */
-    --border-color: #444444;          /* Gray for borders */
-    --hover-color: #ffffff;           /* Changed to white */
-    --card-bg: rgba(10, 14, 5, 0.85); /* Dark background for cards */
-    --border-width: 1px;             /* Thin borders */
-    --border-hover-width: 2px;       /* Slightly thicker for hover effects */
+    --text-color: #000000;
+    --background-color: transparent;
+    --border-color: #000000;
+    --border-width: 2px;
+    --border-hover-width: 3px;
 }
 
+/* Import Merriweather font */
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap');
+
+/* Reset all colors first */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+    color: var(--text-color) !important;
+    background-color: var(--background-color) !important;
+    text-shadow: none !important;
+    font-family: 'Merriweather', serif;
 }
 
+/* Base layout */
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: 'Merriweather', serif;
     line-height: 1.6;
-    color: #ffffff; /* White text color for all content */
-    background-color: #080a03; /* Dark background in case canvas fails */
+    background-color: var(--background-color);
     position: relative;
     overflow-x: hidden;
-    text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.8); /* Stronger shadow for better readability */
 }
 
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
+    max-width: 850px;
+    margin: 0;
     padding: 0 20px;
     position: relative;
-    z-index: 2; /* Ensure content appears above the canvas */
-    background-color: transparent; /* Fully transparent background */
-    border-radius: 8px;
+    z-index: 2;
 }
 
+/* Links */
 a {
-    color: #ffffff;
     text-decoration: none;
-    transition: color 0.3s ease;
+    transition: opacity 0.3s ease;
 }
 
 a:hover {
-    color: var(--hover-color);
+    opacity: 0.8;
 }
 
-/* Canvas for background animation */
+/* Disable all transforms on hover */
+a:hover, button:hover, .project:hover, .experience-item:hover, .education:hover, 
+.skill-category:hover, .skill:hover, .course:hover, .tech-tag:hover {
+    transform: none !important;
+}
+
+/* Remove underline effect from links */
+a::before {
+    display: none;
+}
+
+/* Remove project links hover animation */
+.project-links a::after {
+    display: none;
+}
+
+/* Canvas background */
 #triangles-canvas, #binary-trees-canvas {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1; /* Behind content */
-    opacity: 0.95; /* Almost fully opaque */
-    filter: brightness(0.6) contrast(1.2); /* Much darker with more contrast */
-    background-color: #080a03; /* Ensure dark background even before canvas loads */
+    z-index: -1;
+    opacity: 0.95;
+    filter: brightness(0.6) contrast(1.2);
+    background-color: var(--background-color);
 }
 
-/* Header styles */
+/* Header */
 header {
-    padding: 20px 0;
-    border-bottom: var(--border-width) solid var(--border-color); /* Gray border */
-    background-color: rgba(8, 10, 3, 0.85); 
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
+    padding: 10px 0;
 }
 
 .header-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border: var(--border-width) solid var(--border-color); /* Gray border */
-    border-radius: 8px;
-    padding: 10px 15px;
-    background-color: rgba(10, 12, 4, 0.5);
+    border: var(--border-width) solid var(--border-color);
+    padding: 8px 12px;
+    background-color: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    margin-bottom: 15px;
+    max-width: 800px;
+    margin-left: 0;
+    margin-right: auto;
 }
 
 .logo a {
-    color: #ffffff;
     font-size: 1.5rem;
     font-weight: bold;
 }
@@ -88,6 +102,8 @@ header {
 nav ul {
     display: flex;
     list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
 nav ul li {
@@ -95,36 +111,30 @@ nav ul li {
 }
 
 nav ul li a {
-    color: #ffffff;
-    text-decoration: none;
-    transition: color 0.3s ease;
+    font-size: 1rem;
 }
 
-nav ul li a:hover {
-    color: var(--hover-color);
-}
-
-/* Ensure the experience link is white */
-nav ul li a[href="#experience"] {
-    color: #ffffff;
-}
-
-/* Main content styles */
+/* Main content */
 main {
     padding: 40px 0;
 }
 
+/* Intro section */
 .intro {
     margin-bottom: 40px;
-    max-width: 800px;
+    max-width: 650px;
+    margin-left: 0;
+    margin-right: auto;
 }
 
-h1 {
-    font-size: 2.5rem;
+.intro-container {
+    border: var(--border-width) solid var(--border-color);
+    padding: 15px;
     margin-bottom: 20px;
-    color: #ffffff; /* White text */
-    font-weight: bold;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    animation: float 6s ease-in-out infinite;
+    background-color: rgba(255, 255, 255, 0.9) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
 
 .intro p {
@@ -135,139 +145,65 @@ h1 {
 .contact-info {
     display: flex;
     flex-wrap: wrap;
-    gap: 15px;
-    margin-bottom: 20px;
-}
-
-.contact-info a {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    color: #ffffff;
-}
-
-.contact-info a:hover {
-    color: var(--hover-color);
+    gap: 10px;
+    margin-bottom: 10px;
+    animation: none;
 }
 
 .contact-info i {
     font-size: 1.2rem;
-}
-
-hr {
-    margin: 30px 0;
-    border: none;
-    border-top: var(--border-width) solid var(--border-color); /* Gray border */
+    animation: none;
 }
 
 /* Portfolio section */
 .portfolio-section {
-    margin-bottom: 50px;
+    margin-bottom: 30px;
 }
 
 .portfolio-section h2 {
-    font-size: 2rem;
-    margin-bottom: 15px;
-    color: #ffffff;
-    border-bottom: var(--border-width) solid var(--border-color); /* Gray border */
-    padding-bottom: 10px;
-    text-shadow: 0 2px 3px rgba(0, 0, 0, 0.5);
+    display: block;
+    margin-bottom: 20px;
 }
 
 .portfolio-section h3 {
     font-size: 1.6rem;
     margin: 30px 0 20px;
-    color: #ffffff; /* White text */
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .portfolio {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: 30px;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px;
     margin-bottom: 40px;
 }
 
-/* Personal Projects Scrollable Container */
-.personal-projects-container {
-    background-color: rgba(10, 12, 4, 0.85);
-    border-radius: 8px;
-    padding: 25px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-    border: var(--border-width) solid var(--border-color); /* Gray border */
-    margin-bottom: 40px;
-    max-height: 600px; /* Set a fixed height for scrolling */
-    overflow-y: auto; /* Enable vertical scrolling */
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE and Edge */
-}
-
-.personal-projects-container::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera */
-}
-
-.personal-projects-container .project {
-    margin-bottom: 30px;
-    border-bottom: 1px solid var(--border-color); /* Gray border */
-    padding-bottom: 25px;
-}
-
-.personal-projects-container .project:last-child {
-    margin-bottom: 0;
-    border-bottom: none;
-    padding-bottom: 0;
-}
-
+/* Project containers */
 .project {
-    background-color: rgba(10, 12, 4, 0.85); /* Semi-transparent dark background */
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-    border: var(--border-width) solid var(--border-color); /* Gray border */
-    margin-bottom: 20px;
-    max-height: 500px;
-    overflow-y: auto; /* Make projects scrollable */
-    backdrop-filter: blur(5px); /* Add blur behind the container */
-    -webkit-backdrop-filter: blur(5px); /* Safari support */
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE and Edge */
-}
-
-.project::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera */
-}
-
-.project:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-    border-left: var(--border-hover-width) solid var(--hover-color); /* White border on hover */
+    border: var(--border-width) solid var(--border-color);
+    padding: 15px;
+    margin-bottom: 15px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: center;
 }
 
 .project h2 {
     font-size: 1.5rem;
     margin-bottom: 10px;
-    color: #ffffff; /* White text */
 }
 
 .project-date {
     font-style: italic;
-    color: #cccccc; /* Light gray for dates instead of #999 */
     margin-bottom: 15px;
     font-size: 0.9rem;
 }
 
 .company-tag {
-    background-color: rgba(255, 255, 255, 0.1);
-    border: var(--border-width) solid rgba(68, 68, 68, 0.5);
-    color: #ffffff;
-    padding: 4px 10px;
-    border-radius: 4px;
+    border: var(--border-width) solid var(--border-color);
+    padding: 5px 10px;
     font-size: 0.9rem;
     display: inline-block;
     margin-bottom: 12px;
-    font-weight: 500;
+    font-weight: bold;
 }
 
 .project-links {
@@ -278,24 +214,10 @@ hr {
 }
 
 .project-links a {
-    display: inline-block;
     padding: 5px 10px;
-    color: #ffffff;
-    background-color: rgba(255, 255, 255, 0.1); /* White background with low opacity */
-    border: var(--border-width) solid rgba(68, 68, 68, 0.5); /* Gray border with transparency */
-    border-radius: 4px;
+    border: var(--border-width) solid var(--border-color);
     font-size: 0.9rem;
-    transition: all 0.3s ease;
-}
-
-.project-links a:hover {
-    background-color: rgba(255, 255, 255, 0.2); /* Slightly more opaque white on hover */
-    color: #ffffff;
-}
-
-.project-description {
-    margin-bottom: 20px;
-    font-size: 0.95rem;
+    font-weight: bold;
 }
 
 .project-tech {
@@ -303,38 +225,21 @@ hr {
     flex-wrap: wrap;
     gap: 8px;
     margin-top: 15px;
-    margin-bottom: 15px; /* Add margin to separate from description below */
 }
 
 .tech-tag {
     font-size: 0.8rem;
     padding: 3px 8px;
-    background-color: rgba(76, 175, 80, 0.2);
-    border: 1px solid rgba(76, 175, 80, 0.4);
-    color: #ffffff;
-    border-radius: 4px;
+    border: var(--border-width) solid var(--border-color);
+    margin: 5px;
 }
 
 /* Experience section */
-#experience {
-    margin-bottom: 60px;
-    color: #ffffff;
-}
-
-#experience h2 {
-    color: #ffffff;
-}
-
 .experience-item {
-    margin-bottom: 40px;
-    padding: 25px;
-    background-color: rgba(10, 12, 4, 0.85); /* Match project background */
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-    border: var(--border-width) solid var(--border-color); /* Gray border */
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    color: #ffffff;
+    border: var(--border-width) solid var(--border-color);
+    padding: 15px;
+    margin-bottom: 15px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .experience-header {
@@ -342,50 +247,36 @@ hr {
     justify-content: space-between;
     margin-bottom: 15px;
     flex-wrap: wrap;
-    color: #ffffff;
 }
 
 .experience-title {
     font-size: 1.5rem;
     margin-bottom: 5px;
-    color: #ffffff;
 }
 
 .experience-company {
     font-size: 1.2rem;
-    color: #ffffff;
 }
 
 .experience-date {
     font-style: italic;
-    color: #ffffff;
-}
-
-.experience-description {
-    color: #ffffff;
 }
 
 .experience-description ul {
     list-style-position: inside;
     margin-left: 10px;
-    color: #ffffff;
 }
 
 .experience-description li {
     margin-bottom: 8px;
-    color: #ffffff;
 }
 
 /* Education section */
 .education {
-    margin-bottom: 60px;
-    padding: 25px;
-    background-color: rgba(10, 12, 4, 0.85); /* Match other section backgrounds */
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-    border: var(--border-width) solid var(--border-color); /* Gray border */
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
+    border: var(--border-width) solid var(--border-color);
+    padding: 15px;
+    margin-bottom: 15px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .education-header {
@@ -398,17 +289,14 @@ hr {
 .education-school {
     font-size: 1.5rem;
     margin-bottom: 5px;
-    color: #ffffff;
 }
 
 .education-degree {
     font-size: 1.2rem;
-    color: #ffffff;
 }
 
 .education-date {
     font-style: italic;
-    color: #ffffff; /* Light gray for dates instead of #999 */
 }
 
 .coursework {
@@ -427,80 +315,88 @@ hr {
 }
 
 .course {
-    background-color: rgba(76, 175, 80, 0.2);
     padding: 5px 10px;
-    border: 1px solid rgba(76, 175, 80, 0.4);
-    color: #ffffff;
-    border-radius: 4px;
+    border: var(--border-width) solid var(--border-color);
+    margin: 5px;
     font-size: 0.9rem;
 }
 
 /* Skills section */
-.skills {
-    margin-bottom: 60px;
-    color: #ffffff;
-}
-
-.skills h2 {
-    color: #ffffff;
-}
-
 .skills-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 25px;
+    border: var(--border-width) solid var(--border-color);
+    padding: 15px;
+    margin: 15px 0;
+    display: block;
+    background-color: rgba(255, 255, 255, 0.9) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
 
 .skill-category {
-    background-color: rgba(10, 12, 4, 0.9); /* Darker background for skills container */
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-    border: var(--border-width) solid var(--border-color); /* Gray border */
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.skill-category:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
-    border-left: var(--border-hover-width) solid var(--hover-color); /* White border on hover */
+    padding: 10px;
+    margin-bottom: 0;
+    border: none;
+    background-color: transparent !important;
 }
 
 .skill-category h3 {
+    font-weight: bold;
     margin-bottom: 15px;
     font-size: 1.2rem;
-    color: #ffffff;
-    font-weight: bold;
 }
 
 .skill-list {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 12px;
+    margin-bottom: 0;
 }
 
 .skill {
-    background-color: rgba(255, 255, 255, 0.1); /* White background with low opacity */
-    border: var(--border-width) solid rgba(68, 68, 68, 0.5); /* Gray border with transparency */
-    color: #ffffff;
     padding: 5px 10px;
-    border-radius: 4px;
     font-size: 0.9rem;
-    margin: 0 5px 5px 0;
-    display: inline-block;
+    border: var(--border-width) solid var(--border-color);
 }
 
-/* Footer styles */
+/* Personal projects container */
+.personal-projects-container {
+    border: var(--border-width) solid var(--border-color);
+    margin: 15px 0;
+    padding: 15px;
+    max-height: 500px;
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    background-color: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.personal-projects-container::-webkit-scrollbar {
+    display: none;
+}
+
+.personal-projects-container .project {
+    margin-bottom: 30px;
+    border-bottom: none;
+    padding-bottom: 25px;
+}
+
+.personal-projects-container .project:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+/* Footer */
 footer {
     padding: 20px 0;
-    border-top: var(--border-width) solid var(--border-color); /* Gray border */
     text-align: center;
     margin-top: 40px;
-    background-color: rgba(8, 10, 3, 0.85);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
+    border-top: var(--border-width) solid var(--border-color);
+}
+
+footer p {
+    display: none;
 }
 
 /* Responsive styles */
@@ -523,60 +419,18 @@ footer {
         grid-template-columns: 1fr;
     }
     
-    .experience-header {
-        flex-direction: column;
-    }
-    
-    .experience-date {
-        margin-top: 5px;
-    }
-    
+    .experience-header,
     .education-header {
         flex-direction: column;
     }
+    
+    .experience-date,
+    .education-date {
+        margin-top: 5px;
+    }
 }
 
-/* Project details page styles */
-.project-details {
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.project-details h1 {
-    font-size: 2.5rem;
-    margin-bottom: 10px;
-    color: #ffffff; /* White text */
-}
-
-.project-details .project-date {
-    font-style: italic;
-    color: #cccccc; /* Light gray for dates instead of #999 */
-    margin-bottom: 20px;
-}
-
-.project-details .project-links {
-    margin-bottom: 30px;
-}
-
-.project-content h2 {
-    font-size: 1.5rem;
-    margin: 30px 0 15px;
-}
-
-.project-images {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-    margin-top: 20px;
-}
-
-.project-images img {
-    width: 100%;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-/* Animation for project cards */
+/* Animations */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
@@ -587,50 +441,301 @@ footer {
     opacity: 0;
 }
 
-/* Update course and tech tags for consistency */
-.course, .tech-tag {
-    background-color: rgba(255, 255, 255, 0.1); /* White background with low opacity */
-    border: var(--border-width) solid rgba(68, 68, 68, 0.5); /* Gray border with transparency */
-    color: #ffffff;
-    padding: 5px 10px;
-    border-radius: 4px;
-    font-size: 0.9rem;
-    margin: 0 5px 5px 0;
-    display: inline-block;
+/* Smooth scroll */
+html {
+    scroll-behavior: smooth;
 }
 
-/* Ensure all headings are white */
-h1, h2, h3, h4, h5, h6 {
-    color: #ffffff;
+/* Custom cursor */
+.cursor {
+    width: var(--cursor-size);
+    height: var(--cursor-size);
+    background: #ffffff !important;
+    border: 2px solid #000000 !important;
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 99999;
+    transition: transform 0.2s ease;
+    box-shadow: 0 0 20px #ffffff;
 }
 
-/* Ensure education degree text is white */
-.education-degree {
-    color: #ffffff;
+.cursor-trail {
+    width: var(--cursor-trail-size);
+    height: var(--cursor-trail-size);
+    background: #ffffff !important;
+    border: 2px solid #000000 !important;
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 99998;
+    transition: transform 0.1s ease;
+    box-shadow: 0 0 15px #ffffff;
 }
 
-/* Make skill category headers more visible */
-.skill-category h3 {
-    color: #ffffff;
-    font-weight: bold;
+/* Interactive elements hover effect */
+a, button, .project, .experience-item, .education, .skill-category, .skill, .course, .tech-tag {
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Increase contrast for section headings */
-h2 {
-    color: #ffffff;
-    margin-bottom: 25px;
+a:hover, button:hover, .project:hover, .experience-item:hover, .education:hover, .skill-category:hover, .skill:hover, .course:hover, .tech-tag:hover {
+    transform: none;
+}
+
+/* Magnetic effect for interactive elements */
+.magnetic {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Glitch effect for headings */
+@keyframes glitch {
+    0% {
+        transform: translate(0);
+    }
+    20% {
+        transform: translate(-2px, 2px);
+    }
+    40% {
+        transform: translate(-2px, -2px);
+    }
+    60% {
+        transform: translate(2px, 2px);
+    }
+    80% {
+        transform: translate(2px, -2px);
+    }
+    100% {
+        transform: translate(0);
+    }
+}
+
+h1, h2, h3 {
+    position: relative;
+    animation: none;
+}
+
+h1:hover, h2:hover, h3:hover {
+    animation: none;
+}
+
+/* Project card hover effect */
+.project:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+/* Skill tag hover effect */
+.skill, .course, .tech-tag {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.skill:hover, .course:hover, .tech-tag:hover {
+    transform: none;
+    background-color: var(--text-color) !important;
+    color: var(--background-color) !important;
+}
+
+/* Link hover effect */
+a {
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+a::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    bottom: -2px;
+    left: 0;
+    background-color: var(--text-color);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+a:hover::before {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+/* Experience item hover effect */
+.experience-item:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+/* Education item hover effect */
+.education:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+/* Skill category hover effect */
+.skill-category:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+/* Project links hover effect */
+.project-links a:hover {
+    background-color: var(--text-color) !important;
+    color: var(--background-color) !important;
+}
+
+.project-links a:hover::after {
+    left: -100%;
+}
+
+/* Container styles */
+.header-container,
+.intro-container,
+.project,
+.experience-item,
+.education,
+.skill-category,
+.personal-projects-container,
+.skills-container {
+    background-color: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+/* Add floating animation to headings */
+h1, h2, h3 {
+    animation: none;
+}
+
+/* Add wave animation to contact info */
+.contact-info {
+    animation: none;
+}
+
+/* Add pulse animation to skills */
+.skill-list {
+    animation: none;
+}
+
+/* Add rotate animation to icons */
+.contact-info i {
+    animation: none;
+}
+
+/* Artistic animations */
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes wave {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+    100% { transform: translateX(0); }
+}
+
+/* Add rotate animation to icons */
+.contact-info i {
+    animation: none;
+}
+
+/* Remove divider lines */
+hr {
+    display: none;
+}
+
+/* Cursor trail particles */
+.cursor-trail-particle {
+    background: #ffffff !important;
+    border: 1px solid #000000 !important;
+    box-shadow: 0 0 10px #ffffff;
+}
+
+/* Adjust section margins */
+section {
+    margin-bottom: 20px;
+}
+
+/* Make headings more compact */
+h1 {
     font-size: 1.8rem;
-    text-shadow: 0 2px 3px rgba(0, 0, 0, 0.5);
+    margin-bottom: 10px;
 }
 
-/* Add white border to intro container */
-.intro-container {
-    background-color: rgba(10, 12, 4, 0.85);
-    padding: 25px;
-    border-radius: 8px;
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    margin-bottom: 40px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-    border: var(--border-width) solid var(--border-color); /* Gray border */
+h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+h3 {
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+}
+
+/* Adjust text sizes */
+p {
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+/* Make contact info more compact */
+.contact-info {
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.contact-info a {
+    font-size: 0.9rem;
+}
+
+/* Make sections left-aligned and narrower */
+#experience, #education, #skills, #contact, #portfolio {
+    max-width: 700px;
+    margin-left: 0;
+    margin-right: auto;
+}
+
+/* Ensure all container boxes have bottom borders */
+.container-box:last-child,
+.skills-container:last-child,
+.education:last-child,
+.experience-item:last-child,
+.project:last-child,
+.personal-projects-container:last-child {
+    border-bottom: var(--border-width) solid var(--border-color);
+}
+
+/* Make specific section headers white */
+#education > h2,
+#skills > h2,
+#experience > h2,
+#contact > h2,
+#portfolio > h2 {
+    color: white !important;
+}
+
+/* Remove the header styling that's no longer needed */
+.portfolio-section h3:contains("Personal Projects") {
+    display: none;
+}
+
+/* Make contact section text white */
+#contact > p,
+#contact .contact-info a {
+    color: white !important;
 } 
