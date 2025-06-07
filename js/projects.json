@@ -1,14 +1,15 @@
 {
     "professionalProjects": [
+
+    ],
+    "personalProjects": [
         {
             "title": "Catalog Enrichment",
             "company": "returnPro",
             "date": "2024",
             "description": "Built end-to-end pipelines using Retrieval-Augmented Generation (RAG) and LLMs to enrich product metadata and classify taxonomy across diverse e-commerce platforms. Designed scalable ETL pipelines in Databricks, orchestrated Snowflake workloads, and deployed solutions via Azure for near real-time enrichment.",
             "technologies": ["Python", "Databricks", "Snowflake", "Azure", "LLMs", "RAG"]
-        }
-    ],
-    "personalProjects": [
+        },
         {
             "title": "Tree-LSTM Semantic Visualizer",
             "date": "2025",
