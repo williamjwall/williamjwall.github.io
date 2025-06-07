@@ -46,8 +46,17 @@ a:hover {
 }
 
 /* Disable all transforms on hover */
-a:hover, button:hover, .project:hover, .experience-item:hover, .education:hover, 
-.skill-category:hover, .skill:hover, .course:hover, .tech-tag:hover {
+a:hover, button:hover, .tech-tag:hover {
+    transform: none !important;
+}
+
+/* Project hover effects - prevent conflict with underline animation */
+.project:hover:not(.underline-active), 
+.experience-item:hover:not(.underline-active), 
+.education:hover:not(.underline-active), 
+.skill-category:hover:not(.underline-active), 
+.skill:hover:not(.underline-active), 
+.course:hover:not(.underline-active) {
     transform: none !important;
 }
 
@@ -143,11 +152,15 @@ main {
 }
 
 .contact-info {
-    display: flex;
+    display: inline-flex;
     flex-wrap: wrap;
     gap: 10px;
-    margin-bottom: 10px;
-    animation: none;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: var(--border-width) solid var(--border-color);
+    background-color: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
 
 .contact-info i {
@@ -720,7 +733,145 @@ p {
     border-bottom: var(--border-width) solid var(--border-color);
 }
 
+/* Remove the header styling that's no longer needed */
+.portfolio-section h3:contains("Personal Projects") {
+    display: none;
+}
+
+/* Remove white text for contact section */
+#contact > p,
+#contact .contact-info a {
+    color: var(--text-color) !important;
+}
+
+/* Underline animation for containers */
+.underline-animation {
+    position: relative;
+    overflow: visible !important;
+    transition: transform 0.3s ease;
+}
+
+.underline-animation::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 5px;
+    background-color: #ff5722;
+    box-shadow: 0 0 8px #ff5722, 0 0 12px rgba(255, 87, 34, 0.6);
+    transition: width 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    z-index: 10;
+}
+
+.underline-animation.underline-active::after {
+    width: 100%;
+}
+
+/* Override transform for our specific animation */
+.underline-animation.underline-active {
+    transform: translateY(-5px) !important;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Text Underline animation */
+.text-underline-animation {
+    position: relative;
+    display: inline-block;
+    overflow: visible !important;
+}
+
+.text-underline-animation::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 3px;
+    background-color: #000000;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+    transition: width 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    z-index: 5;
+}
+
+.text-underline-animation.underline-active::after {
+    width: 100%;
+}
+
+/* Container text underline animation */
+.container-underline {
+    position: relative;
+}
+
+.container-underline * {
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.container-underline.underline-active * {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-decoration-color: #000000;
+    text-underline-offset: 3px;
+    text-decoration-skip-ink: none;
+}
+
+/* Special handling for header navigation */
+.header-container.container-underline.underline-active nav a {
+    text-decoration-thickness: 2px;
+    font-weight: bold;
+}
+
+/* Exclude certain elements from the underline */
+.container-underline.underline-active a,
+.container-underline.underline-active button,
+.container-underline.underline-active .tech-tag {
+    text-decoration-thickness: 1px;
+}
+
+/* Keep scrolling functionality */
+.personal-projects-container {
+    overflow-y: auto !important;
+}
+
+/* Section headers container */
+.section-header {
+    margin-bottom: 20px;
+    padding: 5px 10px;
+    border: var(--border-width) solid var(--border-color);
+    background-color: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: inline-block;
+    width: auto;
+    max-width: max-content;
+}
+
+.section-header h2 {
+    margin: 0;
+    padding: 0;
+    white-space: nowrap;
+}
+
+/* Contact text container */
+.contact-text {
+    margin-bottom: 15px;
+    padding: 10px 15px;
+    border: var(--border-width) solid var(--border-color);
+    background-color: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: inline-block;
+    width: auto;
+}
+
+.contact-text p {
+    margin-bottom: 0;
+    white-space: nowrap;
+}
+
 /* Make specific section headers white */
+/*
 #education > h2,
 #skills > h2,
 #experience > h2,
@@ -728,14 +879,61 @@ p {
 #portfolio > h2 {
     color: white !important;
 }
+*/
 
-/* Remove the header styling that's no longer needed */
-.portfolio-section h3:contains("Personal Projects") {
-    display: none;
+/* Contact section styling */
+#contact .section-header h2,
+#contact .contact-info a {
+    color: var(--text-color) !important;
+    font-weight: normal;
 }
 
-/* Make contact section text white */
-#contact > p,
-#contact .contact-info a {
-    color: white !important;
+/* Make containers fit their content */
+.container-underline {
+    width: max-content !important;
+    max-width: max-content !important;
+    box-sizing: border-box;
+}
+
+/* Fix contact section layout */
+#contact .section-header,
+#contact .contact-info {
+    margin-bottom: 15px;
+    width: fit-content;
+    display: block;
+    margin-left: 0;
+}
+
+/* Make contact info links more presentable */
+.contact-info {
+    display: inline-flex !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+}
+
+.contact-info a {
+    padding: 3px 8px !important;
+    border: 1px solid var(--border-color) !important;
+}
+
+/* Make all section headers and containers fit tightly to content */
+.section-header,
+.contact-info {
+    padding: 5px 10px !important;
+    margin-bottom: 15px !important;
+    width: max-content !important;
+    max-width: max-content !important;
+    display: inline-block !important;
+    box-sizing: content-box !important;
+}
+
+/* Reset all paddings and margins for text */
+.section-header h1,
+.section-header h2,
+.section-header h3,
+.section-header p,
+.contact-info a {
+    margin: 0 !important;
+    padding: 0 !important;
+    white-space: nowrap !important;
 } 

@@ -12,7 +12,7 @@ async function fetchProjects() {
 // Function to create a project element
 function createProjectElement(project) {
     const projectElement = document.createElement('div');
-    projectElement.className = 'project animated';
+    projectElement.className = 'project animated container-underline';
     
     // Create project title
     const titleElement = document.createElement('h2');
@@ -93,10 +93,20 @@ async function renderProjects() {
         
         // Create professional projects section
         if (projectsData.professionalProjects && projectsData.professionalProjects.length > 0) {
+            const sectionHeader = document.createElement('div');
+            sectionHeader.className = 'section-header container-underline';
+            sectionHeader.style.width = 'max-content';
+            sectionHeader.style.maxWidth = 'max-content';
+            sectionHeader.style.padding = '5px 10px';
+            
             const profSectionTitle = document.createElement('h2');
             profSectionTitle.textContent = 'Projects';
-            profSectionTitle.style.color = 'white';
-            portfolioSection.appendChild(profSectionTitle);
+            profSectionTitle.style.whiteSpace = 'nowrap';
+            profSectionTitle.style.margin = '0';
+            profSectionTitle.style.padding = '0';
+            sectionHeader.appendChild(profSectionTitle);
+            
+            portfolioSection.appendChild(sectionHeader);
             
             const profPortfolio = document.createElement('div');
             profPortfolio.className = 'portfolio';
@@ -150,6 +160,9 @@ async function renderProjects() {
                 }, 100);
             }
         });
+        
+        // Set up underline animation on container interaction
+        setupUnderlineAnimations();
     } catch (error) {
         console.error('Error rendering projects:', error);
     }
@@ -158,10 +171,117 @@ async function renderProjects() {
 // Ensure DOM is fully loaded before running the script
 function initializeProjects() {
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', renderProjects);
+        document.addEventListener('DOMContentLoaded', () => {
+            renderProjects();
+            applyUnderlineAnimationClass();
+            setupUnderlineAnimations();
+        });
     } else {
         // If DOMContentLoaded has already fired, run immediately
         renderProjects();
+        applyUnderlineAnimationClass();
+        setupUnderlineAnimations();
+    }
+}
+
+// Function to apply underline animation class to containers
+function applyUnderlineAnimationClass() {
+    console.log('Applying container-underline class to containers');
+    
+    // Apply to intro container
+    const introContainer = document.querySelector('.intro-container');
+    if (introContainer) {
+        introContainer.classList.add('container-underline');
+        console.log('Added class to intro container');
+    }
+    
+    // Apply to all project containers
+    const projectContainers = document.querySelectorAll('.project');
+    projectContainers.forEach((container, index) => {
+        container.classList.add('container-underline');
+        console.log('Added class to project container', index);
+    });
+    
+    // Apply to experience items
+    const experienceItems = document.querySelectorAll('.experience-item');
+    experienceItems.forEach((item, index) => {
+        item.classList.add('container-underline');
+        console.log('Added class to experience item', index);
+    });
+    
+    // Apply to education items
+    const educationItems = document.querySelectorAll('.education');
+    educationItems.forEach((item, index) => {
+        item.classList.add('container-underline');
+        console.log('Added class to education item', index);
+    });
+    
+    // Apply to skill categories
+    const skillCategories = document.querySelectorAll('.skill-category');
+    skillCategories.forEach((category, index) => {
+        category.classList.add('container-underline');
+        console.log('Added class to skill category', index);
+    });
+    
+    // Apply to personal projects container
+    const personalContainer = document.querySelector('.personal-projects-container');
+    if (personalContainer) {
+        personalContainer.classList.add('container-underline');
+        console.log('Added class to personal projects container');
+    }
+}
+
+// Function to set up underline animations for containers
+function setupUnderlineAnimations() {
+    console.log('Setting up container underline animations');
+    const containers = document.querySelectorAll('.container-underline');
+    console.log('Found', containers.length, 'containers with container-underline class');
+    
+    // Add direct document event listeners to ensure we catch all interactions
+    document.addEventListener('mouseover', function(event) {
+        const container = event.target.closest('.container-underline');
+        if (container) {
+            console.log('Mouse over detected on container');
+            container.classList.add('underline-active');
+        }
+    });
+    
+    document.addEventListener('mouseout', function(event) {
+        const container = event.target.closest('.container-underline');
+        if (container) {
+            console.log('Mouse out detected on container');
+            container.classList.remove('underline-active');
+        }
+    });
+    
+    // Also add individual element listeners for better reliability
+    containers.forEach((container, index) => {
+        console.log('Setting up container:', index);
+        
+        container.addEventListener('mouseenter', () => {
+            console.log('Mouse enter on container:', index);
+            container.classList.add('underline-active');
+        });
+        
+        container.addEventListener('mouseleave', () => {
+            console.log('Mouse leave on container:', index);
+            container.classList.remove('underline-active');
+        });
+        
+        // Add a visible marker to show the element has listeners
+        container.dataset.hasUnderlineAnimation = 'true';
+    });
+    
+    // Demonstrate the animation on the first container if available
+    if (containers.length > 0) {
+        const container = containers[0];
+        setTimeout(() => {
+            console.log('Demonstrating animation on first container');
+            container.classList.add('underline-active');
+            setTimeout(() => {
+                container.classList.remove('underline-active');
+            }, 1000);
+        }, 1000);
     }
 }
 
