@@ -95,15 +95,9 @@ async function renderProjects() {
         if (projectsData.professionalProjects && projectsData.professionalProjects.length > 0) {
             const sectionHeader = document.createElement('div');
             sectionHeader.className = 'section-header container-underline';
-            sectionHeader.style.width = 'max-content';
-            sectionHeader.style.maxWidth = 'max-content';
-            sectionHeader.style.padding = '5px 10px';
             
             const profSectionTitle = document.createElement('h2');
             profSectionTitle.textContent = 'Projects';
-            profSectionTitle.style.whiteSpace = 'nowrap';
-            profSectionTitle.style.margin = '0';
-            profSectionTitle.style.padding = '0';
             sectionHeader.appendChild(profSectionTitle);
             
             portfolioSection.appendChild(sectionHeader);
