@@ -1,3 +1,350 @@
+// Desktop App System
+let openWindows = new Set();
+let windowZIndex = 1000;
+
+// Draggable desktop apps functionality
+let draggedApp = null;
+let dragOffset = { x: 0, y: 0 };
+let isDraggingApp = false;
+let dragStartTime = 0;
+
+// Store the original positions for reset
+const originalPositions = {
+    'portfolio': { x: 0, y: 0 },
+    'experience': { x: 0, y: 0 },
+    'education': { x: 0, y: 0 },
+    'skills': { x: 0, y: 0 },
+    'contact': { x: 0, y: 0 }
+};
+
+function initializeDraggableApps() {
+    const apps = document.querySelectorAll('.draggable-app');
+    
+    // Store original positions from bounding rect
+    apps.forEach(app => {
+        const rect = app.getBoundingClientRect();
+        const appName = app.getAttribute('data-app');
+        originalPositions[appName] = { x: rect.left, y: rect.top };
+        
+        // Mouse events
+        app.addEventListener('mousedown', startDragApp);
+        app.addEventListener('dragstart', e => e.preventDefault()); // Prevent default drag
+        app.addEventListener('click', handleAppClick);
+        
+        // Touch events for mobile
+        app.addEventListener('touchstart', handleTouchStart);
+        app.addEventListener('touchmove', handleTouchMove);
+        app.addEventListener('touchend', handleTouchEnd);
+    });
+    
+    document.addEventListener('mousemove', dragApp);
+    document.addEventListener('mouseup', endDragApp);
+}
+
+function handleAppClick(e) {
+    // Only open app if we weren't dragging
+    if (isDraggingApp || (Date.now() - dragStartTime) > 200) {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+    }
+    
+    // Get app name from data attribute
+    const appName = e.currentTarget.getAttribute('data-app');
+    if (appName) {
+        openApp(appName);
+    }
+}
+
+function startDragApp(e) {
+    dragStartTime = Date.now();
+    draggedApp = e.currentTarget;
+    isDraggingApp = false;
+    
+    const rect = draggedApp.getBoundingClientRect();
+    dragOffset.x = e.clientX - rect.left;
+    dragOffset.y = e.clientY - rect.top;
+    
+    e.preventDefault();
+    e.stopPropagation();
+}
+
+function dragApp(e) {
+    if (!draggedApp) return;
+    
+    // Start dragging if mouse moved enough
+    if (!isDraggingApp) {
+        const moveDistance = Math.sqrt(
+            Math.pow(e.clientX - (draggedApp.getBoundingClientRect().left + dragOffset.x), 2) +
+            Math.pow(e.clientY - (draggedApp.getBoundingClientRect().top + dragOffset.y), 2)
+        );
+        
+        if (moveDistance > 5) { // Start drag after 5px movement
+            isDraggingApp = true;
+            draggedApp.classList.add('dragging');
+        }
+    }
+    
+    // Visual feedback only, no actual position change during drag
+    if (isDraggingApp) {
+        // Just keep the app highlighted during drag, but don't change position
+    }
+}
+
+function endDragApp(e) {
+    if (!draggedApp) return;
+    
+    if (isDraggingApp) {
+        const desktopIcons = document.querySelector('.desktop-icons');
+        const apps = document.querySelectorAll('.draggable-app');
+        
+        // Get the closest app to swap with based on the mouse position
+        let closestApp = null;
+        let minDistance = Infinity;
+        
+        apps.forEach(app => {
+            if (app !== draggedApp) {
+                const rect = app.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+                const distance = Math.sqrt(
+                    Math.pow(e.clientX - centerX, 2) + 
+                    Math.pow(e.clientY - centerY, 2)
+                );
+                
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    closestApp = app;
+                }
+            }
+        });
+        
+        // If within a reasonable distance, swap the apps
+        if (closestApp && minDistance < 150) {
+            swapApps(draggedApp, closestApp);
+        }
+        
+        draggedApp.classList.remove('dragging');
+    }
+    
+    // Reset drag state
+    setTimeout(() => {
+        draggedApp = null;
+        isDraggingApp = false;
+    }, 100);
+}
+
+function swapApps(app1, app2) {
+    // Get the parent
+    const parent = app1.parentElement;
+    
+    // Get the grid positions
+    const gridPos1 = getGridPosition(app1);
+    const gridPos2 = getGridPosition(app2);
+    
+    // Remove existing grid position classes
+    app1.className = app1.className.replace(/grid-pos-\d-\d/g, '').trim();
+    app2.className = app2.className.replace(/grid-pos-\d-\d/g, '').trim();
+    
+    // Add swapped grid position classes
+    app1.classList.add(`grid-pos-${gridPos2.col}-${gridPos2.row}`);
+    app2.classList.add(`grid-pos-${gridPos1.col}-${gridPos1.row}`);
+}
+
+function getGridPosition(app) {
+    const classNames = app.className.split(' ');
+    const gridPosClass = classNames.find(cls => cls.startsWith('grid-pos-'));
+    
+    if (gridPosClass) {
+        const [_, col, row] = gridPosClass.match(/grid-pos-(\d)-(\d)/);
+        return { col: parseInt(col), row: parseInt(row) };
+    }
+    
+    // Default position if not found
+    return { col: 1, row: 1 };
+}
+
+// Ensure all apps have a grid position class
+function initializeGridPositions() {
+    const apps = document.querySelectorAll('.draggable-app');
+    const positions = [
+        { app: 'portfolio', col: 1, row: 1 },
+        { app: 'experience', col: 2, row: 1 },
+        { app: 'education', col: 3, row: 1 },
+        { app: 'skills', col: 1, row: 2 },
+        { app: 'contact', col: 2, row: 2 }
+    ];
+    
+    positions.forEach(pos => {
+        const app = document.querySelector(`.draggable-app[data-app="${pos.app}"]`);
+        if (app) {
+            app.classList.add(`grid-pos-${pos.col}-${pos.row}`);
+        }
+    });
+}
+
+function resetAppStyle(app) {
+    // Remove all inline styles
+    app.style.cssText = '';
+}
+
+function openApp(appName) {
+    const windowId = `${appName}-window`;
+    const window = document.getElementById(windowId);
+    
+    if (!window) {
+        console.error(`Window ${windowId} not found`);
+        return;
+    }
+    
+    // Show the window
+    window.style.display = 'block';
+    window.style.zIndex = ++windowZIndex;
+    
+    // Add to open windows set
+    openWindows.add(appName);
+    
+    // Remove from taskbar if it was minimized
+    removeFromTaskbar(appName);
+    
+    // Make window draggable
+    makeDraggable(window);
+    
+    // Focus the window
+    focusWindow(window);
+}
+
+function closeApp(appName) {
+    const windowId = `${appName}-window`;
+    const window = document.getElementById(windowId);
+    
+    if (window) {
+        window.style.display = 'none';
+        openWindows.delete(appName);
+        removeFromTaskbar(appName);
+    }
+}
+
+function minimizeApp(appName) {
+    const windowId = `${appName}-window`;
+    const window = document.getElementById(windowId);
+    
+    if (window) {
+        window.style.display = 'none';
+        addToTaskbar(appName);
+    }
+}
+
+function addToTaskbar(appName) {
+    const taskbarApps = document.getElementById('taskbar-apps');
+    
+    // Check if already in taskbar
+    if (document.getElementById(`taskbar-${appName}`)) {
+        return;
+    }
+    
+    const taskbarApp = document.createElement('div');
+    taskbarApp.className = 'taskbar-app';
+    taskbarApp.id = `taskbar-${appName}`;
+    taskbarApp.onclick = () => openApp(appName);
+    
+    // Get icon and title
+    const icons = {
+        portfolio: 'fas fa-folder-open',
+        experience: 'fas fa-briefcase',
+        education: 'fas fa-graduation-cap',
+        skills: 'fas fa-code',
+        contact: 'fas fa-envelope'
+    };
+    
+    const titles = {
+        portfolio: 'Portfolio',
+        experience: 'Experience',
+        education: 'Education',
+        skills: 'Skills',
+        contact: 'Contact'
+    };
+    
+    taskbarApp.innerHTML = `<i class="${icons[appName]}"></i>${titles[appName]}`;
+    taskbarApps.appendChild(taskbarApp);
+}
+
+function removeFromTaskbar(appName) {
+    const taskbarApp = document.getElementById(`taskbar-${appName}`);
+    if (taskbarApp) {
+        taskbarApp.remove();
+    }
+}
+
+function makeDraggable(windowElement) {
+    const header = windowElement.querySelector('.window-header');
+    let isDragging = false;
+    let currentX;
+    let currentY;
+    let initialX;
+    let initialY;
+    let xOffset = 0;
+    let yOffset = 0;
+    
+    header.addEventListener('mousedown', dragStart);
+    document.addEventListener('mousemove', drag);
+    document.addEventListener('mouseup', dragEnd);
+    
+    function dragStart(e) {
+        initialX = e.clientX - xOffset;
+        initialY = e.clientY - yOffset;
+        
+        if (e.target === header || header.contains(e.target)) {
+            isDragging = true;
+            windowElement.classList.add('dragging');
+        }
+    }
+    
+    function drag(e) {
+        if (isDragging) {
+            e.preventDefault();
+            currentX = e.clientX - initialX;
+            currentY = e.clientY - initialY;
+            
+            xOffset = currentX;
+            yOffset = currentY;
+            
+            windowElement.style.transform = `translate(${currentX}px, ${currentY}px)`;
+        }
+    }
+    
+    function dragEnd(e) {
+        initialX = currentX;
+        initialY = currentY;
+        isDragging = false;
+        windowElement.classList.remove('dragging');
+    }
+}
+
+function focusWindow(windowElement) {
+    // Remove focus from other windows
+    document.querySelectorAll('.app-window').forEach(win => {
+        win.classList.remove('focused');
+    });
+    
+    // Add focus to current window
+    windowElement.classList.add('focused');
+    windowElement.style.zIndex = ++windowZIndex;
+}
+
+// Add click handlers to focus windows and initialize draggable apps
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.app-window').forEach(window => {
+        window.addEventListener('mousedown', () => {
+            focusWindow(window);
+        });
+    });
+    
+    // Initialize draggable desktop apps
+    initializeDraggableApps();
+    initializeGridPositions();
+});
+
 async function fetchProjects() {
     try {
         const response = await fetch('js/projects.json');
@@ -119,14 +466,14 @@ async function renderProjects() {
         
         // Create personal projects section as a single scrollable container
         if (projectsData.personalProjects && projectsData.personalProjects.length > 0) {
-            // Remove the personal section title
-            // const personalSectionTitle = document.createElement('h3');
-            // personalSectionTitle.textContent = 'Personal Projects';
-            // portfolioSection.appendChild(personalSectionTitle);
-            
             // Create a single container for all personal projects
             const personalContainer = document.createElement('div');
             personalContainer.className = 'personal-projects-container';
+            
+            // Add the Projects header inside the container
+            const projectsHeader = document.createElement('h2');
+            projectsHeader.textContent = 'Projects';
+            personalContainer.appendChild(projectsHeader);
             
             projectsData.personalProjects.forEach(project => {
                 if (project && typeof project === 'object') {
@@ -277,6 +624,45 @@ function setupUnderlineAnimations() {
             }, 1000);
         }, 1000);
     }
+}
+
+function handleTouchStart(e) {
+    const touch = e.touches[0];
+    const mouseEvent = new MouseEvent('mousedown', {
+        clientX: touch.clientX,
+        clientY: touch.clientY
+    });
+    e.target.dispatchEvent(mouseEvent);
+}
+
+function handleTouchMove(e) {
+    if (!draggedApp) return;
+    
+    const touch = e.touches[0];
+    const mouseEvent = new MouseEvent('mousemove', {
+        clientX: touch.clientX,
+        clientY: touch.clientY
+    });
+    document.dispatchEvent(mouseEvent);
+    
+    e.preventDefault(); // Prevent scrolling while dragging
+}
+
+function handleTouchEnd(e) {
+    if (!draggedApp) return;
+    
+    let mouseEvent;
+    if (e.changedTouches && e.changedTouches.length > 0) {
+        const touch = e.changedTouches[0];
+        mouseEvent = new MouseEvent('mouseup', {
+            clientX: touch.clientX,
+            clientY: touch.clientY
+        });
+    } else {
+        mouseEvent = new MouseEvent('mouseup', {});
+    }
+    
+    document.dispatchEvent(mouseEvent);
 }
 
 // Initialize after a short delay to ensure all other scripts are loaded

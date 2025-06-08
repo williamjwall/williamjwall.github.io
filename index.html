@@ -12,48 +12,125 @@
     <canvas id="binary-trees-canvas"></canvas>
 
     <div class="container">
-        <header>
-            <div class="header-container container-underline">
-                <div class="logo">
-                    <a href="/">William Wall</a>
-                </div>
-                <nav>
-                    <ul>
-                        <li><a href="/">Home</a></li>
-                        <li><a href="#portfolio">Portfolio</a></li>
-                        <li><a href="#experience">Experience</a></li>
-                        <li><a href="#education">Education</a></li>
-                        <li><a href="#skills">Skills</a></li>
-                        <li><a href="#contact">Contact</a></li>
-                    </ul>
-                </nav>
-            </div>
-        </header>
-
         <main>
             <section class="intro">
-                <div class="intro-container container-underline">
-                    <h1>Software Engineer</h1>
-                    <p>I'm studying linguistics and computer science at UCLA, with some previous professional experience in data engineering.</p>
+                <!-- Combined header and intro in one container -->
+                <div class="combined-container container-underline">
+                    <div class="header-section">
+                        <div class="logo">
+                            <a href="/">William Wall</a>
+                        </div>
+                        <nav>
+                            <ul>
+                                <li><a href="/">Home</a></li>
+                                <li><a href="#" onclick="openApp('portfolio')">Portfolio</a></li>
+                                <li><a href="#" onclick="openApp('experience')">Experience</a></li>
+                                <li><a href="#" onclick="openApp('education')">Education</a></li>
+                                <li><a href="#" onclick="openApp('skills')">Skills</a></li>
+                                <li><a href="#" onclick="openApp('contact')">Contact</a></li>
+                            </ul>
+                        </nav>
+                    </div>
                     
-                    <div class="contact-info">
-                        <a href="mailto:williamjwall@gmail.com">williamjwall@gmail.com</a>
-                        <a href="https://www.linkedin.com/in/william-wall-82b1a923a/" target="_blank" rel="noopener">LinkedIn</a>
-                        <a href="#">Los Angeles, CA</a>
+                    <div class="intro-section">
+                        <h1>Software Engineer</h1>
+                        <p>I'm studying linguistics and computer science at UCLA, with some previous professional experience in data engineering.</p>
+                        
+                        <div class="contact-info">
+                            <a href="#"><i class="fas fa-map-marker-alt"></i> Los Angeles, CA</a>
+                        </div>
                     </div>
                 </div>
-                <hr>
-            </section>
 
-            <section id="portfolio" class="portfolio-section">
-                <!-- Projects will be added here by JavaScript -->
-            </section>
-
-            <section id="experience">
-                <div class="section-header container-underline">
-                    <h2>Work Experience</h2>
+                <!-- Desktop with draggable app icons in 3-2 layout -->
+                <div class="desktop">
+                    <div class="desktop-icons">
+                        <!-- First row - 3 apps -->
+                        <div class="desktop-app draggable-app grid-pos-1-1" data-app="portfolio">
+                            <div class="app-icon">
+                                <i class="fas fa-folder-open"></i>
+                            </div>
+                            <span class="app-name">Portfolio</span>
+                        </div>
+                        
+                        <div class="desktop-app draggable-app grid-pos-2-1" data-app="experience">
+                            <div class="app-icon">
+                                <i class="fas fa-briefcase"></i>
+                            </div>
+                            <span class="app-name">Experience</span>
+                        </div>
+                        
+                        <div class="desktop-app draggable-app grid-pos-3-1" data-app="education">
+                            <div class="app-icon">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                            <span class="app-name">Education</span>
+                        </div>
+                        
+                        <!-- Second row - 2 apps -->
+                        <div class="desktop-app draggable-app grid-pos-1-2" data-app="skills">
+                            <div class="app-icon">
+                                <i class="fas fa-code"></i>
+                            </div>
+                            <span class="app-name">Skills</span>
+                        </div>
+                        
+                        <div class="desktop-app draggable-app grid-pos-2-2" data-app="contact">
+                            <div class="app-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <span class="app-name">Contact</span>
+                        </div>
+                    </div>
                 </div>
-                
+            </section>
+        </main>
+
+        <footer>
+            <!-- Removed copyright text -->
+        </footer>
+    </div>
+
+    <!-- App Windows -->
+    <div id="portfolio-window" class="app-window" style="display: none;">
+        <div class="window-header">
+            <div class="window-title">
+                <i class="fas fa-folder-open"></i>
+                Portfolio
+            </div>
+            <div class="window-controls">
+                <button class="minimize-btn" onclick="minimizeApp('portfolio')">
+                    <i class="fas fa-minus"></i>
+                </button>
+                <button class="close-btn" onclick="closeApp('portfolio')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+        <div class="window-content">
+            <div id="portfolio" class="portfolio-section">
+                <!-- Projects will be added here by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <div id="experience-window" class="app-window" style="display: none;">
+        <div class="window-header">
+            <div class="window-title">
+                <i class="fas fa-briefcase"></i>
+                Work Experience
+            </div>
+            <div class="window-controls">
+                <button class="minimize-btn" onclick="minimizeApp('experience')">
+                    <i class="fas fa-minus"></i>
+                </button>
+                <button class="close-btn" onclick="closeApp('experience')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+        <div class="window-content">
+            <div class="work-experience-container">
                 <div class="experience-item">
                     <div class="experience-header">
                         <div>
@@ -86,13 +163,27 @@
                         </ul>
                     </div>
                 </div>
-            </section>
+            </div>
+        </div>
+    </div>
 
-            <section id="education">
-                <div class="section-header container-underline">
-                    <h2>Education</h2>
-                </div>
-                
+    <div id="education-window" class="app-window" style="display: none;">
+        <div class="window-header">
+            <div class="window-title">
+                <i class="fas fa-graduation-cap"></i>
+                Education
+            </div>
+            <div class="window-controls">
+                <button class="minimize-btn" onclick="minimizeApp('education')">
+                    <i class="fas fa-minus"></i>
+                </button>
+                <button class="close-btn" onclick="closeApp('education')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+        <div class="window-content">
+            <div class="education-container">
                 <div class="education">
                     <div class="education-header">
                         <div>
@@ -101,50 +192,92 @@
                         </div>
                         <div class="education-date">2024 - 2026</div>
                     </div>
-                    
-                </div>
-            </section>
-
-            <section id="skills" class="skills">
-                <div class="section-header container-underline">
-                    <h2>Skills</h2>
-                </div>
-                <div class="skills-container">
-                    <div class="skill-category">
-                        <div class="skill-list">
-                            <span class="skill">Python</span>
-                            <span class="skill">C++</span>
-                            <span class="skill">JavaScript</span>
-                            <span class="skill">HTML/CSS</span>
-                            <span class="skill">Snowflake</span>
-                            <span class="skill">Databricks</span>
-                            <span class="skill">Azure</span>
-                            <span class="skill">Google Cloud Platform</span>
-                            <span class="skill">OpenAI</span>
-                            <span class="skill">Pandas</span>
-                            <span class="skill">PySpark</span>
-                            <span class="skill">Git</span>
-                            <span class="skill">VS Code</span>
-                            <span class="skill">Jupyter Notebook</span>
-                        </div>
+                    <div class="education-activities">
+                        <h4>Activities:</h4>
+                        <ul>
+                            <li>Brazilian Jiu Jitsu Club</li>
+                        </ul>
                     </div>
                 </div>
-            </section>
+            </div>
+        </div>
+    </div>
 
-            <section id="contact">
-                <div class="section-header container-underline">
-                    <h2>Contact Me</h2>
+    <div id="skills-window" class="app-window" style="display: none;">
+        <div class="window-header">
+            <div class="window-title">
+                <i class="fas fa-code"></i>
+                Skills
+            </div>
+            <div class="window-controls">
+                <button class="minimize-btn" onclick="minimizeApp('skills')">
+                    <i class="fas fa-minus"></i>
+                </button>
+                <button class="close-btn" onclick="closeApp('skills')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+        <div class="window-content">
+            <div class="skills-container">
+                <div class="skill-category">
+                    <div class="skill-list">
+                        <span class="skill">Python</span>
+                        <span class="skill">C++</span>
+                        <span class="skill">JavaScript</span>
+                        <span class="skill">HTML/CSS</span>
+                        <span class="skill">Snowflake</span>
+                        <span class="skill">Databricks</span>
+                        <span class="skill">Azure</span>
+                        <span class="skill">Google Cloud Platform</span>
+                        <span class="skill">OpenAI</span>
+                        <span class="skill">Pandas</span>
+                        <span class="skill">PySpark</span>
+                        <span class="skill">Git</span>
+                        <span class="skill">VS Code</span>
+                        <span class="skill">Jupyter Notebook</span>
+                    </div>
                 </div>
-                <div class="contact-info container-underline">
-                    <a href="mailto:williamjwall@gmail.com">williamjwall@gmail.com</a>
-                    <a href="https://www.linkedin.com/in/william-wall-82b1a923a/" target="_blank" rel="noopener">LinkedIn</a>
-                </div>
-            </section>
-        </main>
+            </div>
+        </div>
+    </div>
 
-        <footer>
-            <!-- Removed copyright text -->
-        </footer>
+    <div id="contact-window" class="app-window" style="display: none;">
+        <div class="window-header">
+            <div class="window-title">
+                <i class="fas fa-envelope"></i>
+                Contact Me
+            </div>
+            <div class="window-controls">
+                <button class="minimize-btn" onclick="minimizeApp('contact')">
+                    <i class="fas fa-minus"></i>
+                </button>
+                <button class="close-btn" onclick="closeApp('contact')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+        <div class="window-content">
+            <div class="contact-container">
+                <div class="contact-links">
+                    <a href="mailto:williamjwall@gmail.com" class="contact-link">
+                        <i class="fas fa-envelope"></i>
+                        williamjwall@gmail.com
+                    </a>
+                    <a href="https://www.linkedin.com/in/william-wall-82b1a923a/" target="_blank" rel="noopener noreferrer" class="contact-link">
+                        <i class="fab fa-linkedin"></i>
+                        LinkedIn Profile
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Taskbar -->
+    <div class="taskbar">
+        <div class="taskbar-apps" id="taskbar-apps">
+            <!-- Minimized apps will appear here -->
+        </div>
     </div>
 
     <!-- Load libraries -->
