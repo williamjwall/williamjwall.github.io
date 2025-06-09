@@ -213,19 +213,16 @@ html {
 /* BeOS-style monochrome app windows */
 .app-window {
     position: fixed;
-    top: 5%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 90%;
-    max-width: 900px;
-    max-height: 90vh;
-    border: 1px solid #000000;
-    border-radius: 8px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg-color, #ffffff);
     z-index: 1000;
-    overflow: hidden;
-    animation: windowOpen 0.3s ease-out;
-    background-color: #f0f0f0 !important;
+    overflow: auto;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
 }
 
 .app-window.focused {
@@ -234,16 +231,12 @@ html {
 }
 
 .window-header {
-    background: linear-gradient(90deg, #ffffff 0%, #e8e8e8 100%) !important;
-    border-bottom: 1px solid #000000;
-    padding: 4px 8px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    -webkit-user-select: none;
-    user-select: none;
-    cursor: move;
-    height: 24px;
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color, rgba(0, 0, 0, 0.1));
+    background: transparent !important;
 }
 
 .window-title {
@@ -406,174 +399,112 @@ html {
     vertical-align: middle;
 }
 
-/* Responsive adjustments */
+/* Mobile-first minimalist design inspired by Eric Chung's site - only for mobile */
 @media (max-width: 768px) {
-    .app-window {
-        width: 95%;
-        max-height: 85vh;
-        top: 5%;
-        max-width: 95vw;
-        left: 50%;
-        transform: translateX(-50%);
-        overflow-y: auto;
+    /* Light theme (default) */
+    .light-theme {
+        --bg-color: #ffffff;
+        --text-color: #333333;
+        --accent-color: #0070f3;
+        --muted-color: #666666;
+        --border-color: #e0e0e0;
     }
     
-    .desktop {
-        margin: 15px 0 25px 15px;
+    /* Dark theme */
+    .dark-theme {
+        --bg-color: #121212;
+        --text-color: #f5f5f5;
+        --accent-color: #88ccff;
+        --muted-color: #a0a0a0;
+        --border-color: #333333;
     }
     
-    .desktop-icons {
-        gap: 25px;
+    /* Dusk theme */
+    .dusk-theme {
+        --bg-color: #2d3748;
+        --text-color: #e2e8f0;
+        --accent-color: #f687b3;
+        --muted-color: #a0aec0;
+        --border-color: #4a5568;
     }
     
-    .app-icon {
-        width: 56px;
-        height: 56px;
+    /* Banana theme */
+    .banana-theme {
+        --bg-color: #fff9c4;
+        --text-color: #5d4037;
+        --accent-color: #ff6f00;
+        --muted-color: #8d6e63;
+        --border-color: #ffe082;
     }
     
-    .app-icon img {
-        width: 48px;
-        height: 48px;
+    /* Theme switcher styles */
+    .theme-switcher {
+        display: flex;
+        gap: 0.5rem;
+        margin-top: 1.5rem;
     }
     
-    .app-icon i {
-        font-size: 24px;
+    .theme-btn {
+        background: none;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 3px;
+        padding: 0.25rem 0.5rem;
+        font-family: 'Roboto Mono', monospace;
+        font-size: 0.8rem;
+        color: inherit;
+        cursor: pointer;
+        text-transform: lowercase;
     }
     
-    .app-name {
-        font-size: 13px;
+    body.dark-theme .theme-btn,
+    body.dusk-theme .theme-btn {
+        border-color: rgba(255, 255, 255, 0.1);
     }
     
-    .window-content {
-        padding: 10px;
-        overflow-x: hidden;
+    .theme-btn.active {
+        background-color: rgba(0, 0, 0, 0.1);
     }
     
-    .header-container {
-        flex-direction: column;
-        padding: 15px;
+    body.dark-theme .theme-btn.active,
+    body.dusk-theme .theme-btn.active {
+        background-color: rgba(255, 255, 255, 0.1);
     }
     
-    nav ul {
-        margin-top: 15px;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 10px;
+    /* Apply theme variables to elements */
+    body {
+        font-family: 'Roboto Mono', monospace;
+        line-height: 1.6;
+        padding: 1.5rem;
+        background-color: var(--bg-color, #ffffff);
+        color: var(--text-color, #333333);
     }
-
+    
+    body.dark-mode {
+        background-color: #121212;
+        color: #f5f5f5;
+    }
+    
     .container {
         max-width: 100%;
-        padding: 0 10px;
+        padding: 0;
         margin: 0;
     }
-
-    .taskbar {
-        padding: 0 8px;
-        height: 45px;
-        background: rgba(30, 30, 30, 0.95) !important;
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-    }
-
-    .taskbar-app {
-        padding: 4px 8px;
-        font-size: 0.75rem;
-        border-radius: 6px;
-    }
-
-    .experience-header, 
-    .education-header {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .experience-date,
-    .education-date {
-        margin-top: 5px;
-    }
-
-    .window-controls button {
-        width: 22px;
-        height: 22px;
+    
+    /* Hide all desktop elements and animations */
+    #binary-trees-canvas, #graph-canvas, 
+    .desktop-intro-container, .desktop, .taskbar {
+        display: none !important;
     }
     
-    /* Mobile WebGL canvas - ensure proper fit */
-    #triangles-canvas, #binary-trees-canvas, #graph-canvas {
-        width: 100vw !important;
-        height: 100vh !important;
-        position: fixed !important;
-        left: 0 !important;
-        top: 0 !important;
-        z-index: -1 !important;
-        max-width: 100vw !important;
-        max-height: 100vh !important;
-        object-fit: cover !important;
-        overflow: hidden !important;
-        transform: scale(1) !important;
-    }
-
-    .window-icon[src] {
-        width: 12px;
-        height: 12px;
-    }
-    
-    .window-title {
-        font-size: 11px;
-    }
-    
-    .window-controls button {
-        width: 14px;
-        height: 14px;
-    }
-    
-    .window-controls button i {
-        font-size: 7px;
-    }
-    
-    .desktop {
-        margin: 10px 0 20px 0;
-        padding: 0 5px;
-    }
-    
-    .desktop-icons {
-        gap: 20px;
-        padding: 10px 0;
-        justify-content: center;
-    }
-    
-    /* Mobile app windows - full screen approach */
-    .app-window {
-        width: 98%;
-        max-width: 98vw;
-        max-height: 92vh;
-        top: 4%;
-        left: 1%;
-        transform: none;
-        border-radius: 12px;
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-    }
-    
-    /* Mobile window content - optimized spacing */
-    .window-content {
-        padding: 8px;
-        font-size: 0.85rem;
-        line-height: 1.4;
-    }
-
-    /* New minimal mobile design */
+    /* Simple minimalist intro container */
     .mobile-intro-container {
-        display: flex;
-        flex-direction: column;
-        padding: 2rem 1.5rem;
-        background-color: var(--minimal-bg);
+        display: block;
+        background: transparent !important;
+        border: none;
         border-radius: 0;
+        padding: 0;
+        margin: 0 0 2rem 0;
         box-shadow: none;
-        margin: 0;
-        width: 100%;
-        max-width: 100%;
-        font-family: 'Roboto Mono', monospace;
-        position: relative;
-        overflow: hidden;
         text-transform: lowercase;
     }
     
@@ -581,7 +512,7 @@ html {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        margin-bottom: var(--minimal-spacing);
+        margin-bottom: 1.5rem;
         gap: 0.5rem;
     }
     
@@ -591,189 +522,149 @@ html {
     
     .mobile-title h1 {
         font-size: 1.5rem;
-        font-weight: 600;
+        font-weight: 500;
         margin: 0;
-        color: var(--minimal-text);
+        color: inherit;
         font-family: 'Roboto Mono', monospace;
         letter-spacing: -0.02em;
     }
     
     .mobile-subtitle {
         font-size: 1rem;
-        color: var(--minimal-text);
+        color: inherit;
         opacity: 0.8;
-        margin: 0.25rem 0 0 0;
+        margin: 0;
         font-family: 'Roboto Mono', monospace;
         font-weight: 400;
     }
     
     .mobile-bio {
         margin: 1.5rem 0;
+        padding: 0;
+        background: transparent !important;
+        border: none;
     }
     
     .mobile-bio p {
         font-size: 0.95rem;
         line-height: 1.6;
-        color: var(--minimal-text);
+        color: inherit;
         margin: 0;
         font-family: 'Roboto Mono', monospace;
         font-weight: 400;
+        text-align: left;
     }
     
     .mobile-location {
-        display: flex;
-        align-items: center;
-        font-size: 0.85rem;
-        margin-top: 1rem;
-        color: var(--minimal-text);
-        opacity: 0.7;
+        display: none;
     }
     
-    .mobile-location i {
-        margin-right: 0.5rem;
-        font-size: 0.85rem;
-    }
-    
-    /* Minimal navigation for mobile */
+    /* Simplified navigation */
     .mobile-nav {
         display: flex;
         margin-top: 2rem;
-        border-top: 1px solid var(--minimal-border);
-        padding-top: 1.5rem;
+        border-top: 1px solid var(--border-color, rgba(0, 0, 0, 0.1));
+        padding-top: 1rem;
+    }
+    
+    body.dark-mode .mobile-nav {
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
     }
     
     .mobile-nav-item {
         margin-right: 1.5rem;
         font-size: 0.85rem;
-        color: var(--minimal-text);
+        color: inherit;
         text-decoration: none;
         font-family: 'Roboto Mono', monospace;
         position: relative;
     }
     
-    .mobile-nav-item::after {
-        content: '';
-        position: absolute;
-        width: 0;
-        height: 1px;
-        bottom: -2px;
-        left: 0;
-        background-color: var(--minimal-text);
-        transition: width 0.3s ease;
-    }
-    
-    .mobile-nav-item:hover::after {
-        width: 100%;
-    }
-    
-    /* Mobile app styling - simpler, cleaner approach */
-    .desktop {
-        margin: 2rem 0;
-        padding: 0 1.5rem;
-    }
-    
-    .desktop-icons {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 1.5rem;
-        width: 100%;
-    }
-    
-    .desktop-app {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        background: transparent;
-        padding: 0;
-        opacity: 1;
-        min-width: auto;
-    }
-    
-    .app-icon {
-        width: 48px;
-        height: 48px;
-        margin-bottom: 0.75rem;
-        border-radius: 0;
-        background: transparent !important;
-    }
-    
-    .app-icon img {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-        filter: none;
-        border-radius: 0;
-    }
-    
-    .app-name {
-        font-size: 0.85rem;
-        font-weight: 500;
-        color: var(--minimal-text) !important;
-        background: transparent;
-        padding: 0;
-        font-family: 'Roboto Mono', monospace;
-        text-shadow: none;
-        white-space: normal;
-    }
-
-    /* App window styling for mobile */
+    /* Modal windows styling */
     .app-window {
-        border-radius: 0;
-        border: none;
-        box-shadow: none;
-        background-color: var(--minimal-bg);
+        position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        max-width: 100%;
-        max-height: 100%;
+        background-color: var(--bg-color, #ffffff);
+        z-index: 1000;
+        overflow: auto;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+    }
+    
+    body.dark-mode .app-window {
+        background-color: #121212;
     }
     
     .window-header {
-        background-color: var(--minimal-bg);
-        border-bottom: 1px solid var(--minimal-border);
-        padding: 1rem 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+        border-bottom: 1px solid var(--border-color, rgba(0, 0, 0, 0.1));
+        background: transparent !important;
+    }
+    
+    body.dark-mode .window-header {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
     
     .window-title {
         font-family: 'Roboto Mono', monospace;
         font-size: 1rem;
         font-weight: 500;
+        color: inherit !important;
     }
     
     .window-content {
-        padding: 1.5rem;
+        padding: 1rem;
         font-family: 'Roboto Mono', monospace;
     }
     
-    .terminal-header {
-        font-family: 'Roboto Mono', monospace;
-        font-size: 0.85rem;
-        margin-bottom: 1.5rem;
-        color: var(--minimal-text);
-        opacity: 0.7;
+    /* Theme toggle */
+    .theme-toggle {
+        position: fixed;
+        top: 1rem;
+        right: 1rem;
+        z-index: 9999;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        color: inherit;
     }
     
-    /* Content sections styling */
+    body.dark-mode .theme-toggle {
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    /* Content styling */
     .work-experience-container,
     .education-container,
     .skills-container,
-    .portfolio-section {
+    .portfolio-section,
+    .contact-container {
         font-family: 'Roboto Mono', monospace;
     }
     
     .experience-item,
-    .education,
-    .skill-category {
-        border-bottom: 1px solid var(--minimal-border);
+    .education {
+        border-bottom: 1px solid var(--border-color, rgba(0, 0, 0, 0.1));
         padding-bottom: 1.5rem;
         margin-bottom: 1.5rem;
     }
     
-    .experience-header,
-    .education-header {
-        margin-bottom: 1rem;
+    body.dark-mode .experience-item,
+    body.dark-mode .education {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
     
     .experience-title,
@@ -781,12 +672,14 @@ html {
         font-size: 1rem;
         font-weight: 500;
         margin-bottom: 0.25rem;
+        color: inherit;
     }
     
     .experience-company,
     .education-degree {
         font-size: 0.85rem;
         opacity: 0.8;
+        color: inherit;
     }
     
     .experience-date,
@@ -794,18 +687,7 @@ html {
         font-size: 0.75rem;
         opacity: 0.7;
         margin-top: 0.5rem;
-    }
-    
-    .experience-description ul,
-    .education-activities ul {
-        padding-left: 1rem;
-    }
-    
-    .experience-description li,
-    .education-activities li {
-        font-size: 0.85rem;
-        margin-bottom: 0.5rem;
-        line-height: 1.5;
+        color: inherit;
     }
     
     .skill-list {
@@ -819,7 +701,41 @@ html {
         padding: 0.25rem 0.5rem;
         background-color: rgba(0, 0, 0, 0.05);
         border-radius: 2px;
-        color: var(--minimal-text);
+        color: inherit;
+    }
+    
+    body.dark-mode .skill {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    /* Simple contact links */
+    .contact-container {
+        padding: 1rem 0;
+    }
+    
+    .contact-links {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .contact-link {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem;
+        border: 1px solid var(--border-color, rgba(0, 0, 0, 0.1));
+        border-radius: 3px;
+        text-decoration: none;
+        color: inherit;
+        background: transparent !important;
+        font-size: 0.9rem;
+    }
+    
+    /* Hide desktop elements */
+    @media (max-width: 480px) {
+        .desktop, .desktop-intro-container {
+            display: none !important;
+        }
     }
 }
 
@@ -1468,42 +1384,25 @@ main {
 
 /* Contact container */
 .contact-container {
-    padding: 30px;
-    text-align: center;
-    max-width: 100%;
-    width: 100%;
-    height: auto;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    padding: 1rem 0;
 }
 
 .contact-links {
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    align-items: center;
-    justify-content: center;
-    max-width: 100%;
-    width: 100%;
+    gap: 1rem;
 }
 
 .contact-link {
     display: flex;
     align-items: center;
-    gap: 12px;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color, rgba(0, 0, 0, 0.1));
+    border-radius: 3px;
     text-decoration: none;
-    color: var(--text-color) !important;
-    font-size: 18px;
-    background-color: rgba(255, 255, 255, 0.1) !important;
-    padding: 15px 20px;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-    width: 100%;
-    max-width: 300px;
-    justify-content: center;
+    color: inherit;
+    background: transparent !important;
+    font-size: 0.9rem;
 }
 
 .contact-container h2 {
@@ -2071,16 +1970,12 @@ p {
 /* Mobile-first intro container */
 .mobile-intro-container {
     display: block;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(245, 245, 245, 0.9) 100%) !important;
-    border: 2px solid #000000;
-    border-radius: 20px;
-    padding: 25px 20px;
-    margin: 20px 10px 30px 10px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    position: relative;
-    overflow: hidden;
+    background: transparent !important;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    margin: 0 0 2rem 0;
+    box-shadow: none;
     text-transform: lowercase;
 }
 
