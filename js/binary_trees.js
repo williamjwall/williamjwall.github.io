@@ -21,11 +21,15 @@
     let backgroundGradient = null;
     
     function resizeCanvas() {
-        // Use the full viewport dimensions for mobile compatibility
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        // Get the actual viewport dimensions
+        const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+        const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
         
-        // Force canvas to cover the full viewport
+        // Set canvas dimensions to match viewport
+        canvas.width = vw;
+        canvas.height = vh;
+        
+        // Force canvas to cover the full viewport with CSS
         canvas.style.width = '100vw';
         canvas.style.height = '100vh';
         canvas.style.position = 'fixed';
@@ -33,8 +37,18 @@
         canvas.style.left = '0';
         canvas.style.zIndex = '-1';
         
+        // Ensure no scrollbars or overflow issues on mobile
+        canvas.style.maxWidth = '100vw';
+        canvas.style.maxHeight = '100vh';
+        canvas.style.objectFit = 'cover';
+        
         // Also update background gradient when resizing
         backgroundGradient = null;
+        
+        // Force a redraw after resize
+        if (window.BinaryTrees.active) {
+            draw();
+        }
     }
 
     // Add a resize event listener with debounce for better performance
@@ -48,9 +62,23 @@
     window.addEventListener('orientationchange', function() {
         setTimeout(resizeCanvas, 200);
     });
-
-    // Initialize canvas size
-    resizeCanvas();
+    
+    // Handle mobile viewport changes (address bar hiding/showing)
+    window.addEventListener('scroll', function() {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(resizeCanvas, 50);
+    });
+    
+    // Handle mobile visual viewport changes
+    if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', function() {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(resizeCanvas, 50);
+        });
+    }
+    
+    // Force initial resize after a short delay to ensure DOM is ready
+    setTimeout(resizeCanvas, 100);
 
     // Brown and yellow color palette
     const COLORS = {
