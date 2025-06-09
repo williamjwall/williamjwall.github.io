@@ -492,7 +492,7 @@ html {
     }
     
     /* Mobile WebGL canvas - ensure proper fit */
-    #triangles-canvas, #binary-trees-canvas {
+    #triangles-canvas, #binary-trees-canvas, #graph-canvas {
         width: 100vw !important;
         height: 100vh !important;
         position: fixed !important;
@@ -522,79 +522,6 @@ html {
     
     .window-controls button i {
         font-size: 7px;
-    }
-    
-    /* Mobile-specific intro styling */
-    .combined-container {
-        padding: 8px 12px;
-        margin: 10px 5px 15px 5px;
-        max-width: calc(100% - 10px);
-        border-radius: 12px;
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(245, 245, 245, 0.9) 100%) !important;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        border: 1px solid rgba(0, 0, 0, 0.1);
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-    }
-    
-    .header-section {
-        margin-bottom: 8px;
-        padding-bottom: 6px;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-        text-align: center;
-    }
-    
-    .header-section .logo a {
-        font-size: 1.1rem;
-        font-weight: 700;
-        color: #333 !important;
-        text-decoration: none;
-        letter-spacing: 0.5px;
-    }
-    
-    .intro-section {
-        text-align: center;
-    }
-    
-    .intro-section h1 {
-        font-size: 0.9rem;
-        margin-bottom: 6px;
-        font-weight: 600;
-        color: #444 !important;
-        line-height: 1.2;
-    }
-    
-    .intro-section p {
-        font-size: 0.75rem;
-        line-height: 1.3;
-        margin-bottom: 8px;
-        color: #666 !important;
-    }
-    
-    .combined-container .contact-info {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        padding: 4px 8px;
-        margin: 0 auto;
-        border-radius: 20px;
-        background: rgba(0, 0, 0, 0.05) !important;
-        border: 1px solid rgba(0, 0, 0, 0.08);
-        backdrop-filter: blur(4px);
-        -webkit-backdrop-filter: blur(4px);
-    }
-    
-    .combined-container .contact-info a {
-        font-size: 0.7rem;
-        color: #555 !important;
-        text-decoration: none;
-        font-weight: 500;
-    }
-    
-    .combined-container .contact-info i {
-        font-size: 0.7rem;
-        margin-right: 3px;
-        color: #777 !important;
     }
     
     .desktop {
@@ -630,36 +557,42 @@ html {
 
 @media (max-width: 480px) {
     /* Extra small mobile - even more compact */
-    .combined-container {
-        padding: 6px 10px;
-        margin: 8px 3px 12px 3px;
-        border-radius: 10px;
+    .mobile-intro-container {
+        padding: 20px 15px;
+        margin: 15px 8px 25px 8px;
+        border-radius: 18px;
     }
     
-    .header-section .logo a {
-        font-size: 1rem;
+    .mobile-header {
+        gap: 12px;
+        margin-bottom: 18px;
     }
     
-    .intro-section h1 {
+    .avatar-circle {
+        width: 55px;
+        height: 55px;
+        font-size: 18px;
+    }
+    
+    .mobile-title h1 {
+        font-size: 1.3rem;
+    }
+    
+    .mobile-subtitle {
+        font-size: 0.9rem;
+    }
+    
+    .mobile-bio p {
         font-size: 0.85rem;
-        margin-bottom: 4px;
     }
     
-    .intro-section p {
-        font-size: 0.7rem;
-        margin-bottom: 6px;
+    .mobile-location {
+        padding: 8px 12px;
     }
     
-    .combined-container .contact-info {
-        padding: 3px 6px;
-    }
-    
-    .combined-container .contact-info a {
-        font-size: 0.65rem;
-    }
-    
-    .combined-container .contact-info i {
-        font-size: 0.65rem;
+    .mobile-location i,
+    .mobile-location span {
+        font-size: 0.8rem;
     }
     
     /* Mobile desktop and icons */
@@ -719,7 +652,7 @@ html {
     }
 
     /* Mobile WebGL canvas - extra small screens */
-    #triangles-canvas, #binary-trees-canvas {
+    #triangles-canvas, #binary-trees-canvas, #graph-canvas {
         width: 100vw !important;
         height: 100vh !important;
         position: fixed !important;
@@ -737,36 +670,46 @@ html {
 /* For very small screens */
 @media (max-width: 360px) {
     /* Ultra compact for very small screens */
-    .combined-container {
-        padding: 5px 8px;
-        margin: 6px 2px 10px 2px;
-        border-radius: 8px;
+    .mobile-intro-container {
+        padding: 18px 12px;
+        margin: 12px 5px 20px 5px;
+        border-radius: 15px;
     }
     
-    .header-section .logo a {
-        font-size: 0.95rem;
+    .mobile-header {
+        gap: 10px;
+        margin-bottom: 15px;
     }
     
-    .intro-section h1 {
+    .avatar-circle {
+        width: 50px;
+        height: 50px;
+        font-size: 16px;
+    }
+    
+    .mobile-title h1 {
+        font-size: 1.2rem;
+    }
+    
+    .mobile-subtitle {
+        font-size: 0.85rem;
+    }
+    
+    .mobile-bio p {
         font-size: 0.8rem;
-        margin-bottom: 3px;
     }
     
-    .intro-section p {
-        font-size: 0.65rem;
-        margin-bottom: 5px;
+    .mobile-location {
+        padding: 6px 10px;
     }
     
-    .combined-container .contact-info a {
-        font-size: 0.6rem;
-    }
-    
-    .combined-container .contact-info i {
-        font-size: 0.6rem;
+    .mobile-location i,
+    .mobile-location span {
+        font-size: 0.75rem;
     }
     
     /* Mobile WebGL canvas - ultra small screens */
-    #triangles-canvas, #binary-trees-canvas {
+    #triangles-canvas, #binary-trees-canvas, #graph-canvas {
         width: 100vw !important;
         height: 100vh !important;
         position: fixed !important;
@@ -1828,167 +1771,6 @@ p {
     white-space: nowrap !important;
 }
 
-/* Combined header and intro container */
-.combined-container {
-    border: var(--border-width) solid var(--border-color);
-    padding: 18px;
-    margin-bottom: 25px;
-    background-color: rgba(255, 255, 255, 0.85) !important;
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    max-width: 800px;
-    margin-left: 0;
-    margin-right: auto;
-    text-align: left;
-    animation: floatMore 6s ease-in-out infinite;
-    transition: all 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-}
-
-/* Add cursor hover pause effect */
-.combined-container:hover {
-    animation-play-state: paused;
-    transform: translateY(0) rotate(0deg);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-/* Contact info in combined container - make it stack vertically */
-.combined-container .contact-info {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-    margin-bottom: 0;
-    padding: 8px 12px;
-    border: var(--border-width) solid var(--border-color);
-    background-color: rgba(255, 255, 255, 0.95) !important;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-radius: 4px;
-    font-size: 0.9rem;
-}
-
-/* Enhanced floating animation - more subtle and natural */
-@keyframes floatMore {
-    0% { transform: translateY(0px) rotate(0deg); }
-    25% { transform: translateY(-3px) rotate(0.1deg); }
-    50% { transform: translateY(-5px) rotate(0deg); }
-    75% { transform: translateY(-3px) rotate(-0.1deg); }
-    100% { transform: translateY(0px) rotate(0deg); }
-}
-
-/* Education activities */
-.education-activities {
-    margin-top: 15px;
-    padding-top: 10px;
-    border-top: 1px solid var(--border-color);
-}
-
-.education-activities h4 {
-    font-size: 1rem;
-    margin-bottom: 8px;
-    font-weight: 600;
-}
-
-.education-activities ul {
-    list-style-type: disc;
-    margin-left: 20px;
-    margin-bottom: 0;
-}
-
-.education-activities li {
-    margin-bottom: 5px;
-    font-size: 0.95rem;
-}
-
-/* Contact section improvements */
-.contact-container {
-    border: none !important;
-    margin: 0 !important;
-    padding: 20px !important;
-    background-color: transparent !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 200px;
-}
-
-.contact-links {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    padding: 20px;
-    border: var(--border-width) solid var(--border-color);
-    background-color: rgba(255, 255, 255, 0.95) !important;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-radius: 8px;
-    max-width: 300px;
-    width: 100%;
-}
-
-.contact-link {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px 16px;
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    background-color: rgba(255, 255, 255, 0.8) !important;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    font-size: 0.95rem;
-    font-weight: 500;
-}
-
-.contact-link:hover {
-    background-color: var(--text-color) !important;
-    color: white !important;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.contact-link:hover i {
-    color: white !important;
-}
-
-.contact-link i {
-    font-size: 16px;
-    color: #000000 !important;
-    min-width: 20px;
-    text-align: center;
-}
-
-/* Contact info in combined container - make smaller */
-.combined-container .contact-info {
-    display: inline-flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 0;
-    padding: 8px 12px;
-    border: var(--border-width) solid var(--border-color);
-    background-color: rgba(255, 255, 255, 0.95) !important;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-}
-
-.header-section {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid var(--border-color);
-}
-
-.logo a {
-    font-size: 1.6rem;
-    font-weight: bold;
-    text-decoration: none;
-}
-
 /* Mobile menu toggle button */
 .mobile-menu-toggle {
     display: none;
@@ -2164,5 +1946,98 @@ p {
         transition: all 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
     }
+}
+
+/* Education activities */
+.education-activities {
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border-color);
+}
+
+.education-activities h4 {
+    font-size: 1rem;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.education-activities ul {
+    list-style-type: disc;
+    margin-left: 20px;
+    margin-bottom: 0;
+}
+
+.education-activities li {
+    margin-bottom: 5px;
+    font-size: 0.95rem;
+}
+
+/* Contact section improvements */
+.contact-container {
+    border: none !important;
+    margin: 0 !important;
+    padding: 20px !important;
+    background-color: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+}
+
+.contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px;
+    border: var(--border-width) solid var(--border-color);
+    background-color: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 8px;
+    max-width: 300px;
+    width: 100%;
+}
+
+.contact-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background-color: rgba(255, 255, 255, 0.8) !important;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.contact-link:hover {
+    background-color: var(--text-color) !important;
+    color: white !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.contact-link:hover i {
+    color: white !important;
+}
+
+.contact-link i {
+    font-size: 16px;
+    color: #000000 !important;
+    min-width: 20px;
+    text-align: center;
+}
+
+.header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--border-color);
 }
 
