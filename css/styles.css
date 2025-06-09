@@ -73,6 +73,12 @@ body {
     opacity: 0.9;
 }
 
+.desktop-app:hover {
+    opacity: 1;
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    transform: translateY(-3px);
+}
+
 .desktop-app.dragging {
     z-index: 1000;
     transform: scale(1.1);
@@ -81,46 +87,89 @@ body {
     box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
 }
 
-.desktop-app:hover {
-    opacity: 1;
-    background-color: rgba(255, 255, 255, 0.1) !important;
-    transform: translateY(-3px);
+.terminal-prompt {
+    display: none;
 }
 
+/* Base app icon style - BeOS monochrome aesthetic */
 .app-icon {
     width: 72px;
     height: 72px;
-    border: var(--border-width) solid var(--border-color);
-    border-radius: 12px;
+    border: none;
+    border-radius: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--window-bg) !important;
     margin-bottom: 12px;
     transition: all 0.3s ease;
+    position: relative;
+    overflow: visible;
+    background: transparent !important;
+    box-shadow: none;
+}
+
+.app-icon::before, .app-icon::after {
+    display: none !important;
 }
 
 .app-icon i {
-    font-size: 32px;
-    color: var(--text-color) !important;
+    display: none;
 }
 
-.desktop-app:hover .app-icon {
-    border-width: var(--border-hover-width);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
-    transform: scale(1.05);
+.app-icon img {
+    width: 48px;
+    height: 48px;
+    display: block;
+    margin: 0 auto;
+    image-rendering: pixelated;
+    filter: drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.5));
 }
 
 .app-name {
-    font-size: 16px;
-    font-weight: 600;
+    font-size: 14px;
+    font-weight: bold;
     text-align: center;
-    color: white !important;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
     letter-spacing: 0.5px;
+    font-family: 'Arial', sans-serif;
+    color: #ffffff !important;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.9), -1px -1px 3px rgba(0, 0, 0, 0.9);
+    margin-top: 5px;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 2px 6px;
+    border-radius: 3px;
 }
 
-/* App Windows */
+.desktop-app:hover .app-icon img {
+    transform: scale(1.1);
+    filter: drop-shadow(3px 3px 5px rgba(0, 0, 0, 0.7));
+}
+
+.desktop-app:active .app-icon {
+    background: linear-gradient(135deg, #e0e0e0 0%, #d0d0d0 50%, #c0c0c0 100%);
+    transform: scale(0.95);
+}
+
+/* Portfolio - Folder icon with document symbol */
+[data-app="portfolio"] .app-icon::before,
+[data-app="portfolio"] .app-icon::after,
+[data-app="experience"] .app-icon::before,
+[data-app="experience"] .app-icon::after,
+[data-app="education"] .app-icon::before,
+[data-app="education"] .app-icon::after,
+[data-app="skills"] .app-icon::before,
+[data-app="skills"] .app-icon::after,
+[data-app="contact"] .app-icon::before,
+[data-app="contact"] .app-icon::after {
+    display: none !important;
+}
+
+.desktop-app:hover .app-icon {
+    background: linear-gradient(135deg, #f0f0f0 0%, #e8e8e8 50%, #d8d8d8 100%);
+    transform: scale(1.05);
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* BeOS-style monochrome app windows */
 .app-window {
     position: fixed;
     top: 5%;
@@ -129,113 +178,142 @@ body {
     width: 90%;
     max-width: 900px;
     max-height: 90vh;
-    background-color: var(--window-bg) !important;
-    border: var(--border-width) solid var(--border-color);
-    border-radius: 8px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    border: 2px solid #000000;
+    border-radius: 0;
+    box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.5);
     z-index: 1000;
     overflow: hidden;
     animation: windowOpen 0.3s ease-out;
+    background-color: #f0f0f0 !important;
 }
 
 .app-window.focused {
-    border-width: var(--border-hover-width);
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
-}
-
-.app-window.dragging {
-    transition: none;
-    cursor: move;
-}
-
-@keyframes windowOpen {
-    from {
-        opacity: 0;
-        transform: translateX(-50%) scale(0.9);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(-50%) scale(1);
-    }
+    border: 3px solid #000000;
+    box-shadow: 6px 6px 16px rgba(0, 0, 0, 0.6);
 }
 
 .window-header {
-    background-color: var(--window-header-bg) !important;
-    border-bottom: 1px solid var(--border-color);
-    padding: 12px 16px;
+    background: linear-gradient(90deg, #ffffff 0%, #e0e0e0 100%) !important;
+    border-bottom: 2px solid #000000;
+    padding: 6px 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     -webkit-user-select: none;
     user-select: none;
     cursor: move;
-}
-
-.app-window.focused .window-header {
-    background-color: rgba(220, 220, 220, 0.95) !important;
+    height: 28px;
 }
 
 .window-title {
     display: flex;
     align-items: center;
     gap: 8px;
-    font-weight: 600;
-    font-size: 16px;
-    color: var(--text-color) !important;
+    font-weight: bold;
+    font-size: 14px;
+    color: #000000 !important;
+    font-family: 'Arial', sans-serif;
 }
 
 .window-title i {
-    font-size: 16px;
-    color: var(--text-color) !important;
+    font-size: 14px;
+    color: #000000 !important;
 }
 
 .window-controls {
     display: flex;
-    gap: 8px;
+    gap: 4px;
 }
 
 .window-controls button {
-    width: 24px;
-    height: 24px;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    background-color: var(--window-bg) !important;
+    width: 20px;
+    height: 16px;
+    border: 2px solid #000000;
+    border-radius: 0;
+    background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%) !important;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s ease;
+    transition: all 0.1s ease;
+    font-size: 10px;
 }
 
 .window-controls button:hover {
-    background-color: rgba(200, 200, 200, 0.8) !important;
-    border-width: 2px;
+    background: linear-gradient(135deg, #f8f8f8 0%, #e8e8e8 100%) !important;
 }
 
-.close-btn:hover {
-    background-color: rgba(255, 100, 100, 0.8) !important;
-    color: white !important;
-}
-
-.minimize-btn:hover {
-    background-color: rgba(255, 200, 0, 0.8) !important;
+.window-controls button:active {
+    background: linear-gradient(135deg, #e0e0e0 0%, #d0d0d0 100%) !important;
 }
 
 .window-controls button i {
-    font-size: 12px;
-    color: var(--text-color) !important;
+    font-size: 10px;
+    color: #000000 !important;
 }
 
-.close-btn:hover i,
-.minimize-btn:hover i {
-    color: white !important;
+.close-btn:hover {
+    background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%) !important;
+}
+
+.minimize-btn:hover {
+    background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%) !important;
 }
 
 .window-content {
     padding: 0;
     max-height: calc(90vh - 60px);
     overflow-y: auto;
-    background-color: var(--window-bg) !important;
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Remove terminal headers and colored window styling */
+.terminal-header {
+    display: none;
+}
+
+/* Remove all colored window overrides */
+#portfolio-window .window-header,
+#experience-window .window-header,
+#education-window .window-header,
+#skills-window .window-header,
+#contact-window .window-header {
+    background: linear-gradient(90deg, #ffffff 0%, #e0e0e0 100%) !important;
+    border-bottom: 2px solid #000000;
+}
+
+#portfolio-window .window-title,
+#experience-window .window-title,
+#education-window .window-title,
+#skills-window .window-title,
+#contact-window .window-title {
+    color: #000000 !important;
+}
+
+#portfolio-window .window-title i,
+#experience-window .window-title i,
+#education-window .window-title i,
+#skills-window .window-title i,
+#contact-window .window-title i {
+    color: #000000 !important;
+}
+
+#portfolio-window .window-content,
+#experience-window .window-content,
+#education-window .window-content,
+#skills-window .window-content,
+#contact-window .window-content {
+    background-color: #ffffff !important;
+}
+
+#portfolio-window .window-controls button,
+#experience-window .window-controls button,
+#education-window .window-controls button,
+#skills-window .window-controls button,
+#contact-window .window-controls button {
+    background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%) !important;
 }
 
 /* Taskbar */
@@ -1430,7 +1508,7 @@ p {
 }
 
 .contact-link i {
-    font-size: 18px;
+    font-size: 16px;
     color: var(--text-color) !important;
     min-width: 20px;
     text-align: center;
@@ -1678,4 +1756,150 @@ p {
     max-width: 500px;
     margin: 0 auto;
     padding: 30px 20px;
+}
+
+/* Add terminal header styling */
+.terminal-header {
+    display: none;
+}
+
+/* Remove all colored terminal styling and window backgrounds */
+#portfolio-window .terminal-header,
+#experience-window .terminal-header,
+#education-window .terminal-header,
+#skills-window .terminal-header,
+#contact-window .terminal-header {
+    display: none;
+}
+
+#portfolio-window .window-content,
+#experience-window .window-content,
+#education-window .window-content,
+#skills-window .window-content,
+#contact-window .window-content {
+    background-color: #ffffff !important;
+}
+
+@keyframes windowOpen {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) scale(1);
+    }
+}
+
+.app-window.dragging {
+    transition: none;
+    cursor: move;
+}
+
+/* BeOS-style content styling */
+.experience-item, .education, .project {
+    border: 2px solid #000000;
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    font-family: 'Arial', sans-serif;
+    margin-bottom: 15px;
+    padding: 15px;
+}
+
+.experience-title, .education-school, .project h2 {
+    color: #000000 !important;
+    font-weight: bold;
+}
+
+.experience-company, .education-degree, .project-date {
+    color: #000000 !important;
+}
+
+.experience-date, .education-date {
+    color: #333333 !important;
+    font-style: italic;
+}
+
+.skill {
+    padding: 4px 8px;
+    font-size: 0.9rem;
+    border: 2px solid #000000;
+    background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%) !important;
+    color: #000000 !important;
+    font-family: 'Arial', sans-serif;
+    margin: 2px;
+    display: inline-block;
+}
+
+.skill:hover {
+    background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 100%) !important;
+}
+
+.contact-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 12px;
+    border: 2px solid #000000;
+    border-radius: 0;
+    background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%) !important;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    font-size: 0.95rem;
+    font-weight: normal;
+    color: #000000 !important;
+    font-family: 'Arial', sans-serif;
+}
+.contact-link:hover {
+    background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 100%) !important;
+    color: #000000 !important;
+}
+
+.contact-link i {
+    font-size: 16px;
+    color: #000000 !important;
+    min-width: 20px;
+    text-align: center;
+}
+
+/* BeOS icon styles */
+.app-icon {
+    width: 72px;
+    height: 72px;
+    border: none;
+    border-radius: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: visible;
+    background: transparent !important;
+    box-shadow: none;
+}
+
+.app-icon::before, .app-icon::after {
+    display: none !important;
+}
+
+.app-icon i {
+    display: none;
+}
+
+.app-icon img {
+    width: 48px;
+    height: 48px;
+    display: block;
+    margin: 0 auto;
+    image-rendering: pixelated;
+    filter: drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.5));
+}
+
+.window-icon {
+    width: 32px;
+    height: 32px;
+    margin-right: 8px;
+    vertical-align: middle;
+    image-rendering: pixelated;
 }

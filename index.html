@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>William Wall - Software Engineer</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/styles.css">
 </head>
@@ -48,38 +50,38 @@
                         <!-- First row - 3 apps -->
                         <div class="desktop-app draggable-app grid-pos-1-1" data-app="portfolio">
                             <div class="app-icon">
-                                <i class="fas fa-folder-open"></i>
+                                <img src="images/icons/portfolio.png" alt="Portfolio">
                             </div>
-                            <span class="app-name">Portfolio</span>
+                            <span class="app-name">projects.sh</span>
                         </div>
                         
                         <div class="desktop-app draggable-app grid-pos-2-1" data-app="experience">
                             <div class="app-icon">
-                                <i class="fas fa-briefcase"></i>
+                                <img src="images/icons/experience.png" alt="Experience">
                             </div>
-                            <span class="app-name">Experience</span>
+                            <span class="app-name">work.sh</span>
                         </div>
                         
                         <div class="desktop-app draggable-app grid-pos-3-1" data-app="education">
                             <div class="app-icon">
-                                <i class="fas fa-graduation-cap"></i>
+                                <img src="images/icons/education.png" alt="Education">
                             </div>
-                            <span class="app-name">Education</span>
+                            <span class="app-name">edu.sh</span>
                         </div>
                         
                         <!-- Second row - 2 apps -->
                         <div class="desktop-app draggable-app grid-pos-1-2" data-app="skills">
                             <div class="app-icon">
-                                <i class="fas fa-code"></i>
+                                <img src="images/icons/skills.png" alt="Skills">
                             </div>
-                            <span class="app-name">Skills</span>
+                            <span class="app-name">skills.sh</span>
                         </div>
                         
                         <div class="desktop-app draggable-app grid-pos-2-2" data-app="contact">
                             <div class="app-icon">
-                                <i class="fas fa-envelope"></i>
+                                <img src="images/icons/contact.png" alt="Contact">
                             </div>
-                            <span class="app-name">Contact</span>
+                            <span class="app-name">mail.sh</span>
                         </div>
                     </div>
                 </div>
@@ -95,7 +97,7 @@
     <div id="portfolio-window" class="app-window" style="display: none;">
         <div class="window-header">
             <div class="window-title">
-                <i class="fas fa-folder-open"></i>
+                <img src="images/icons/window/portfolio.png" alt="Portfolio" class="window-icon">
                 Portfolio
             </div>
             <div class="window-controls">
@@ -108,6 +110,7 @@
             </div>
         </div>
         <div class="window-content">
+            <div class="terminal-header">william@personal:~$ ls -la projects/</div>
             <div id="portfolio" class="portfolio-section">
                 <!-- Projects will be added here by JavaScript -->
             </div>
@@ -117,7 +120,7 @@
     <div id="experience-window" class="app-window" style="display: none;">
         <div class="window-header">
             <div class="window-title">
-                <i class="fas fa-briefcase"></i>
+                <img src="images/icons/window/experience.png" alt="Experience" class="window-icon">
                 Work Experience
             </div>
             <div class="window-controls">
@@ -130,6 +133,7 @@
             </div>
         </div>
         <div class="window-content">
+            <div class="terminal-header">william@personal:~$ cat cv.txt</div>
             <div class="work-experience-container">
                 <div class="experience-item">
                     <div class="experience-header">
@@ -170,7 +174,7 @@
     <div id="education-window" class="app-window" style="display: none;">
         <div class="window-header">
             <div class="window-title">
-                <i class="fas fa-graduation-cap"></i>
+                <img src="images/icons/window/education.png" alt="Education" class="window-icon">
                 Education
             </div>
             <div class="window-controls">
@@ -183,6 +187,7 @@
             </div>
         </div>
         <div class="window-content">
+            <div class="terminal-header">william@personal:~$ more edu.log</div>
             <div class="education-container">
                 <div class="education">
                     <div class="education-header">
@@ -206,7 +211,7 @@
     <div id="skills-window" class="app-window" style="display: none;">
         <div class="window-header">
             <div class="window-title">
-                <i class="fas fa-code"></i>
+                <img src="images/icons/window/skills.png" alt="Skills" class="window-icon">
                 Skills
             </div>
             <div class="window-controls">
@@ -219,6 +224,7 @@
             </div>
         </div>
         <div class="window-content">
+            <div class="terminal-header">william@personal:~$ ./skills.bin</div>
             <div class="skills-container">
                 <div class="skill-category">
                     <div class="skill-list">
@@ -245,7 +251,7 @@
     <div id="contact-window" class="app-window" style="display: none;">
         <div class="window-header">
             <div class="window-title">
-                <i class="fas fa-envelope"></i>
+                <img src="images/icons/window/contact.png" alt="Contact" class="window-icon">
                 Contact Me
             </div>
             <div class="window-controls">
@@ -258,6 +264,7 @@
             </div>
         </div>
         <div class="window-content">
+            <div class="terminal-header">william@personal:~$ mail -s "Hello" william@example.com</div>
             <div class="contact-container">
                 <div class="contact-links">
                     <a href="mailto:williamjwall@gmail.com" class="contact-link">
