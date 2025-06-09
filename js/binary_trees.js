@@ -21,14 +21,35 @@
     let backgroundGradient = null;
     
     function resizeCanvas() {
+        // Use the full viewport dimensions for mobile compatibility
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
+        
+        // Force canvas to cover the full viewport
+        canvas.style.width = '100vw';
+        canvas.style.height = '100vh';
+        canvas.style.position = 'fixed';
+        canvas.style.top = '0';
+        canvas.style.left = '0';
+        canvas.style.zIndex = '-1';
         
         // Also update background gradient when resizing
         backgroundGradient = null;
     }
-    
-    window.addEventListener('resize', resizeCanvas);
+
+    // Add a resize event listener with debounce for better performance
+    let resizeTimeout;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(resizeCanvas, 100);
+    });
+
+    // Also handle orientation changes on mobile
+    window.addEventListener('orientationchange', function() {
+        setTimeout(resizeCanvas, 200);
+    });
+
+    // Initialize canvas size
     resizeCanvas();
 
     // Brown and yellow color palette

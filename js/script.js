@@ -17,6 +17,8 @@ const originalPositions = {
     'contact': { x: 0, y: 0 }
 };
 
+// Mobile functionality is removed since we're not using the mobile menu
+
 function initializeDraggableApps() {
     const apps = document.querySelectorAll('.draggable-app');
     
@@ -250,11 +252,11 @@ function addToTaskbar(appName) {
     
     // Get icon and title
     const icons = {
-        portfolio: 'fas fa-folder-open',
-        experience: 'fas fa-briefcase',
-        education: 'fas fa-graduation-cap',
-        skills: 'fas fa-code',
-        contact: 'fas fa-envelope'
+        portfolio: 'images/icons/Screenshot from 2025-06-08 20-07-24.png',
+        experience: 'images/icons/Screenshot from 2025-06-08 20-07-36.png',
+        education: 'images/icons/Screenshot from 2025-06-08 20-07-50.png',
+        skills: 'images/icons/Screenshot from 2025-06-08 20-08-00.png',
+        contact: 'images/icons/Screenshot from 2025-06-08 20-08-23.png'
     };
     
     const titles = {
@@ -265,7 +267,7 @@ function addToTaskbar(appName) {
         contact: 'Contact'
     };
     
-    taskbarApp.innerHTML = `<i class="${icons[appName]}"></i>${titles[appName]}`;
+    taskbarApp.innerHTML = `<img src="${icons[appName]}" alt="${titles[appName]}" class="taskbar-icon">${titles[appName]}`;
     taskbarApps.appendChild(taskbarApp);
 }
 
@@ -665,5 +667,62 @@ function handleTouchEnd(e) {
     document.dispatchEvent(mouseEvent);
 }
 
-// Initialize after a short delay to ensure all other scripts are loaded
-setTimeout(initializeProjects, 100); 
+// Initialize mobile-specific functionality
+function initializeMobileSupport() {
+    // Handle orientation changes
+    window.addEventListener('resize', debounce(adjustForOrientation, 250));
+    window.addEventListener('orientationchange', adjustForOrientation);
+    
+    // Add tap highlight for mobile
+    const desktopApps = document.querySelectorAll('.desktop-app');
+    desktopApps.forEach(app => {
+        app.addEventListener('touchstart', function() {
+            this.style.backgroundColor = 'rgba(255, 255, 255, 0.15)';
+        });
+        app.addEventListener('touchend', function() {
+            setTimeout(() => {
+                this.style.backgroundColor = '';
+            }, 300);
+        });
+    });
+    
+    // Ensure WebGL canvas fits mobile screen
+    adjustForOrientation();
+}
+
+// Helper function to handle resize/orientation changes
+function adjustForOrientation() {
+    // Close any open windows that might be positioned incorrectly
+    const openAppWindows = document.querySelectorAll('.app-window[style*="display: block"]');
+    
+    if (window.innerWidth <= 480) {
+        // On very small screens, ensure windows are properly sized
+        openAppWindows.forEach(window => {
+            window.style.width = '100%';
+            window.style.maxHeight = '90vh';
+            window.style.top = '5vh';
+            window.style.left = '50%';
+            window.style.transform = 'translateX(-50%)';
+        });
+    }
+}
+
+// Debounce function to limit rapid executions
+function debounce(func, wait) {
+    let timeout;
+    return function() {
+        const context = this;
+        const args = arguments;
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(context, args), wait);
+    };
+}
+
+// Add to document initialization
+document.addEventListener('DOMContentLoaded', function() {
+    initializeDraggableApps();
+    initializeGridPositions();
+    initializeProjects();
+    setupUnderlineAnimations();
+    initializeMobileSupport();
+}); 
