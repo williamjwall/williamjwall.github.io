@@ -214,10 +214,6 @@ html {
     border: none;
 }
 
-.desktop-app:hover .app-icon img {
-    transform: scale(1.05);
-}
-
 .desktop-app:active .app-icon {
     transform: scale(0.95);
 }
@@ -573,14 +569,14 @@ html {
     
     .education-large {
         max-width: 95% !important;
-        min-width: 320px !important;
+        min-width: 300px !important;
         max-height: 90vh !important;
     }
     
     .education-large .window-content {
-        padding: 15px !important;
+        padding: 20px !important;
         font-size: 14px !important;
-        line-height: 1.4 !important;
+        line-height: 1.5 !important;
     }
     
     .mobile-intro-container {
@@ -740,12 +736,8 @@ html {
     }
 
     .taskbar-app {
-        padding: 4px 8px;
-        font-size: 12px;
-        border-radius: 0;
-        background: #fff !important;
-        border: 1px solid #000;
-        color: #000 !important;
+        padding: 6px 10px;
+        font-size: 0.7rem;
     }
 
     .experience-header, 
@@ -850,17 +842,6 @@ html {
         padding: 6px 10px;
         font-size: 0.7rem;
     }
-    
-    /* Education window on small mobile */
-    .education-large {
-        max-width: 98% !important;
-        min-width: 280px !important;
-    }
-    
-    .education-large .window-content {
-        padding: 15px !important;
-        font-size: 0.9rem !important;
-    }
 }
 
 @media (max-width: 360px) {
@@ -928,12 +909,6 @@ html {
     
     .app-name {
         font-size: 12px;
-    }
-    
-    /* Education window on very small screens */
-    .education-large .window-content {
-        padding: 12px !important;
-        font-size: 0.85rem !important;
     }
 }
 
