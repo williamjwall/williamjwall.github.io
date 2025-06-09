@@ -11,14 +11,38 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body class="dark-mode">
-    <!-- Canvas for binary trees animation -->
-    <canvas id="binary-trees-canvas"></canvas>
+    <!-- Canvas for binary trees animation (desktop) -->
+    <canvas id="binary-trees-canvas" class="active"></canvas>
+    <!-- Canvas for graph animation (mobile) -->
+    <canvas id="graph-canvas"></canvas>
 
     <div class="container">
         <main>
             <section class="intro">
-                <!-- Combined header and intro in one container -->
-                <div class="combined-container container-underline">
+                <!-- Mobile-optimized intro container -->
+                <div class="mobile-intro-container">
+                    <div class="mobile-header">
+                        <div class="mobile-avatar">
+                            <div class="avatar-circle">WW</div>
+                        </div>
+                        <div class="mobile-title">
+                            <h1>William Wall</h1>
+                            <p class="mobile-subtitle">Software Engineer</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mobile-bio">
+                        <p>Studying linguistics & computer science at UCLA. Previous experience in data engineering.</p>
+                    </div>
+                    
+                    <div class="mobile-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Los Angeles, CA</span>
+                    </div>
+                </div>
+
+                <!-- Desktop intro container (hidden on mobile) -->
+                <div class="desktop-intro-container container-underline">
                     <div class="header-section">
                         <div class="logo">
                             <a href="/">William Wall</a>
@@ -280,6 +304,9 @@
 
     <!-- Load libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gl-matrix/2.8.1/gl-matrix-min.js"></script>
+    
+    <!-- Load graph.js for mobile background -->
+    <script src="js/graph.js"></script>
     
     <!-- Simulate WebAssembly loading -->
     <script>

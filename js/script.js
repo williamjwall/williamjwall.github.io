@@ -718,6 +718,54 @@ function debounce(func, wait) {
     };
 }
 
+// Canvas switching functionality for mobile vs desktop
+function initializeCanvasSwitching() {
+    const binaryTreesCanvas = document.getElementById('binary-trees-canvas');
+    const graphCanvas = document.getElementById('graph-canvas');
+    
+    function switchCanvas() {
+        const isMobile = window.innerWidth <= 768;
+        
+        if (isMobile) {
+            // Switch to graph canvas for mobile
+            if (binaryTreesCanvas) {
+                binaryTreesCanvas.classList.remove('active');
+                if (window.BinaryTrees && window.BinaryTrees.active) {
+                    window.BinaryTrees.stop();
+                }
+            }
+            
+            if (graphCanvas) {
+                graphCanvas.classList.add('active');
+                if (window.Graph && !window.Graph.active) {
+                    window.Graph.init();
+                }
+            }
+        } else {
+            // Switch to binary trees canvas for desktop
+            if (graphCanvas) {
+                graphCanvas.classList.remove('active');
+                if (window.Graph && window.Graph.active) {
+                    window.Graph.stop();
+                }
+            }
+            
+            if (binaryTreesCanvas) {
+                binaryTreesCanvas.classList.add('active');
+                if (window.BinaryTrees && !window.BinaryTrees.active) {
+                    window.BinaryTrees.init();
+                }
+            }
+        }
+    }
+    
+    // Initial switch
+    switchCanvas();
+    
+    // Switch on resize with debounce
+    window.addEventListener('resize', debounce(switchCanvas, 300));
+}
+
 // Add to document initialization
 document.addEventListener('DOMContentLoaded', function() {
     initializeDraggableApps();
@@ -725,4 +773,5 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeProjects();
     setupUnderlineAnimations();
     initializeMobileSupport();
+    initializeCanvasSwitching();
 }); 
