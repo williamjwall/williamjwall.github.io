@@ -17,6 +17,20 @@ const originalPositions = {
     'contact': { x: 0, y: 0 }
 };
 
+// Initialize mobile navigation
+function initializeMobileNav() {
+    const mobileNavItems = document.querySelectorAll('.mobile-nav-item');
+    mobileNavItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+            e.preventDefault();
+            const appName = item.getAttribute('data-app');
+            if (appName) {
+                openApp(appName);
+            }
+        });
+    });
+}
+
 // Mobile functionality is removed since we're not using the mobile menu
 
 function initializeDraggableApps() {
@@ -766,7 +780,38 @@ function initializeCanvasSwitching() {
     window.addEventListener('resize', debounce(switchCanvas, 300));
 }
 
-// Add to document initialization
+// Initialize theme toggle functionality
+function initializeThemeToggle() {
+    const themeToggle = document.getElementById('theme-toggle');
+    const body = document.body;
+    const moonIcon = '<i class="fas fa-moon"></i>';
+    const sunIcon = '<i class="fas fa-sun"></i>';
+    
+    // Check if user preference is stored
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+        body.classList.remove('dark-mode');
+        themeToggle.innerHTML = moonIcon;
+    } else {
+        body.classList.add('dark-mode');
+        themeToggle.innerHTML = sunIcon;
+    }
+    
+    // Handle toggle click
+    themeToggle.addEventListener('click', () => {
+        if (body.classList.contains('dark-mode')) {
+            body.classList.remove('dark-mode');
+            themeToggle.innerHTML = moonIcon;
+            localStorage.setItem('theme', 'light');
+        } else {
+            body.classList.add('dark-mode');
+            themeToggle.innerHTML = sunIcon;
+            localStorage.setItem('theme', 'dark');
+        }
+    });
+}
+
+// Initialization when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
     initializeDraggableApps();
     initializeGridPositions();
@@ -774,4 +819,10 @@ document.addEventListener('DOMContentLoaded', function() {
     setupUnderlineAnimations();
     initializeMobileSupport();
     initializeCanvasSwitching();
+    
+    // Initialize the mobile navigation
+    initializeMobileNav();
+    
+    // Initialize theme toggle
+    initializeThemeToggle();
 }); 
