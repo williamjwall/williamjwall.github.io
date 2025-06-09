@@ -44,7 +44,6 @@
     }
     
     function init() {
-        console.log('Initializing Graph visualization...');
         // Clear existing nodes and edges
         Graph.nodes.length = 0;
         Graph.edges.length = 0;
@@ -57,7 +56,6 @@
         // Start animation
         Graph.active = true;
         requestAnimationFrame(animate);
-        console.log('Graph initialization complete');
     }
     
     function createNode() {

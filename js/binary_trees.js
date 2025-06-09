@@ -11,43 +11,50 @@
 
     const canvas = document.getElementById('binary-trees-canvas');
     if (!canvas) {
-        console.error("Canvas not found!");
+        console.error("Binary trees canvas not found!");
         return;
     }
 
     const ctx = canvas.getContext('2d');
     
-    // Create background gradient once
-    let backgroundGradient = null;
-    
     function resizeCanvas() {
-        // Get the actual viewport dimensions
-        const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
-        const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
+        const isDesktop = window.innerWidth > 768 && !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         
-        // Set canvas dimensions to match viewport
-        canvas.width = vw;
-        canvas.height = vh;
+        if (isDesktop) {
+            // Full screen canvas for desktop
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            
+            // Set canvas position for full screen
+            canvas.style.position = 'fixed';
+            canvas.style.left = '0';
+            canvas.style.top = '0';
+            canvas.style.width = window.innerWidth + 'px';
+            canvas.style.height = window.innerHeight + 'px';
+            canvas.style.transform = 'none';
+            canvas.style.transformOrigin = 'center';
+            canvas.style.display = 'block';
+            canvas.style.zIndex = '-1';
+            canvas.style.pointerEvents = 'none';
+        } else {
+            // Mobile - hide canvas completely
+            canvas.style.display = 'none';
+            if (window.BinaryTrees.active) {
+                stopAnimation();
+                clearMemory();
+            }
+            return;
+        }
         
-        // Force canvas to cover the full viewport with CSS
-        canvas.style.width = '100vw';
-        canvas.style.height = '100vh';
-        canvas.style.position = 'fixed';
-        canvas.style.top = '0';
-        canvas.style.left = '0';
-        canvas.style.zIndex = '-1';
+        // Update collision areas after resize
+        setTimeout(updateCollisionAreas, 100);
         
-        // Ensure no scrollbars or overflow issues on mobile
-        canvas.style.maxWidth = '100vw';
-        canvas.style.maxHeight = '100vh';
-        canvas.style.objectFit = 'cover';
-        
-        // Also update background gradient when resizing
-        backgroundGradient = null;
-        
-        // Force a redraw after resize
+        // Reinitialize trees if active
         if (window.BinaryTrees.active) {
-            draw();
+            updateTreeSettings();
+            
+            // Reset existing trees to grow toward updated app positions
+            activeTrees.forEach(tree => tree.reset());
         }
     }
 
@@ -55,16 +62,17 @@
     let resizeTimeout;
     window.addEventListener('resize', function() {
         clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(resizeCanvas, 100);
+        resizeTimeout = setTimeout(resizeCanvas, 150);
     });
 
     // Also handle orientation changes on mobile
     window.addEventListener('orientationchange', function() {
-        setTimeout(resizeCanvas, 200);
+        setTimeout(resizeCanvas, 300);
     });
     
     // Handle mobile viewport changes (address bar hiding/showing)
     window.addEventListener('scroll', function() {
+        if (window.innerWidth <= 768) return; // Skip on mobile
         clearTimeout(resizeTimeout);
         resizeTimeout = setTimeout(resizeCanvas, 50);
     });
@@ -72,6 +80,7 @@
     // Handle mobile visual viewport changes
     if (window.visualViewport) {
         window.visualViewport.addEventListener('resize', function() {
+            if (window.innerWidth <= 768) return; // Skip on mobile
             clearTimeout(resizeTimeout);
             resizeTimeout = setTimeout(resizeCanvas, 50);
         });
@@ -80,66 +89,60 @@
     // Force initial resize after a short delay to ensure DOM is ready
     setTimeout(resizeCanvas, 100);
 
-    // Brown and yellow color palette
+    // Black and white color palette for minimal design
     const COLORS = {
         background: '#ffffff', // White background
-        backgroundGradientTop: '#ffffff', // White gradient top
-        backgroundGradientBottom: '#ffffff', // White gradient bottom
-        branchColor: '#222222', // Dark grey for main branches
-        tipColor: '#333333', // Slightly lighter grey for branch tips
-        highlightColor: '#444444', // Medium grey highlight
-        accentColor: '#555555', // Light grey accent
-        newGrowthColor: '#111111' // Near black for new growth
+        branchColor: '#000000'  // Black for branches
     };
 
-    // Pre-compute RGB values to avoid parsing hex during animation
-    const BRANCH_RGB = {
-        r: parseInt(COLORS.branchColor.slice(1, 3), 16),
-        g: parseInt(COLORS.branchColor.slice(3, 5), 16),
-        b: parseInt(COLORS.branchColor.slice(5, 7), 16)
-    };
+    // Binary tree settings - More trees for full screen
+    let MAX_TREES = 20; // Increased from 15 to better fill the screen
+    let MIN_HORIZONTAL_SPACING = 70; // Reduced to fit more trees
     
-    const TIP_RGB = {
-        r: parseInt(COLORS.tipColor.slice(1, 3), 16),
-        g: parseInt(COLORS.tipColor.slice(3, 5), 16),
-        b: parseInt(COLORS.tipColor.slice(5, 7), 16)
-    };
-    
-    const HIGHLIGHT_RGB = {
-        r: parseInt(COLORS.highlightColor.slice(1, 3), 16),
-        g: parseInt(COLORS.highlightColor.slice(3, 5), 16),
-        b: parseInt(COLORS.highlightColor.slice(5, 7), 16)
-    };
-    
-    const GROWTH_RGB = {
-        r: parseInt(COLORS.newGrowthColor.slice(1, 3), 16),
-        g: parseInt(COLORS.newGrowthColor.slice(3, 5), 16),
-        b: parseInt(COLORS.newGrowthColor.slice(5, 7), 16)
-    };
-
-    // Binary tree settings - MOBILE-RESPONSIVE TREE COUNT AND SPACING
-    let MAX_TREES = 12; // Default for desktop
-    let MIN_VERTICAL_SPACING = 110; // Default for desktop
+    // App target positions for growth attraction
+    let appTargets = [];
     
     // Detect mobile and adjust tree settings
     function isMobile() {
-        return window.innerWidth <= 768;
+        return window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     }
     
     function updateTreeSettings() {
         if (isMobile()) {
-            MAX_TREES = 6; // Much fewer trees for mobile
-            MIN_VERTICAL_SPACING = 80; // Tighter spacing for mobile
+            // On mobile, don't run at all
+            if (window.BinaryTrees.active) {
+                stopAnimation();
+                clearMemory();
+            }
+            return;
         } else {
-            MAX_TREES = 12; // More trees for desktop
-            MIN_VERTICAL_SPACING = 110; // Wider spacing for desktop
+            MAX_TREES = 20; // More trees for better coverage
+            MIN_HORIZONTAL_SPACING = 70; // Tighter spacing for better fill
         }
     }
     
-    // Calculate optimal spacing based on canvas height and device type
+    // Get positions of all desktop apps for attraction-based growth
+    function updateAppTargets() {
+        appTargets = [];
+        const desktopApps = document.querySelectorAll('.desktop-app');
+        desktopApps.forEach((app, index) => {
+            if (window.getComputedStyle(app).display !== 'none') {
+                const rect = app.getBoundingClientRect();
+                appTargets.push({
+                    x: rect.left + rect.width / 2,
+                    y: rect.top + rect.height / 2,
+                    width: rect.width,
+                    height: rect.height,
+                    appIndex: index
+                });
+            }
+        });
+    }
+    
+    // Calculate optimal spacing based on canvas width and device type
     function calculateSpacing() {
         updateTreeSettings();
-        const spacing = Math.max(MIN_VERTICAL_SPACING, canvas.height / (MAX_TREES + 1));
+        const spacing = Math.max(MIN_HORIZONTAL_SPACING, canvas.width / (MAX_TREES + 1));
         return spacing;
     }
     
@@ -147,11 +150,11 @@
     let time = 0;
     let frameCount = 0;
     
-    // 90-degree directions - only right, up, down (never back toward root)
+    // Upward growth directions - up, left, right (never down toward root)
     const DIRECTIONS = [
-        { dx: 1, dy: 0 },  // right
-        { dx: 0, dy: -1 }, // up
-        { dx: 0, dy: 1 }   // down
+        { dx: 0, dy: -1 }, // up (primary direction)
+        { dx: -1, dy: 0 }, // left
+        { dx: 1, dy: 0 }   // right
     ];
     
     // Growth state tracking
@@ -159,6 +162,108 @@
     let lastGrowthCheck = 0;
     let growthPulseTimer = 0;
     
+    // Collision detection areas
+    let collisionAreas = [];
+    
+    function updateCollisionAreas() {
+        collisionAreas = [];
+        
+        // Update app targets for growth attraction
+        updateAppTargets();
+        
+        // Add small collision areas around desktop apps so trees grow AROUND them
+        const desktopApps = document.querySelectorAll('.desktop-app');
+        desktopApps.forEach((app, index) => {
+            if (window.getComputedStyle(app).display !== 'none') {
+                const rect = app.getBoundingClientRect();
+                // Add collision area around the app with small padding
+                collisionAreas.push({
+                    x: rect.left - 15, // Small padding around the app
+                    y: rect.top - 15,
+                    width: rect.width + 30,
+                    height: rect.height + 30,
+                    type: `desktop-app-${index}`
+                });
+            }
+        });
+        
+        // Add intro container area
+        let introContainer = document.querySelector('.desktop-intro-container');
+        if (!introContainer || window.getComputedStyle(introContainer).display === 'none') {
+            introContainer = document.querySelector('.mobile-intro-container');
+        }
+        if (!introContainer) {
+            introContainer = document.querySelector('.intro-container');
+        }
+        if (!introContainer) {
+            // Fallback - look for any visible intro element
+            const introElements = document.querySelectorAll('[class*="intro"]');
+            for (const element of introElements) {
+                if (window.getComputedStyle(element).display !== 'none') {
+                    introContainer = element;
+                    break;
+                }
+            }
+        }
+        
+        if (introContainer && window.getComputedStyle(introContainer).display !== 'none') {
+            const rect = introContainer.getBoundingClientRect();
+            collisionAreas.push({
+                x: rect.left,
+                y: rect.top,
+                width: rect.width,
+                height: rect.height,
+                type: 'intro-container'
+            });
+        }
+        
+        // Add header container area
+        const headerContainer = document.querySelector('.header-container');
+        if (headerContainer && window.getComputedStyle(headerContainer).display !== 'none') {
+            const rect = headerContainer.getBoundingClientRect();
+            collisionAreas.push({
+                x: rect.left,
+                y: rect.top,
+                width: rect.width,
+                height: rect.height,
+                type: 'header-container'
+            });
+        }
+        
+        // Add padding around remaining collision areas (not apps since they already have padding)
+        collisionAreas = collisionAreas.map(area => {
+            let padding = 0; // Default no additional padding
+            
+            // For intro container, use minimal padding so trees can reach the border
+            if (area.type === 'intro-container') {
+                padding = 5; // Very small padding - trees will hit the border
+            }
+            // For header, use normal padding
+            else if (area.type === 'header-container') {
+                padding = 25;
+            }
+            // Desktop apps already have padding applied above, so no additional padding
+            
+            return {
+                ...area,
+                x: area.x - padding,
+                y: area.y - padding,
+                width: area.width + (padding * 2),
+                height: area.height + (padding * 2)
+            };
+        });
+    }
+    
+    function checkCollision(x, y) {
+        for (const area of collisionAreas) {
+            if (x >= area.x && x <= area.x + area.width &&
+                y >= area.y && y <= area.y + area.height) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     // Binary Tree class
     class BinaryTree {
         constructor(index) {
@@ -167,24 +272,24 @@
         }
         
         reset() {
-            // Position calculation - evenly space trees vertically
+            // Position calculation - evenly space trees horizontally across full screen
             const spacing = calculateSpacing();
-            const verticalPos = spacing * (this.index + 1);
+            const horizontalPos = spacing * (this.index + 1);
             
-            // Start further left for longer growth potential
-            this.x = -100; // Increased leftward start position
-            this.y = verticalPos;
+            // Start at the bottom of the canvas for upward growth
+            this.x = horizontalPos;
+            this.y = canvas.height - 50; // Start near bottom with some margin
             
             this.segments = [];
             this.activeSegments = new Set();
             this.terminalNodes = new Set();
             this.pendingSegments = [];
             
-            // Growth parameters - FURTHER INCREASED FOR MORE EXTENT
-            this.growthSpeed = 3.0 + Math.random() * 6; // Even faster growth
-            this.branchingChance = 0.2 + Math.random() * 0.3; // Higher branching probability
-            this.rightwardBias = 0.5 + Math.random() * 0.3; // Stronger rightward bias to extend further
-            this.thickness = 2.0 + Math.random() * 2.0; // Maintain thin branches
+            // Growth parameters - optimized for lower branching
+            this.growthSpeed = 2.0 + Math.random() * 4; // Slightly slower growth
+            this.branchingChance = 0.3 + Math.random() * 0.3; // Increased from 0.25-0.5 to 0.3-0.6
+            this.upwardBias = 0.5 + Math.random() * 0.25; // Increased upward bias
+            this.thickness = 0.5 + Math.random() * 0.5; // Branch thickness
             
             // Growth bursts
             this.burstMode = false;
@@ -198,48 +303,141 @@
         }
         
         addInitialSegment() {
-            // Longer initial length for faster expansion
-            const length = 90 + Math.random() * 80; // Increased from 70+60
+            // Shorter initial upward segment to encourage lower branching
+            const length = 30 + Math.random() * 40;
             
             this.segments.push({
                 startX: this.x,
                 startY: this.y,
-                endX: this.x + length,
-                endY: this.y,
+                endX: this.x,
+                endY: this.y - length, // Grow upward (negative Y)
                 length: length,
-                angle: 0,
-                direction: { dx: 1, dy: 0 },
+                angle: -Math.PI/2, // Point upward
+                direction: { dx: 0, dy: -1 }, // Upward direction
                 branchCount: 0,
                 depth: 0,
                 progress: 0,
                 age: 0,
                 isGrowing: true,
                 thickness: this.thickness,
-                id: 0
+                id: 0,
+                blocked: false
             });
             
             this.activeSegments.add(0);
         }
         
         getNextDirection(parentDirection) {
-            // Can't go back toward the root
+            // Can't go back toward the root (downward)
             const invalidDirection = { dx: -parentDirection.dx, dy: -parentDirection.dy };
             
-            // Filter valid directions
+            // Filter valid directions (no downward growth)
             const validDirections = DIRECTIONS.filter(dir => 
                 !(dir.dx === invalidDirection.dx && dir.dy === invalidDirection.dy)
             );
             
-            // Enhanced rightward bias for further extension
-            if (Math.random() < this.rightwardBias) {
-                // Continue in same direction more often for longer branches
-                if (Math.random() < 0.4) { // Increased from 0.3
-                    return parentDirection;
-                }
-                return { dx: 1, dy: 0 };
+            // Find app targets to grow around (not directly to)
+            let bestDirection = null;
+            let shortestDistance = Infinity;
+            
+            if (appTargets.length > 0) {
+                const currentX = this.segments[this.segments.length - 1]?.endX || this.x;
+                const currentY = this.segments[this.segments.length - 1]?.endY || this.y;
+                
+                appTargets.forEach(target => {
+                    const distance = Math.sqrt(
+                        Math.pow(target.x - currentX, 2) + 
+                        Math.pow(target.y - currentY, 2)
+                    );
+                    
+                    // Create attraction zones around each app rather than direct attraction
+                    if (distance < 200 && distance < shortestDistance) { // Within influence zone
+                        shortestDistance = distance;
+                        
+                        const deltaX = target.x - currentX;
+                        const deltaY = target.y - currentY;
+                        
+                        // Instead of growing directly toward the app, grow toward spaces around it
+                        let preferredDirection = null;
+                        
+                        // If we're below the app, prefer growing upward and around it
+                        if (currentY > target.y + 40) {
+                            // Below the app - grow up and around
+                            if (Math.abs(deltaX) > 60) {
+                                // Far to the side - grow toward the app horizontally first
+                                preferredDirection = deltaX > 0 ? { dx: 1, dy: 0 } : { dx: -1, dy: 0 };
+                            } else {
+                                // Close horizontally - grow upward
+                                preferredDirection = { dx: 0, dy: -1 };
+                            }
+                        } 
+                        // If we're to the side of the app, prefer growing around it
+                        else if (Math.abs(deltaX) > 40) {
+                            // To the side - grow around horizontally, but slightly toward it
+                            if (Math.abs(deltaY) < 30) {
+                                // At same level - grow toward it horizontally
+                                preferredDirection = deltaX > 0 ? { dx: 1, dy: 0 } : { dx: -1, dy: 0 };
+                            } else {
+                                // Different level - prefer upward movement
+                                preferredDirection = { dx: 0, dy: -1 };
+                            }
+                        }
+                        // If we're close to the app, prefer growing away and around
+                        else if (distance < 80) {
+                            // Very close - grow away to go around
+                            if (Math.abs(deltaX) > Math.abs(deltaY)) {
+                                preferredDirection = deltaX > 0 ? { dx: -1, dy: 0 } : { dx: 1, dy: 0 }; // Opposite direction
+                            } else {
+                                preferredDirection = { dx: 0, dy: -1 }; // Go up to go around
+                            }
+                        }
+                        // If we're above the app, prefer lateral movement to go around
+                        else {
+                            // Above or at similar level - prefer lateral movement
+                            if (Math.abs(deltaX) > 20) {
+                                preferredDirection = deltaX > 0 ? { dx: 1, dy: 0 } : { dx: -1, dy: 0 };
+                            } else {
+                                preferredDirection = Math.random() < 0.5 ? { dx: 1, dy: 0 } : { dx: -1, dy: 0 };
+                            }
+                        }
+                        
+                        // Make sure preferred direction is valid (no downward growth)
+                        if (preferredDirection && preferredDirection.dy === 1) {
+                            preferredDirection = Math.random() < 0.5 ? { dx: 1, dy: 0 } : { dx: -1, dy: 0 };
+                        }
+                        
+                        if (preferredDirection && validDirections.some(dir => dir.dx === preferredDirection.dx && dir.dy === preferredDirection.dy)) {
+                            bestDirection = preferredDirection;
+                        }
+                    }
+                });
             }
             
-            // Random choice between valid directions
+            // Randomly decide direction with bias toward flowing around apps
+            const rand = Math.random();
+            
+            // Strong bias toward flowing around apps when in their influence zone
+            if (bestDirection) {
+                if (rand < 0.6) { // 60% chance to follow the flow direction
+                    return bestDirection;
+                }
+            }
+            
+            // Enhanced upward bias for remaining cases
+            if (rand < this.upwardBias) {
+                // Continue in same direction less often for more even spread
+                if (rand < this.upwardBias * 0.25) {
+                    return parentDirection;
+                }
+                
+                // Otherwise grow upward when possible
+                const upwardDir = validDirections.find(dir => dir.dy === -1);
+                if (upwardDir) {
+                    return upwardDir;
+                }
+            }
+            
+            // Random valid direction for remaining cases
             return validDirections[Math.floor(Math.random() * validDirections.length)];
         }
         
@@ -254,31 +452,47 @@
             // Get next direction
             const nextDirection = this.getNextDirection(parent.direction);
             
-            // Longer segments for further extension, especially in horizontal direction
-            let baseLength = 30 + Math.random() * 40; // Slightly longer segments
+            // Much longer segments for better reach
+            let baseLength = 40 + Math.random() * 60; // Increased from 15+25 to 40+60
             
-            // Make rightward segments even longer
-            if (nextDirection.dx === 1) {
-                baseLength += 15 + Math.random() * 20; // Extra length for rightward segments
+            // Make horizontal segments even longer to reach containers
+            if (nextDirection.dx !== 0) {
+                baseLength += 20 + Math.random() * 40; // Extra length for horizontal reach
             }
             
-            // Less depth reduction for longer branches
-            const depthReduction = Math.min(15, depth * Math.random() * 1.5); // Reduced from 20 and 2
-            const length = Math.max(10, baseLength - depthReduction);
+            // Upward segments should be moderately long
+            if (nextDirection.dy === -1) {
+                baseLength += 15 + Math.random() * 25; // Boost upward growth
+                
+                // Less density-based adjustment - we want longer branches
+                const nearbySegments = this.getNearbySegmentsCount(lastX, lastY, 150);
+                const densityFactor = Math.max(0.9, 1.1 - (nearbySegments * 0.02));
+                baseLength *= densityFactor;
+            }
+            
+            // Reduced depth penalty to maintain length at deeper levels
+            const depthReduction = Math.min(15, depth * (0.3 + Math.random() * 0.2)); // Less aggressive reduction
+            const length = Math.max(15, baseLength - depthReduction); // Higher minimum length
             
             // Calculate endpoints
             const endX = lastX + (nextDirection.dx * length);
             const endY = lastY + (nextDirection.dy * length);
             
+            // Check if the endpoint would collide with UI elements
+            const wouldCollide = checkCollision(endX, endY);
+            if (wouldCollide) {
+                return null; // Don't add segment that would collide
+            }
+            
             // Calculate angle for drawing
             let angle = 0;
-            if (nextDirection.dx === 1) angle = 0;
-            else if (nextDirection.dx === -1) angle = Math.PI;
-            else if (nextDirection.dy === 1) angle = Math.PI/2;
-            else if (nextDirection.dy === -1) angle = -Math.PI/2;
+            if (nextDirection.dx === 1) angle = 0; // right
+            else if (nextDirection.dx === -1) angle = Math.PI; // left
+            else if (nextDirection.dy === 1) angle = Math.PI/2; // down
+            else if (nextDirection.dy === -1) angle = -Math.PI/2; // up
             
-            // More variable thickness reduction
-            const thicknessFactor = Math.max(0.15, 1 - (depth * Math.random() * 0.08));
+            // Gentler thickness reduction to keep branches visible
+            const thicknessFactor = Math.max(0.3, 1 - (depth * Math.random() * 0.04)); // Less aggressive thickness reduction
             
             // Create the new segment
             const segmentIndex = this.segments.length;
@@ -299,7 +513,8 @@
                 isGrowing: true,
                 thickness: this.thickness * thicknessFactor,
                 id: segmentId,
-                parentIndex: parentIndex
+                parentIndex: parentIndex,
+                blocked: false
             });
             
             this.activeSegments.add(segmentIndex);
@@ -310,6 +525,25 @@
             }
             
             return segmentIndex;
+        }
+        
+        // Helper to count nearby segments for density awareness
+        getNearbySegmentsCount(x, y, radius) {
+            let count = 0;
+            for (const segment of this.segments) {
+                // Skip tiny or non-visible segments
+                if (segment.progress < 0.5) continue;
+                
+                // Calculate distance from segment endpoints to the point
+                const d1 = Math.sqrt(Math.pow(segment.startX - x, 2) + Math.pow(segment.startY - y, 2));
+                const d2 = Math.sqrt(Math.pow(segment.endX - x, 2) + Math.pow(segment.endY - y, 2));
+                
+                // If either endpoint is within radius, count it
+                if (d1 < radius || d2 < radius) {
+                    count++;
+                }
+            }
+            return count;
         }
         
         update() {
@@ -344,11 +578,42 @@
                 segment.age++;
                 
                 if (segment.progress < 1) {
-                    // More variable growth speed
                     const speedFactor = this.burstMode ? 2 : (0.7 + Math.random() * 0.6);
                     segment.progress += (this.growthSpeed * speedFactor) / Math.max(20, segment.length);
                     
-                    if (segment.progress >= 1) {
+                    // Check collision as segment grows
+                    const currentEndX = segment.startX + (segment.endX - segment.startX) * segment.progress;
+                    const currentEndY = segment.startY + (segment.endY - segment.startY) * segment.progress;
+                    
+                    // Check if segment has reached an app target area (for visual feedback)
+                    let reachedAppArea = false;
+                    if (appTargets.length > 0) {
+                        appTargets.forEach(target => {
+                            const distanceToTarget = Math.sqrt(
+                                Math.pow(currentEndX - target.x, 2) + 
+                                Math.pow(currentEndY - target.y, 2)
+                            );
+                            // Consider app area reached if within 50 pixels of center (larger radius for flowing around)
+                            if (distanceToTarget <= 50) {
+                                reachedAppArea = true;
+                                segment.nearApp = target.appIndex;
+                            }
+                        });
+                    }
+                    
+                    if (checkCollision(currentEndX, currentEndY)) {
+                        // Stop growing this segment
+                        segment.blocked = true;
+                        segment.isGrowing = false;
+                        completedSegmentsThisFrame.add(segmentIndex);
+                        this.terminalNodes.add(segmentIndex);
+                    } else if (reachedAppArea) {
+                        // Successfully reached an app - complete the segment
+                        segment.progress = 1;
+                        segment.isGrowing = false;
+                        completedSegmentsThisFrame.add(segmentIndex);
+                        this.terminalNodes.add(segmentIndex);
+                    } else if (segment.progress >= 1) {
                         segment.progress = 1;
                         completedSegmentsThisFrame.add(segmentIndex);
                         this.terminalNodes.add(segmentIndex);
@@ -365,22 +630,29 @@
                 
                 const segment = this.segments[segmentIndex];
                 
-                if (segment.branchCount === 0) {
-                    // More variable branching chance
+                if (segment.branchCount === 0 && !segment.blocked) {
+                    // Calculate branch density in this area for adaptive branching
+                    const density = this.getNearbySegmentsCount(segment.endX, segment.endY, 120);
+                    const densityFactor = Math.max(0.6, 1.2 - (density * 0.03));
+                    
+                    // Adjust branch chance based on density
+                    const adjustedBranchChance = this.branchingChance * densityFactor;
+                    
                     const branchRoll = Math.random();
-                    if (branchRoll < this.branchingChance) {
+                    if (branchRoll < adjustedBranchChance) {
                         this.queueSegment(segmentIndex);
                         newSegmentsThisFrame++;
                         branchingAttempts++;
                         
-                        // Random chance for multiple branches - INCREASED CHANCE
-                        if (branchRoll < this.branchingChance * 0.4) { // Increased from 0.3
+                        // More density-aware multiple branching
+                        const adjustedMultiBranchChance = 0.5 * densityFactor;
+                        if (branchRoll < adjustedBranchChance * adjustedMultiBranchChance) {
                             this.queueSegment(segmentIndex);
                             newSegmentsThisFrame++;
                             branchingAttempts++;
                             
-                            // Chance for triple branching - INCREASED CHANCE
-                            if (branchRoll < this.branchingChance * 0.15) { // Increased from 0.1
+                            // Triple branching now takes density into account
+                            if (density < 8 && branchRoll < adjustedBranchChance * 0.2 * densityFactor) {
                                 this.queueSegment(segmentIndex);
                                 newSegmentsThisFrame++;
                                 branchingAttempts++;
@@ -394,7 +666,7 @@
                 this.activeSegments.delete(segmentIndex);
             }
             
-            // Additional random branching - IMPROVED FOR DENSITY
+            // Additional random branching for density (only non-blocked segments)
             if (branchingAttempts < maxBranchingAttempts) {
                 const terminalNodesArray = Array.from(this.terminalNodes);
                 const shuffledNodes = terminalNodesArray.sort(() => Math.random() - 0.5);
@@ -405,19 +677,23 @@
                     
                     const segment = this.segments[nodeIndex];
                     
-                    // Allow even deeper branches for more growth
-                    if (!segment || segment.depth > 40 || segment.branchCount >= 3) continue; // Increased depth limit from 30 to 40
+                    // Allow deeper branches but prioritize lower levels, skip blocked segments
+                    if (!segment || segment.depth > 25 || segment.branchCount >= 3 || segment.blocked) continue;
                     
-                    // Prioritize rightward growth for extending further
-                    let branchChance = this.branchingChance * (0.4 + Math.random() * 0.4);
+                    // Much higher branching chance for lower depths, but still controlled
+                    let branchChance = this.branchingChance * (0.5 + Math.random() * 0.3);
                     
-                    if (segment.direction.dx === 1) {
-                        // Increase branching for rightward segments
-                        branchChance *= (1.0 + Math.random() * 0.5); // Increased from 0.8+0.4
+                    // More moderate bonus for lower depth segments
+                    const lowDepthBonus = Math.max(1, 2 - (segment.depth * 0.15));
+                    branchChance *= lowDepthBonus;
+                    
+                    if (segment.direction.dy === -1) {
+                        // Moderate increase for upward segments
+                        branchChance *= (1.0 + Math.random() * 0.25);
                     }
                     
-                    // Less reduction by depth for more distant growth
-                    branchChance *= Math.max(0.25, 1 - (segment.depth * 0.02)); // Reduced depth penalty
+                    // More reduction by depth to prevent overcrowding
+                    branchChance *= Math.max(0.3, 1 - (segment.depth * 0.025));
                     
                     if (Math.random() < branchChance) {
                         this.queueSegment(nodeIndex);
@@ -430,37 +706,37 @@
             // More aggressive forced growth when stalled
             if (this.activeSegments.size === 0 && this.pendingSegments.length === 0) {
                 const terminalNodesArray = Array.from(this.terminalNodes);
-                if (terminalNodesArray.length > 0) {
-                    // Identify rightmost nodes for forced extension
-                    let rightmostX = -Infinity;
-                    let rightmostNodes = [];
+                const nonBlockedNodes = terminalNodesArray.filter(nodeIndex => !this.segments[nodeIndex].blocked);
+                
+                if (nonBlockedNodes.length > 0) {
+                    // Find the highest nodes (smallest Y values)
+                    let highestY = Infinity;
+                    let highestNodes = [];
                     
-                    // Find the rightmost nodes (furthest extensions)
-                    terminalNodesArray.forEach(nodeIndex => {
+                    nonBlockedNodes.forEach(nodeIndex => {
                         const segment = this.segments[nodeIndex];
-                        if (segment.endX > rightmostX) {
-                            rightmostX = segment.endX;
-                            rightmostNodes = [nodeIndex];
-                        } else if (segment.endX === rightmostX) {
-                            rightmostNodes.push(nodeIndex);
+                        if (segment.endY < highestY) {
+                            highestY = segment.endY;
+                            highestNodes = [nodeIndex];
+                        } else if (segment.endY === highestY) {
+                            highestNodes.push(nodeIndex);
                         }
                     });
                     
-                    // Always grow from rightmost nodes to extend further
-                    if (rightmostNodes.length > 0) {
-                        // Add at least one rightmost node for continued expansion
-                        const randomRightmostNode = rightmostNodes[Math.floor(Math.random() * rightmostNodes.length)];
-                        this.queueSegment(randomRightmostNode);
+                    // Always grow from highest nodes to reach higher
+                    if (highestNodes.length > 0) {
+                        const randomHighestNode = highestNodes[Math.floor(Math.random() * highestNodes.length)];
+                        this.queueSegment(randomHighestNode);
                     }
                     
                     // Also add some random nodes for general density
-                    const numRandomNodes = Math.min(3, terminalNodesArray.length);
+                    const numRandomNodes = Math.min(3, nonBlockedNodes.length);
                     for (let i = 0; i < numRandomNodes; i++) {
-                        const randomIndex = Math.floor(Math.random() * terminalNodesArray.length);
-                        const randomNode = terminalNodesArray[randomIndex];
+                        const randomIndex = Math.floor(Math.random() * nonBlockedNodes.length);
+                        const randomNode = nonBlockedNodes[randomIndex];
                         this.queueSegment(randomNode);
-                        terminalNodesArray.splice(randomIndex, 1);
-                        if (terminalNodesArray.length === 0) break;
+                        nonBlockedNodes.splice(randomIndex, 1);
+                        if (nonBlockedNodes.length === 0) break;
                     }
                 }
             }
@@ -470,11 +746,13 @@
         
         draw(ctx) {
             // Skip drawing segments that are off-screen for performance
-            const viewportMargin = 100; // pixels
+            const viewportMargin = 100;
             const minX = -viewportMargin;
             const maxX = canvas.width + viewportMargin;
             const minY = -viewportMargin;
             const maxY = canvas.height + viewportMargin;
+            
+            let drawnSegments = 0;
             
             // Draw segments
             for (let i = 0; i < this.segments.length; i++) {
@@ -497,86 +775,26 @@
                     continue;
                 }
                 
-                // Calculate line thickness with pulsing effect
-                let thickness = segment.thickness;
-                
-                // Add pulse effect during burst mode
-                if (this.burstMode) {
-                    const pulseSpeed = 0.2;
-                    const pulseAmount = 0.15;
-                    const pulseFactor = 1.0 + Math.sin(segment.age * pulseSpeed) * pulseAmount;
-                    thickness *= pulseFactor;
+                // Set visual style based on whether segment reached an app area
+                if (segment.nearApp !== undefined) {
+                    // Segments that reached app areas get a slightly thicker line
+                    ctx.strokeStyle = '#000000';
+                    ctx.lineWidth = 1.0;
+                    ctx.lineCap = 'round';
                 } else {
-                    // Smaller pulse during normal growth
-                    const pulseSpeed = 0.01;
-                    const pulseAmount = 0.05;
-                    const pulseFactor = 1.0 + Math.sin(segment.age * pulseSpeed) * pulseAmount;
-                    thickness *= pulseFactor;
+                    // Regular segments
+                    ctx.strokeStyle = '#000000';
+                    ctx.lineWidth = 0.5;
+                    ctx.lineCap = 'butt';
                 }
-                
-                // Determine color based on segment properties
-                let r, g, b;
-                let alpha = 0.95;
-                
-                if (segment.progress < 1) {
-                    // Growing segments - use growth color (yellow)
-                    const growthFactor = 1 - segment.progress;
-                    r = GROWTH_RGB.r * growthFactor + TIP_RGB.r * (1 - growthFactor);
-                    g = GROWTH_RGB.g * growthFactor + TIP_RGB.g * (1 - growthFactor);
-                    b = GROWTH_RGB.b * growthFactor + TIP_RGB.b * (1 - growthFactor);
-                    
-                    // Brighter during burst mode
-                    if (this.burstMode) {
-                        r = Math.min(255, r * 1.2);
-                        g = Math.min(255, g * 1.2);
-                        b = Math.min(255, b * 1.2);
-                    }
-                } else if (segment.branchCount === 0) {
-                    // Terminal branches (tips) - use tip color (light brown)
-                    r = TIP_RGB.r;
-                    g = TIP_RGB.g;
-                    b = TIP_RGB.b;
-                    
-                    // Highlight tips that can grow - enhanced glow
-                    if (this.terminalNodes.has(i)) {
-                        const highlightFactor = 0.3 + Math.sin(segment.age * 0.08) * 0.15; // Increased from 0.2+0.1
-                        r = r * (1 - highlightFactor) + HIGHLIGHT_RGB.r * highlightFactor;
-                        g = g * (1 - highlightFactor) + HIGHLIGHT_RGB.g * highlightFactor;
-                        b = b * (1 - highlightFactor) + HIGHLIGHT_RGB.b * highlightFactor;
-                    }
-                } else {
-                    // Regular branches - use branch color (brown)
-                    r = BRANCH_RGB.r;
-                    g = BRANCH_RGB.g;
-                    b = BRANCH_RGB.b;
-                    
-                    // Add occasional highlights for visual interest (yellow glow) - enhanced
-                    if (Math.random() < 0.03) { // Increased from 0.02
-                        const highlightFactor = 0.25 + Math.random() * 0.2; // Increased from 0.15+0.15
-                        r = r * (1 - highlightFactor) + HIGHLIGHT_RGB.r * highlightFactor;
-                        g = g * (1 - highlightFactor) + HIGHLIGHT_RGB.g * highlightFactor;
-                        b = b * (1 - highlightFactor) + HIGHLIGHT_RGB.b * highlightFactor;
-                    }
-                    
-                    // Burst mode coloring - enhanced
-                    if (this.burstMode) {
-                        const burstFactor = 0.15 + Math.random() * 0.15; // Increased from 0.1+0.1
-                        r = r * (1 - burstFactor) + HIGHLIGHT_RGB.r * burstFactor;
-                        g = g * (1 - burstFactor) + HIGHLIGHT_RGB.g * burstFactor;
-                        b = b * (1 - burstFactor) + HIGHLIGHT_RGB.b * burstFactor;
-                    }
-                }
-                
-                // Set line style
-                ctx.strokeStyle = `rgba(${Math.floor(r)}, ${Math.floor(g)}, ${Math.floor(b)}, ${alpha})`;
-                ctx.lineWidth = thickness;
-                ctx.lineCap = 'square'; // Square caps for 90-degree tree aesthetic
                 
                 // Draw the segment
                 ctx.beginPath();
                 ctx.moveTo(segment.startX, segment.startY);
                 ctx.lineTo(drawEndX, drawEndY);
                 ctx.stroke();
+                
+                drawnSegments++;
             }
         }
 
@@ -611,72 +829,92 @@
     }
 
     function init() {
-        // Stop any existing animation
-        if (window.BinaryTrees.animationId) {
-            cancelAnimationFrame(window.BinaryTrees.animationId);
+        // Don't initialize on mobile devices
+        if (isMobile()) {
+            console.log('Binary trees: Mobile detected, skipping initialization');
+            return;
         }
         
-        // Update tree settings based on current screen size
+        console.log('Binary trees: Initializing for desktop');
+        
+        // Force initial resize to ensure canvas is properly sized
+        resizeCanvas();
+        
+        // Initialize tree settings
         updateTreeSettings();
         
-        activeTrees = [];
-        // Create appropriate number of trees for current device
-        for (let i = 0; i < MAX_TREES; i++) {
-            activeTrees.push(new BinaryTree(i));
-        }
-        
-        window.BinaryTrees.active = true;
+        // Clear any existing state
+        activeTrees.length = 0;
         time = 0;
         frameCount = 0;
+        
+        // Update collision areas
+        updateCollisionAreas();
+        
+        // Create initial trees with better spacing
+        const spacing = calculateSpacing();
+        const startY = canvas.height - 50; // Start near bottom
+        
+        for (let i = 0; i < MAX_TREES; i++) {
+            const x = spacing * (i + 1);
+            if (x < canvas.width - 50) { // Leave some margin
+                const tree = new BinaryTree(i);
+                tree.x = x;
+                tree.y = startY;
+                activeTrees.push(tree);
+            }
+        }
+        
+        console.log(`Binary trees: Created ${activeTrees.length} trees`);
+        
+        // Start animation
+        window.BinaryTrees.active = true;
         animate();
     }
 
     function update() {
         time++;
         frameCount++;
-        growthPulseTimer++;
         
-        // Global growth metrics tracking
-        if (frameCount % 60 === 0) {
-            // Reset growth counter every second
-            totalGrowthPerSecond = 0;
-        }
-        
-        // Synchronize growth bursts occasionally
-        if (growthPulseTimer > 500 && Math.random() < 0.01) {
-            growthPulseTimer = 0;
-            // Trigger growth burst in all trees
-            for (const tree of activeTrees) {
-                if (Math.random() < 0.7) {
-                    tree.triggerGrowthBurst();
-                }
-            }
+        // Update collision areas periodically (every 2 seconds)
+        if (frameCount % 120 === 0) {
+            updateCollisionAreas();
         }
         
         // Update all active trees
         for (let i = 0; i < activeTrees.length; i++) {
-            activeTrees[i].update();
+            if (activeTrees[i]) {
+                activeTrees[i].update();
+            }
         }
-    }
-
-    function createBackgroundGradient() {
-        if (!backgroundGradient || canvas.height !== backgroundGradient._height) {
-            backgroundGradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-            backgroundGradient._height = canvas.height;
-            backgroundGradient.addColorStop(0, COLORS.backgroundGradientTop);
-            backgroundGradient.addColorStop(1, COLORS.backgroundGradientBottom);
+        
+        // Growth pulse tracking
+        const now = performance.now();
+        if (now - lastGrowthCheck >= 1000) {
+            totalGrowthPerSecond = 0;
+            lastGrowthCheck = now;
         }
-        return backgroundGradient;
+        
+        growthPulseTimer++;
     }
 
     function draw() {
-        // Clear with gradient background
-        ctx.fillStyle = createBackgroundGradient();
+        // Clear with solid white background
+        ctx.fillStyle = '#ffffff';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        // Remove test rectangle - no longer needed
+        
+        // Ensure line color is set to pure black
+        ctx.strokeStyle = '#000000';
+        ctx.lineWidth = 0.5;
+        ctx.lineCap = 'butt';
         
         // Draw all active trees
         for (let i = 0; i < activeTrees.length; i++) {
-            activeTrees[i].draw(ctx);
+            if (activeTrees[i] && activeTrees[i].segments) {
+                activeTrees[i].draw(ctx);
+            }
         }
     }
 
@@ -690,39 +928,36 @@
     }
 
     function stopAnimation() {
-        window.BinaryTrees.active = false;
         if (window.BinaryTrees.animationId) {
             cancelAnimationFrame(window.BinaryTrees.animationId);
             window.BinaryTrees.animationId = null;
         }
-        
-        // Clear arrays to help garbage collection
-        activeTrees = [];
-        backgroundGradient = null;
+        window.BinaryTrees.active = false;
+        console.log('Binary trees: Animation stopped');
     }
     
     function clearMemory() {
-        // Stop animation first
-        stopAnimation();
+        // Clear all trees and reset state
+        activeTrees.length = 0;
+        collisionAreas.length = 0;
+        appTargets.length = 0;
+        time = 0;
+        frameCount = 0;
         
         // Clear canvas
-        if (canvas) {
+        if (ctx && canvas.width && canvas.height) {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            // Remove event listeners
-            window.removeEventListener('resize', resizeCanvas);
         }
         
-        // Explicitly null out references
-        activeTrees = null;
-        backgroundGradient = null;
-        
-        console.log('BinaryTrees: Memory cleared');
+        console.log('Binary trees: Memory cleared');
     }
 
     // Auto-initialize if the canvas is active
-    if (canvas.classList.contains('active')) {
-        init();
-    }
+    setTimeout(() => {
+        if (window.innerWidth > 768) {
+            init();
+        }
+    }, 500);
 
     // Add resize handler to reinitialize trees when switching between mobile/desktop
     let lastIsMobile = isMobile();

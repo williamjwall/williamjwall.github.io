@@ -4,22 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#000000">
-    <title>William Wall - Software Engineer</title>
+    <title>william wall</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/styles.css">
 </head>
-<body class="dark-mode">
-    <!-- Canvas for binary trees animation (desktop) -->
-    <canvas id="binary-trees-canvas" class="active"></canvas>
-    <!-- Canvas for graph animation (mobile) -->
-    <canvas id="graph-canvas"></canvas>
-
-    <!-- Theme toggle button -->
-    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
-        <i class="fas fa-moon"></i>
-    </button>
+<body>
+    <!-- Canvas for binary trees animation (desktop only) -->
+    <canvas id="binary-trees-canvas" class="desktop-canvas"></canvas>
 
     <div class="container">
         <main>
@@ -28,45 +21,38 @@
                 <div class="mobile-intro-container">
                     <div class="mobile-header">
                         <div class="mobile-avatar">
-                            <div class="avatar-circle">WW</div>
+                            <div class="avatar-circle">ww</div>
                         </div>
                         <div class="mobile-title">
-                            <h1>William Wall</h1>
-                            <p class="mobile-subtitle">Software Engineer</p>
+                            <h1>william wall</h1>
+                            <p class="mobile-subtitle">software engineer</p>
                         </div>
                     </div>
                     
                     <div class="mobile-bio">
-                        <p>Studying linguistics & computer science at UCLA. Previous experience in data engineering.</p>
+                        <p>studying linguistics & computer science at ucla. previous experience in data engineering.</p>
                     </div>
                     
                     <div class="mobile-location">
                         <i class="fas fa-map-marker-alt"></i>
-                        <span>Los Angeles, CA</span>
+                        <span>los angeles, ca</span>
                     </div>
                     
-                    <!-- Mobile navigation -->
-                    <div class="mobile-nav">
-                        <a href="#" class="mobile-nav-item" data-app="portfolio">projects</a>
-                        <a href="#" class="mobile-nav-item" data-app="experience">work</a>
-                        <a href="#" class="mobile-nav-item" data-app="contact">contact</a>
-                    </div>
                 </div>
 
                 <!-- Desktop intro container (hidden on mobile) -->
                 <div class="desktop-intro-container container-underline">
                     <div class="header-section">
                         <div class="logo">
-                            <a href="/">William Wall</a>
+                            <a href="/">william wall</a>
                         </div>
                     </div>
                     
                     <div class="intro-section">
-                        <h1>Software Engineer</h1>
-                        <p>I'm studying linguistics and computer science at UCLA, with some previous professional experience in data engineering.</p>
-                        
+                        <h1>software engineer</h1>
+                        <p>i study linguistics and computer science at ucla, with some previous professional experience in data engineering.</p>
                         <div class="contact-info">
-                            <a href="#"><i class="fas fa-map-marker-alt"></i> Los Angeles, CA</a>
+                            <a href="#">los angeles, california</a>
                         </div>
                     </div>
                 </div>
@@ -77,21 +63,21 @@
                         <!-- First row - 3 apps -->
                         <div class="desktop-app draggable-app grid-pos-1-1" data-app="portfolio">
                             <div class="app-icon">
-                                <img src="images/icons/Screenshot from 2025-06-08 20-07-24.png" alt="Portfolio">
+                                <img src="images/icons/Screenshot from 2025-06-08 20-07-24.png" alt="portfolio">
                             </div>
                             <span class="app-name">projects.sh</span>
                         </div>
                         
                         <div class="desktop-app draggable-app grid-pos-2-1" data-app="experience">
                             <div class="app-icon">
-                                <img src="images/icons/Screenshot from 2025-06-08 20-07-36.png" alt="Experience">
+                                <img src="images/icons/Screenshot from 2025-06-08 20-07-36.png" alt="experience">
                             </div>
                             <span class="app-name">work.sh</span>
                         </div>
                         
                         <div class="desktop-app draggable-app grid-pos-3-1" data-app="education">
                             <div class="app-icon">
-                                <img src="images/icons/Screenshot from 2025-06-08 20-07-50.png" alt="Education">
+                                <img src="images/icons/Screenshot from 2025-06-08 20-07-50.png" alt="education">
                             </div>
                             <span class="app-name">edu.sh</span>
                         </div>
@@ -99,14 +85,14 @@
                         <!-- Second row - 2 apps -->
                         <div class="desktop-app draggable-app grid-pos-1-2" data-app="skills">
                             <div class="app-icon">
-                                <img src="images/icons/Screenshot from 2025-06-08 20-08-00.png" alt="Skills">
+                                <img src="images/icons/Screenshot from 2025-06-08 20-08-00.png" alt="skills">
                             </div>
                             <span class="app-name">skills.sh</span>
                         </div>
                         
                         <div class="desktop-app draggable-app grid-pos-2-2" data-app="contact">
                             <div class="app-icon">
-                                <img src="images/icons/Screenshot from 2025-06-08 20-08-23.png" alt="Contact">
+                                <img src="images/icons/Screenshot from 2025-06-08 20-08-23.png" alt="contact">
                             </div>
                             <span class="app-name">contact.sh</span>
                         </div>
@@ -124,7 +110,7 @@
     <div id="portfolio-window" class="app-window" style="display: none;">
         <div class="window-header">
             <div class="window-title">
-                <img src="images/icons/Screenshot from 2025-06-08 20-07-24.png" alt="Portfolio" class="window-icon">
+                <img src="images/icons/Screenshot from 2025-06-08 20-07-24.png" alt="portfolio" class="window-icon">
                 Portfolio
             </div>
             <div class="window-controls">
@@ -138,7 +124,7 @@
         </div>
         <div class="window-content">
             <div class="terminal-header">william@personal:~$ ls -la projects/</div>
-            <div id="portfolio" class="portfolio-section">
+            <div id="portfolio" class="portfolio-section" style="max-height: 400px; overflow-y: auto;">
                 <!-- Projects will be added here by JavaScript -->
             </div>
         </div>
@@ -147,7 +133,7 @@
     <div id="experience-window" class="app-window" style="display: none;">
         <div class="window-header">
             <div class="window-title">
-                <img src="images/icons/Screenshot from 2025-06-08 20-07-36.png" alt="Experience" class="window-icon">
+                <img src="images/icons/Screenshot from 2025-06-08 20-07-36.png" alt="experience" class="window-icon">
                 Work Experience
             </div>
             <div class="window-controls">
@@ -198,10 +184,10 @@
         </div>
     </div>
 
-    <div id="education-window" class="app-window" style="display: none;">
+    <div id="education-window" class="app-window education-large" style="display: none;">
         <div class="window-header">
             <div class="window-title">
-                <img src="images/icons/Screenshot from 2025-06-08 20-07-50.png" alt="Education" class="window-icon">
+                <img src="images/icons/Screenshot from 2025-06-08 20-07-50.png" alt="education" class="window-icon">
                 Education
             </div>
             <div class="window-controls">
@@ -238,7 +224,7 @@
     <div id="skills-window" class="app-window" style="display: none;">
         <div class="window-header">
             <div class="window-title">
-                <img src="images/icons/Screenshot from 2025-06-08 20-08-00.png" alt="Skills" class="window-icon">
+                <img src="images/icons/Screenshot from 2025-06-08 20-08-00.png" alt="skills" class="window-icon">
                 Skills
             </div>
             <div class="window-controls">
@@ -257,14 +243,12 @@
                     <div class="skill-list">
                         <span class="skill">Python</span>
                         <span class="skill">C++</span>
-                        <span class="skill">JavaScript</span>
-                        <span class="skill">HTML/CSS</span>
+                        <span class="skill">JavaScript/HTML/CSS</span>
                         <span class="skill">Snowflake</span>
                         <span class="skill">Databricks</span>
                         <span class="skill">Azure</span>
                         <span class="skill">Google Cloud Platform</span>
-                        <span class="skill">OpenAI</span>
-                        <span class="skill">Pandas</span>
+                        <span class="skill">LLMs</span>
                         <span class="skill">PySpark</span>
                         <span class="skill">Git</span>
                         <span class="skill">VS Code</span>
@@ -278,7 +262,7 @@
     <div id="contact-window" class="app-window" style="display: none;">
         <div class="window-header">
             <div class="window-title">
-                <img src="images/icons/Screenshot from 2025-06-08 20-08-23.png" alt="Contact" class="window-icon">
+                <img src="images/icons/Screenshot from 2025-06-08 20-08-23.png" alt="contact" class="window-icon">
                 Contact Me
             </div>
             <div class="window-controls">
@@ -314,37 +298,43 @@
         </div>
     </div>
 
-    <!-- Load libraries -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gl-matrix/2.8.1/gl-matrix-min.js"></script>
+    <!-- Load only essential libraries -->
+    <!-- Removed gl-matrix as it's not actually used for WebGL -->
     
-    <!-- Load graph.js for mobile background -->
-    <script src="js/graph.js"></script>
-    
-    <!-- Simulate WebAssembly loading -->
+    <!-- Load scripts conditionally based on device capability -->
     <script>
-        // This would normally be a real WebAssembly loader
-        console.log("Loading WebAssembly module for binary trees animation...");
-        setTimeout(() => {
-            // Load our JavaScript implementation (in a real app, this would be the WASM module)
-            const script = document.createElement('script');
-            script.src = 'js/binary_trees.js';
-            document.body.appendChild(script);
-            
-            // Initialize the binary trees animation after script is loaded
-            script.onload = function() {
-                if (window.BinaryTrees && typeof window.BinaryTrees.init === 'function') {
-                    window.BinaryTrees.init();
-                } else {
-                    console.error("BinaryTrees.init not found");
-                }
-            };
-        }, 100);
+        // Feature detection and conditional loading
+        function supportsCanvas() {
+            const canvas = document.createElement('canvas');
+            return !!(canvas.getContext && canvas.getContext('2d'));
+        }
+        
+        function isMobile() {
+            return window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        }
+        
+        // Load appropriate scripts based on device capability
+        if (supportsCanvas()) {
+            if (!isMobile()) {
+                // Desktop: Load binary trees animation
+                const script1 = document.createElement('script');
+                script1.src = 'js/binary_trees.js';
+                script1.async = true;
+                document.head.appendChild(script1);
+            } else {
+                // Mobile: Load simpler graph animation (optional)
+                const script2 = document.createElement('script');
+                script2.src = 'js/graph.js';
+                script2.async = true;
+                document.head.appendChild(script2);
+            }
+        }
     </script>
     
     <!-- Add marked.js for Markdown parsing -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     
-    <!-- Load main script after all other resources -->
+    <!-- Load main script after other resources -->
     <script src="js/script.js"></script>
 </body>
 </html> 

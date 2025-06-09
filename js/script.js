@@ -683,25 +683,38 @@ function handleTouchEnd(e) {
 
 // Initialize mobile-specific functionality
 function initializeMobileSupport() {
-    // Handle orientation changes
+    // Handle orientation changes and resize events
     window.addEventListener('resize', debounce(adjustForOrientation, 250));
-    window.addEventListener('orientationchange', adjustForOrientation);
+    window.addEventListener('orientationchange', () => {
+        setTimeout(adjustForOrientation, 300);
+    });
     
-    // Add tap highlight for mobile
+    // Add visual feedback for mobile app interactions
     const desktopApps = document.querySelectorAll('.desktop-app');
     desktopApps.forEach(app => {
-        app.addEventListener('touchstart', function() {
-            this.style.backgroundColor = 'rgba(255, 255, 255, 0.15)';
-        });
-        app.addEventListener('touchend', function() {
+        app.addEventListener('touchstart', function(e) {
+            this.style.backgroundColor = 'rgba(0, 0, 0, 0.1)';
+            this.style.transform = 'scale(0.95)';
+        }, { passive: true });
+        
+        app.addEventListener('touchend', function(e) {
             setTimeout(() => {
                 this.style.backgroundColor = '';
-            }, 300);
+                this.style.transform = '';
+            }, 150);
+        }, { passive: true });
+        
+        // Prevent context menu on long touch
+        app.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
         });
     });
     
-    // Ensure WebGL canvas fits mobile screen
-    adjustForOrientation();
+    // Optimize viewport for mobile
+    const viewport = document.querySelector('meta[name="viewport"]');
+    if (viewport) {
+        viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover');
+    }
 }
 
 // Helper function to handle resize/orientation changes
@@ -737,93 +750,126 @@ function initializeCanvasSwitching() {
     const binaryTreesCanvas = document.getElementById('binary-trees-canvas');
     const graphCanvas = document.getElementById('graph-canvas');
     
+    console.log('Initializing canvas switching...');
+    console.log('Binary trees canvas found:', !!binaryTreesCanvas);
+    console.log('Graph canvas found:', !!graphCanvas);
+    console.log('Current window width:', window.innerWidth);
+    
+    function isMobileDevice() {
+        return window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    }
+    
     function switchCanvas() {
-        const isMobile = window.innerWidth <= 768;
+        const isMobile = isMobileDevice();
+        console.log('Switching canvas - isMobile:', isMobile);
         
         if (isMobile) {
-            // Switch to graph canvas for mobile
+            // Mobile: Hide all canvas animations
+            console.log('Mobile detected - disabling all canvas animations');
+            
             if (binaryTreesCanvas) {
-                binaryTreesCanvas.classList.remove('active');
+                binaryTreesCanvas.style.display = 'none';
                 if (window.BinaryTrees && window.BinaryTrees.active) {
                     window.BinaryTrees.stop();
+                    window.BinaryTrees.clearMemory();
                 }
             }
             
             if (graphCanvas) {
-                graphCanvas.classList.add('active');
-                if (window.Graph && !window.Graph.active) {
-                    window.Graph.init();
+                graphCanvas.style.display = 'none';
+                if (window.Graph && window.Graph.active) {
+                    window.Graph.stop();
+                    window.Graph.clearMemory();
                 }
             }
         } else {
-            // Switch to binary trees canvas for desktop
+            // Desktop: Show binary trees animation only
+            console.log('Desktop detected - enabling binary trees animation');
+            
+            // Disable graph animation on desktop
             if (graphCanvas) {
-                graphCanvas.classList.remove('active');
+                graphCanvas.style.display = 'none';
                 if (window.Graph && window.Graph.active) {
                     window.Graph.stop();
+                    window.Graph.clearMemory();
                 }
             }
             
+            // Enable binary trees animation
             if (binaryTreesCanvas) {
-                binaryTreesCanvas.classList.add('active');
-                if (window.BinaryTrees && !window.BinaryTrees.active) {
-                    window.BinaryTrees.init();
+                console.log('Enabling binary trees canvas');
+                binaryTreesCanvas.style.display = 'block';
+                
+                // Initialize binary trees if the script is loaded
+                if (window.BinaryTrees) {
+                    console.log('BinaryTrees object found, active status:', window.BinaryTrees.active);
+                    if (!window.BinaryTrees.active) {
+                        console.log('Initializing binary trees...');
+                        try {
+                            window.BinaryTrees.init();
+                        } catch (error) {
+                            console.error('Error initializing binary trees:', error);
+                        }
+                    }
+                } else {
+                    console.log('BinaryTrees object not available yet - will retry');
+                    // Retry after a short delay
+                    setTimeout(() => {
+                        if (window.BinaryTrees && !window.BinaryTrees.active) {
+                            try {
+                                window.BinaryTrees.init();
+                            } catch (error) {
+                                console.error('Error initializing binary trees on retry:', error);
+                            }
+                        }
+                    }, 1000);
                 }
             }
         }
     }
     
     // Initial switch
+    console.log('Performing initial canvas switch...');
     switchCanvas();
     
+    // Additional initialization for desktop
+    setTimeout(() => {
+        console.log('Running delayed initialization check...');
+        if (!isMobileDevice()) {
+            if (binaryTreesCanvas && window.BinaryTrees && !window.BinaryTrees.active) {
+                console.log('Desktop delayed initialization of binary trees...');
+                try {
+                    window.BinaryTrees.init();
+                } catch (error) {
+                    console.error('Error in delayed binary trees initialization:', error);
+                }
+            }
+        }
+    }, 1500);
+    
     // Switch on resize with debounce
-    window.addEventListener('resize', debounce(switchCanvas, 300));
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+            console.log('Resize detected, switching canvas...');
+            switchCanvas();
+        }, 300);
+    });
+    
+    // Handle orientation change for mobile devices
+    window.addEventListener('orientationchange', () => {
+        setTimeout(() => {
+            console.log('Orientation change detected, switching canvas...');
+            switchCanvas();
+        }, 500);
+    });
 }
 
 // Initialize theme toggle functionality
 function initializeThemeToggle() {
-    const themeToggle = document.getElementById('theme-toggle');
-    const body = document.body;
-    const moonIcon = '<i class="fas fa-moon"></i>';
-    const sunIcon = '<i class="fas fa-sun"></i>';
-    
-    // Check if user preference is stored
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'light') {
-        body.classList.remove('dark-mode');
-        themeToggle.innerHTML = moonIcon;
-    } else {
-        body.classList.add('dark-mode');
-        themeToggle.innerHTML = sunIcon;
-    }
-    
-    // Handle toggle click
-    themeToggle.addEventListener('click', () => {
-        if (body.classList.contains('dark-mode')) {
-            body.classList.remove('dark-mode');
-            themeToggle.innerHTML = moonIcon;
-            localStorage.setItem('theme', 'light');
-        } else {
-            body.classList.add('dark-mode');
-            themeToggle.innerHTML = sunIcon;
-            localStorage.setItem('theme', 'dark');
-        }
-    });
-}
-
-// Remove theme switcher completely, as per user request
-function initializeThemeSwitcher() {
-    // Function intentionally empty - theme switcher disabled
-    console.log("Theme switcher disabled as per user request");
-}
-
-// Switch theme function - disabled but kept for backward compatibility
-function switchTheme(theme) {
-    // Function intentionally minimal - theme switching disabled
-    // Just set dark mode if needed for app functionality
-    if (theme === 'dark') {
-        document.body.classList.add('dark-mode');
-    }
+    // Theme toggle functionality removed - no longer needed
+    console.log('Theme toggle functionality removed');
 }
 
 // Initialization when DOM is loaded
@@ -838,9 +884,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize the mobile navigation
     initializeMobileNav();
     
-    // Initialize theme toggle
-    initializeThemeToggle();
-    
-    // Add our new theme switcher
-    initializeThemeSwitcher();
+    // Theme toggle removed
+    // initializeThemeToggle();
 }); 
