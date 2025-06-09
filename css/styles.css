@@ -462,8 +462,11 @@ html {
         box-shadow: none !important;
         background-color: #fff !important;
         overflow: hidden !important;
-        display: flex !important;
         flex-direction: column !important;
+    }
+    
+    .app-window[style*="display: block"] {
+        display: flex !important;
     }
     
     .desktop {
