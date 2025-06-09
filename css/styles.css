@@ -132,13 +132,13 @@ html {
     opacity: 0.95;
     touch-action: none;
     box-sizing: border-box;
-    border: 1px solid var(--border-color);
+    border: none;
     background-color: transparent;
 }
 
 .desktop-app:hover {
     opacity: 1;
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: rgba(0, 0, 0, 0.02);
     transform: translateY(-2px);
 }
 
@@ -146,13 +146,15 @@ html {
     z-index: 1000;
     transform: scale(1.05);
     opacity: 0.8;
-    background-color: rgba(0, 0, 0, 0.1);
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    background-color: rgba(0, 0, 0, 0.05);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
     pointer-events: none;
 }
 
 .desktop-app:hover .app-icon {
-    transform: scale(1.03);
+    background: transparent;
+    transform: scale(1.05);
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.15);
 }
 
 .terminal-prompt {
@@ -161,14 +163,14 @@ html {
 
 /* Base app icon style - BeOS monochrome aesthetic */
 .app-icon {
-    width: 76px;
-    height: 76px;
+    width: 64px;
+    height: 64px;
     border: none;
     border-radius: 4px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
     transition: all 0.3s ease;
     position: relative;
     overflow: visible;
@@ -177,13 +179,13 @@ html {
 
 .app-icon i {
     display: block;
-    font-size: 34px;
+    font-size: 28px;
     color: #000000;
 }
 
 .app-icon img {
-    width: 68px;
-    height: 68px;
+    width: 56px;
+    height: 56px;
     object-fit: contain;
     border-radius: 4px;
 }
@@ -198,15 +200,15 @@ html {
 }
 
 .app-name {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 500;
     text-align: center;
     letter-spacing: 0.3px;
     font-family: 'Arial', sans-serif;
     color: #000000;
-    margin-top: 8px;
+    margin-top: 6px;
     background-color: transparent;
-    padding: 3px 7px;
+    padding: 3px 5px;
     border-radius: 0;
     white-space: nowrap;
     border: none;

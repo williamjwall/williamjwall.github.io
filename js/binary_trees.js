@@ -287,8 +287,8 @@
             
             // Growth parameters - optimized for lower branching
             this.growthSpeed = 2.0 + Math.random() * 4; // Slightly slower growth
-            this.branchingChance = 0.3 + Math.random() * 0.3; // Increased from 0.25-0.5 to 0.3-0.6
-            this.upwardBias = 0.5 + Math.random() * 0.25; // Increased upward bias
+            this.branchingChance = 0.35 + Math.random() * 0.2; // Reduced from 0.5-0.8 to 0.35-0.55
+            this.upwardBias = 0.45 + Math.random() * 0.15; // More balanced upward vs lateral bias
             this.thickness = 0.5 + Math.random() * 0.5; // Branch thickness
             
             // Growth bursts
@@ -306,6 +306,7 @@
             // Shorter initial upward segment to encourage lower branching
             const length = 30 + Math.random() * 40;
             
+            // Create the main initial segment (trunk)
             this.segments.push({
                 startX: this.x,
                 startY: this.y,
@@ -325,6 +326,14 @@
             });
             
             this.activeSegments.add(0);
+            
+            // Create just 1 additional base segment for a more controlled look
+            const numExtraRoots = 1; // Reduced from 2-3 to just 1
+            
+            // Queue these segments to be processed in the next update
+            for (let i = 0; i < numExtraRoots; i++) {
+                this.pendingSegments.push(0); // All branch from the first segment
+            }
         }
         
         getNextDirection(parentDirection) {
@@ -418,15 +427,15 @@
             
             // Strong bias toward flowing around apps when in their influence zone
             if (bestDirection) {
-                if (rand < 0.6) { // 60% chance to follow the flow direction
+                if (rand < 0.5) { // Reduced from 0.6 to 0.5 for more balanced branching
                     return bestDirection;
                 }
             }
             
-            // Enhanced upward bias for remaining cases
+            // More balanced directional bias for natural-looking trees
             if (rand < this.upwardBias) {
-                // Continue in same direction less often for more even spread
-                if (rand < this.upwardBias * 0.25) {
+                // Significantly reduced tendency to continue in same direction
+                if (rand < this.upwardBias * 0.15) { // Reduced from 0.25 to 0.15
                     return parentDirection;
                 }
                 
@@ -437,7 +446,20 @@
                 }
             }
             
-            // Random valid direction for remaining cases
+            // More balanced random selection for lateral directions
+            // This gives more even left/right distribution
+            if (validDirections.length > 1) {
+                // Filter out the parent direction to avoid continuing straight
+                const nonParentDirections = validDirections.filter(dir => 
+                    !(dir.dx === parentDirection.dx && dir.dy === parentDirection.dy)
+                );
+                
+                if (nonParentDirections.length > 0) {
+                    return nonParentDirections[Math.floor(Math.random() * nonParentDirections.length)];
+                }
+            }
+            
+            // Fallback to completely random direction if needed
             return validDirections[Math.floor(Math.random() * validDirections.length)];
         }
         
@@ -455,9 +477,18 @@
             // Much longer segments for better reach
             let baseLength = 40 + Math.random() * 60; // Increased from 15+25 to 40+60
             
+            // Near the base, make segments shorter but more numerous for bushier appearance
+            if (depth < 3) {
+                baseLength = 25 + Math.random() * 40; // Shorter segments near base
+            }
+            
             // Make horizontal segments even longer to reach containers
             if (nextDirection.dx !== 0) {
-                baseLength += 20 + Math.random() * 40; // Extra length for horizontal reach
+                // Shorter horizontal segments near base, longer further out
+                const lengthBonus = depth < 3 ? 
+                    (10 + Math.random() * 25) : // Shorter but still substantial near base 
+                    (20 + Math.random() * 40);  // Normal length further out
+                baseLength += lengthBonus;
             }
             
             // Upward segments should be moderately long
@@ -635,8 +666,16 @@
                     const density = this.getNearbySegmentsCount(segment.endX, segment.endY, 120);
                     const densityFactor = Math.max(0.6, 1.2 - (density * 0.03));
                     
-                    // Adjust branch chance based on density
-                    const adjustedBranchChance = this.branchingChance * densityFactor;
+                    // Adjust branch chance based on density and depth
+                    // Much higher branching near the base for bushier appearance
+                    let depthFactor = 1.0;
+                    if (segment.depth < 3) {
+                        depthFactor = 1.1 - (segment.depth * 0.05); // Reduced from 1.4/1.3/1.2 to 1.1/1.05/1.0
+                    } else if (segment.depth > 8) {
+                        depthFactor = Math.max(0.5, 1.0 - ((segment.depth - 8) * 0.05)); // Gradually reduce at higher depths
+                    }
+                    
+                    const adjustedBranchChance = this.branchingChance * densityFactor * depthFactor;
                     
                     const branchRoll = Math.random();
                     if (branchRoll < adjustedBranchChance) {
@@ -644,18 +683,37 @@
                         newSegmentsThisFrame++;
                         branchingAttempts++;
                         
-                        // More density-aware multiple branching
-                        const adjustedMultiBranchChance = 0.5 * densityFactor;
-                        if (branchRoll < adjustedBranchChance * adjustedMultiBranchChance) {
+                        // More even multi-branching with guaranteed second branch
+                        if (branchRoll < adjustedBranchChance) {
                             this.queueSegment(segmentIndex);
                             newSegmentsThisFrame++;
                             branchingAttempts++;
                             
-                            // Triple branching now takes density into account
-                            if (density < 8 && branchRoll < adjustedBranchChance * 0.2 * densityFactor) {
+                            // Always add a second branch for more balanced trees, but with density awareness
+                            // This guarantees binary branching for most completed segments
+                            if (density < 10) { // Reduced from 15 to be more selective about second branches
                                 this.queueSegment(segmentIndex);
                                 newSegmentsThisFrame++;
                                 branchingAttempts++;
+                                
+                                // More likely to add third branch near the base
+                                const thirdBranchThreshold = segment.depth < 3 ? 
+                                    (adjustedBranchChance * 0.3) : // Reduced from 0.6 to 0.3
+                                    (adjustedBranchChance * 0.15); // Reduced from 0.25 to 0.15
+                                
+                                // Third branch more frequent at the base, but still density-aware
+                                if ((segment.depth < 3 || density < 6) && branchRoll < thirdBranchThreshold) {
+                                    this.queueSegment(segmentIndex);
+                                    newSegmentsThisFrame++;
+                                    branchingAttempts++;
+                                    
+                                    // Add occasional fourth branch at the very base for extremely bushy look
+                                    if (segment.depth < 2 && density < 4 && branchRoll < adjustedBranchChance * 0.1) {
+                                        this.queueSegment(segmentIndex);
+                                        newSegmentsThisFrame++;
+                                        branchingAttempts++;
+                                    }
+                                }
                             }
                         }
                     }
