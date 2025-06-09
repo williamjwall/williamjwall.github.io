@@ -82,14 +82,14 @@
 
     // Brown and yellow color palette
     const COLORS = {
-        background: '#0a0e05', // Deep green-black background
-        backgroundGradientTop: '#080a03', // Darker top gradient
-        backgroundGradientBottom: '#101505', // Slightly lighter bottom gradient
-        branchColor: '#7E6145', // Brighter brown for main branches (was #5E4125)
-        tipColor: '#F8C586', // Brighter light brown for branch tips (was #D9A566)
-        highlightColor: '#FFE265', // Brighter yellow highlight (was #F7CA45)
-        accentColor: '#AC8D5F', // Brighter medium brown accent (was #8C6D3F)
-        newGrowthColor: '#FFDF20' // Brighter gold for new growth (was #FFD700)
+        background: '#ffffff', // White background
+        backgroundGradientTop: '#ffffff', // White gradient top
+        backgroundGradientBottom: '#ffffff', // White gradient bottom
+        branchColor: '#222222', // Dark grey for main branches
+        tipColor: '#333333', // Slightly lighter grey for branch tips
+        highlightColor: '#444444', // Medium grey highlight
+        accentColor: '#555555', // Light grey accent
+        newGrowthColor: '#111111' // Near black for new growth
     };
 
     // Pre-compute RGB values to avoid parsing hex during animation
@@ -577,25 +577,6 @@
                 ctx.moveTo(segment.startX, segment.startY);
                 ctx.lineTo(drawEndX, drawEndY);
                 ctx.stroke();
-                
-                // Add a glow to growing tips
-                if (segment.progress < 1) {
-                    // Draw glowing tip with enhanced glow
-                    const glowRadius = thickness * 3.5; // Increased from 2.5 for larger glow
-                    const gradient = ctx.createRadialGradient(
-                        drawEndX, drawEndY, 0,
-                        drawEndX, drawEndY, glowRadius
-                    );
-                    
-                    // Brighter glow with higher opacity
-                    gradient.addColorStop(0, `rgba(${GROWTH_RGB.r}, ${GROWTH_RGB.g}, ${GROWTH_RGB.b}, 0.9)`); // Increased from 0.8
-                    gradient.addColorStop(1, `rgba(${GROWTH_RGB.r}, ${GROWTH_RGB.g}, ${GROWTH_RGB.b}, 0)`);
-                    
-                    ctx.fillStyle = gradient;
-                    ctx.beginPath();
-                    ctx.arc(drawEndX, drawEndY, glowRadius, 0, Math.PI * 2);
-                    ctx.fill();
-                }
             }
         }
 

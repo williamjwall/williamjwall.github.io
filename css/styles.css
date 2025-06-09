@@ -1,13 +1,13 @@
 /* Base styles */
 :root {
     --text-color: #000000;
-    --background-color: transparent;
-    --border-color: #000000;
-    --border-width: 2px;
-    --border-hover-width: 3px;
-    --window-bg: rgba(255, 255, 255, 0.95);
-    --window-header-bg: rgba(240, 240, 240, 0.95);
-    --taskbar-bg: rgba(50, 50, 50, 0.9);
+    --background-color: #ffffff;
+    --border-color: #cccccc;
+    --border-width: 1px;
+    --border-hover-width: 2px;
+    --window-bg: #ffffff;
+    --window-header-bg: #f5f5f5;
+    --taskbar-bg: rgba(245, 245, 245, 0.9);
     /* New minimal design variables */
     --minimal-text: #333333;
     --minimal-bg: #f5f5f5;
@@ -21,7 +21,7 @@
 
 /* Reset all colors first */
 * {
-    color: var(--text-color) !important;
+    color: #000000 !important;
     background-color: var(--background-color) !important;
     text-shadow: none !important;
     font-family: 'Merriweather', serif;
@@ -31,13 +31,14 @@
 body {
     font-family: 'Merriweather', serif;
     line-height: 1.6;
-    background-color: var(--background-color);
+    background-color: #ffffff !important;
     position: relative;
     overflow-x: hidden;
     margin: 0;
     padding: 0;
     width: 100%;
     min-height: 100vh;
+    color: #000000 !important;
 }
 
 html {
@@ -47,6 +48,7 @@ html {
     height: 100%;
     overflow-x: hidden;
     scroll-behavior: smooth;
+    background-color: #ffffff !important;
 }
 
 .container {
@@ -96,7 +98,7 @@ html {
 
 .desktop-app:hover {
     opacity: 1;
-    background-color: rgba(255, 255, 255, 0.08) !important;
+    background-color: rgba(240, 240, 240, 0.5) !important;
     transform: translateY(-2px);
 }
 
@@ -104,8 +106,8 @@ html {
     z-index: 1000;
     transform: scale(1.05);
     opacity: 0.8;
-    background-color: rgba(255, 255, 255, 0.15) !important;
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+    background-color: rgba(240, 240, 240, 0.5) !important;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
 }
 
 .desktop-app:hover .app-icon {
@@ -142,8 +144,8 @@ html {
 .app-icon i {
     display: block;
     font-size: 28px;
-    color: #ffffff !important;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+    color: #000000 !important;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 .app-icon img {
@@ -171,13 +173,14 @@ html {
     text-align: center;
     letter-spacing: 0.3px;
     font-family: 'Arial', sans-serif;
-    color: #ffffff !important;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+    color: #000000 !important;
+    text-shadow: none;
     margin-top: 5px;
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: rgba(255, 255, 255, 0.8) !important;
     padding: 3px 7px;
     border-radius: 3px;
     white-space: nowrap;
+    border: 1px solid #cccccc;
 }
 
 .desktop-app:hover .app-icon img {
@@ -217,26 +220,26 @@ html {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: var(--bg-color, #ffffff);
+    background-color: #ffffff !important;
     z-index: 1000;
     overflow: auto;
-    border: none;
-    border-radius: 0;
-    box-shadow: none;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .app-window.focused {
-    border: 2px solid #000000;
-    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
+    border: 1px solid #999999;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .window-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem;
-    border-bottom: 1px solid var(--border-color, rgba(0, 0, 0, 0.1));
-    background: transparent !important;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #cccccc;
+    background-color: #f5f5f5 !important;
 }
 
 .window-title {
@@ -244,13 +247,13 @@ html {
     align-items: center;
     gap: 4px;
     font-weight: 600;
-    font-size: 12px;
+    font-size: 14px;
     color: #000000 !important;
     font-family: 'Arial', sans-serif;
 }
 
 .window-title i {
-    font-size: 13px;
+    font-size: 14px;
     color: #000000 !important;
 }
 
@@ -262,9 +265,9 @@ html {
 .window-controls button {
     width: 16px;
     height: 16px;
-    border: 1px solid #000000;
+    border: 1px solid #999999;
     border-radius: 3px;
-    background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%) !important;
+    background: #ffffff !important;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -274,11 +277,11 @@ html {
 }
 
 .window-controls button:hover {
-    background: linear-gradient(135deg, #f8f8f8 0%, #e8e8e8 100%) !important;
+    background: #f0f0f0 !important;
 }
 
 .window-controls button:active {
-    background: linear-gradient(135deg, #e0e0e0 0%, #d0d0d0 100%) !important;
+    background: #e0e0e0 !important;
 }
 
 .window-controls button i {
@@ -287,15 +290,15 @@ html {
 }
 
 .close-btn:hover {
-    background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%) !important;
+    background: #fff0f0 !important;
 }
 
 .minimize-btn:hover {
-    background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%) !important;
+    background: #f0f0f0 !important;
 }
 
 .window-content {
-    padding: 0;
+    padding: 1rem;
     max-height: calc(90vh - 60px);
     overflow-y: auto;
     background-color: #ffffff !important;
@@ -357,8 +360,8 @@ html {
     left: 0;
     right: 0;
     height: 50px;
-    background-color: var(--taskbar-bg) !important;
-    border-top: 1px solid var(--border-color);
+    background-color: #f5f5f5 !important;
+    border-top: 1px solid #cccccc;
     display: flex;
     align-items: center;
     padding: 0 20px;
@@ -372,22 +375,23 @@ html {
 
 .taskbar-app {
     padding: 6px 12px;
-    background-color: rgba(255, 255, 255, 0.1) !important;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: #ffffff !important;
+    border: 1px solid #cccccc;
     border-radius: 4px;
     cursor: pointer;
     transition: all 0.2s ease;
-    color: white !important;
+    color: #000000 !important;
     font-size: 12px;
 }
 
 .taskbar-app:hover {
-    background-color: rgba(255, 255, 255, 0.2) !important;
+    background-color: #f0f0f0 !important;
 }
 
 .taskbar-app i {
     margin-right: 6px;
     font-size: 16px;
+    color: #000000 !important;
 }
 
 .taskbar-icon {
@@ -401,102 +405,83 @@ html {
 
 /* Mobile-first minimalist design inspired by Eric Chung's site - only for mobile */
 @media (max-width: 768px) {
-    /* Light theme (default) */
-    .light-theme {
-        --bg-color: #ffffff;
-        --text-color: #333333;
-        --accent-color: #0070f3;
-        --muted-color: #666666;
-        --border-color: #e0e0e0;
+    /* Hide theme switcher and all theme-related elements */
+    .theme-switcher,
+    .theme-btn,
+    .theme-toggle {
+        display: none !important;
     }
     
-    /* Dark theme */
-    .dark-theme {
-        --bg-color: #121212;
-        --text-color: #f5f5f5;
-        --accent-color: #88ccff;
-        --muted-color: #a0a0a0;
-        --border-color: #333333;
+    /* Hide location icon in both mobile and desktop */
+    .mobile-location,
+    .contact-info i,
+    .fa-map-marker-alt {
+        display: none !important;
     }
     
-    /* Dusk theme */
-    .dusk-theme {
-        --bg-color: #2d3748;
-        --text-color: #e2e8f0;
-        --accent-color: #f687b3;
-        --muted-color: #a0aec0;
-        --border-color: #4a5568;
+    /* Reset all styles for mobile view */
+    * {
+        box-sizing: border-box;
     }
     
-    /* Banana theme */
-    .banana-theme {
-        --bg-color: #fff9c4;
-        --text-color: #5d4037;
-        --accent-color: #ff6f00;
-        --muted-color: #8d6e63;
-        --border-color: #ffe082;
+    /* Force pure white background and hide all animations */
+    html, body {
+        background-color: #ffffff !important;
+        overflow-x: hidden;
+        width: 100%;
     }
     
-    /* Theme switcher styles */
-    .theme-switcher {
-        display: flex;
-        gap: 0.5rem;
-        margin-top: 1.5rem;
+    /* Ensure all text is black */
+    body, h1, h2, h3, p, .mobile-title h1, .mobile-subtitle, .mobile-bio p, 
+    .mobile-nav-item, .window-title, .experience-title, .experience-company, 
+    .education-school, .education-degree, .skill, .contact-link {
+        color: #000000 !important;
     }
     
-    .theme-btn {
-        background: none;
-        border: 1px solid rgba(0, 0, 0, 0.1);
-        border-radius: 3px;
-        padding: 0.25rem 0.5rem;
-        font-family: 'Roboto Mono', monospace;
-        font-size: 0.8rem;
-        color: inherit;
-        cursor: pointer;
-        text-transform: lowercase;
+    /* Hide all desktop elements and animations */
+    #binary-trees-canvas, 
+    #graph-canvas, 
+    .desktop-intro-container, 
+    .desktop, 
+    .taskbar {
+        display: none !important;
     }
     
-    body.dark-theme .theme-btn,
-    body.dusk-theme .theme-btn {
-        border-color: rgba(255, 255, 255, 0.1);
-    }
-    
-    .theme-btn.active {
-        background-color: rgba(0, 0, 0, 0.1);
-    }
-    
-    body.dark-theme .theme-btn.active,
-    body.dusk-theme .theme-btn.active {
-        background-color: rgba(255, 255, 255, 0.1);
-    }
-    
-    /* Apply theme variables to elements */
-    body {
-        font-family: 'Roboto Mono', monospace;
-        line-height: 1.6;
-        padding: 1.5rem;
-        background-color: var(--bg-color, #ffffff);
-        color: var(--text-color, #333333);
-    }
-    
-    body.dark-mode {
-        background-color: #121212;
-        color: #f5f5f5;
-    }
-    
+    /* Basic layout */
     .container {
         max-width: 100%;
         padding: 0;
         margin: 0;
     }
     
-    /* Hide all desktop elements and animations */
-    #binary-trees-canvas, #graph-canvas, 
-    .desktop-intro-container, .desktop, .taskbar {
-        display: none !important;
+    body {
+        font-family: 'Roboto Mono', monospace;
+        line-height: 1.6;
+        padding: 2rem;
+        color: #333333;
+        font-size: 0.95rem;
     }
     
-    /* Simple minimalist intro container */
+    /* Typography */
+    h1, h2, h3 {
+        font-weight: 500;
+        margin-bottom: 1rem;
+    }
+    
+    h1 {
+        font-size: 1.5rem;
+    }
+    
+    h2 {
+        font-size: 1.25rem;
+        margin-top: 2.5rem;
+    }
+    
+    p {
+        margin-bottom: 1rem;
+    }
+    
+    /* Make mobile view even simpler with just text */
     .mobile-intro-container {
         display: block;
         background: transparent !important;
@@ -509,11 +494,8 @@ html {
     }
     
     .mobile-header {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
+        display: block;
         margin-bottom: 1.5rem;
-        gap: 0.5rem;
     }
     
     .mobile-avatar {
@@ -523,7 +505,7 @@ html {
     .mobile-title h1 {
         font-size: 1.5rem;
         font-weight: 500;
-        margin: 0;
+        margin: 0 0 0.5rem 0;
         color: inherit;
         font-family: 'Roboto Mono', monospace;
         letter-spacing: -0.02em;
@@ -533,13 +515,13 @@ html {
         font-size: 1rem;
         color: inherit;
         opacity: 0.8;
-        margin: 0;
+        margin: 0 0 1.5rem 0;
         font-family: 'Roboto Mono', monospace;
         font-weight: 400;
     }
     
     .mobile-bio {
-        margin: 1.5rem 0;
+        margin: 0 0 1.5rem 0;
         padding: 0;
         background: transparent !important;
         border: none;
@@ -555,39 +537,46 @@ html {
         text-align: left;
     }
     
-    .mobile-location {
-        display: none;
-    }
-    
-    /* Simplified navigation */
+    /* Eric Chung style navigation */
     .mobile-nav {
         display: flex;
-        margin-top: 2rem;
-        border-top: 1px solid var(--border-color, rgba(0, 0, 0, 0.1));
-        padding-top: 1rem;
-    }
-    
-    body.dark-mode .mobile-nav {
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        margin: 1.5rem 0;
+        padding: 0;
+        border: none;
     }
     
     .mobile-nav-item {
         margin-right: 1.5rem;
-        font-size: 0.85rem;
-        color: inherit;
+        font-size: 0.9rem;
+        color: #000000 !important;
         text-decoration: none;
         font-family: 'Roboto Mono', monospace;
         position: relative;
     }
     
-    /* Modal windows styling */
+    .mobile-nav-item::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: -2px;
+        width: 0;
+        height: 1px;
+        background-color: #000000;
+        transition: width 0.3s ease;
+    }
+    
+    .mobile-nav-item:hover::after {
+        width: 100%;
+    }
+    
+    /* App window styling */
     .app-window {
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: var(--bg-color, #ffffff);
+        background-color: #ffffff;
         z-index: 1000;
         overflow: auto;
         border: none;
@@ -596,75 +585,79 @@ html {
     }
     
     body.dark-mode .app-window {
-        background-color: #121212;
+        background-color: #ffffff;
+        color: #000000;
     }
     
     .window-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 1rem;
-        border-bottom: 1px solid var(--border-color, rgba(0, 0, 0, 0.1));
+        padding: 1rem 1.5rem;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
         background: transparent !important;
-    }
-    
-    body.dark-mode .window-header {
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
     
     .window-title {
         font-family: 'Roboto Mono', monospace;
         font-size: 1rem;
         font-weight: 500;
-        color: inherit !important;
+        color: #000000 !important;
+        display: flex;
+        align-items: center;
+    }
+    
+    .window-icon {
+        display: none;
+    }
+    
+    .window-controls button {
+        background: none;
+        border: none;
+        font-size: 1.25rem;
+        cursor: pointer;
+        color: inherit;
+        padding: 0.25rem;
     }
     
     .window-content {
-        padding: 1rem;
+        padding: 1.5rem;
         font-family: 'Roboto Mono', monospace;
     }
     
-    /* Theme toggle */
-    .theme-toggle {
-        position: fixed;
-        top: 1rem;
-        right: 1rem;
-        z-index: 9999;
-        width: 2rem;
-        height: 2rem;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: transparent;
-        border: 1px solid rgba(0, 0, 0, 0.1);
-        cursor: pointer;
-        color: inherit;
-    }
-    
-    body.dark-mode .theme-toggle {
-        border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    
     /* Content styling */
+    .terminal-header {
+        display: none;
+    }
+    
     .work-experience-container,
     .education-container,
     .skills-container,
     .portfolio-section,
     .contact-container {
         font-family: 'Roboto Mono', monospace;
+        color: #000000 !important;
+    }
+    
+    .work-experience-container *,
+    .education-container *,
+    .skills-container *,
+    .portfolio-section *,
+    .contact-container * {
+        color: #000000 !important;
     }
     
     .experience-item,
     .education {
-        border-bottom: 1px solid var(--border-color, rgba(0, 0, 0, 0.1));
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
         padding-bottom: 1.5rem;
         margin-bottom: 1.5rem;
     }
     
-    body.dark-mode .experience-item,
-    body.dark-mode .education {
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    .experience-item:last-child,
+    .education:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
     }
     
     .experience-title,
@@ -672,14 +665,14 @@ html {
         font-size: 1rem;
         font-weight: 500;
         margin-bottom: 0.25rem;
-        color: inherit;
+        color: #000000 !important;
     }
     
     .experience-company,
     .education-degree {
         font-size: 0.85rem;
         opacity: 0.8;
-        color: inherit;
+        color: #000000 !important;
     }
     
     .experience-date,
@@ -687,25 +680,36 @@ html {
         font-size: 0.75rem;
         opacity: 0.7;
         margin-top: 0.5rem;
-        color: inherit;
+        color: #000000 !important;
+    }
+    
+    .experience-description ul {
+        list-style-type: none;
+        margin: 0.75rem 0 0 0;
+        padding: 0;
+    }
+    
+    .experience-description li {
+        margin-bottom: 0.5rem;
+        font-size: 0.85rem;
+        line-height: 1.5;
+        color: #000000 !important;
     }
     
     .skill-list {
         display: flex;
         flex-wrap: wrap;
         gap: 0.5rem;
+        margin-top: 0.5rem;
     }
     
     .skill {
         font-size: 0.75rem;
         padding: 0.25rem 0.5rem;
-        background-color: rgba(0, 0, 0, 0.05);
+        background-color: #f0f0f0;
+        border: 1px solid #cccccc;
         border-radius: 2px;
-        color: inherit;
-    }
-    
-    body.dark-mode .skill {
-        background-color: rgba(255, 255, 255, 0.1);
+        color: #000000 !important;
     }
     
     /* Simple contact links */
@@ -723,20 +727,31 @@ html {
         display: flex;
         align-items: center;
         padding: 0.75rem;
-        border: 1px solid var(--border-color, rgba(0, 0, 0, 0.1));
+        border: 1px solid #cccccc;
         border-radius: 3px;
         text-decoration: none;
-        color: inherit;
-        background: transparent !important;
+        color: #000000 !important;
+        background: #f0f0f0 !important;
         font-size: 0.9rem;
     }
     
-    /* Hide desktop elements */
-    @media (max-width: 480px) {
-        .desktop, .desktop-intro-container {
-            display: none !important;
-        }
+    body.dark-mode .contact-link {
+        border-color: #cccccc;
+        background: #f0f0f0 !important;
+        color: #000000 !important;
     }
+}
+
+/* Also hide location icons in desktop version */
+.contact-info i.fa-map-marker-alt,
+.location-icon,
+.fa-map-marker-alt {
+    display: none !important;
+}
+
+.contact-info a {
+    display: inline-block;
+    margin-right: 10px;
 }
 
 @media (max-width: 480px) {
@@ -974,9 +989,9 @@ a::before {
     width: 100vw;
     height: 100vh;
     z-index: -1;
-    opacity: 0.95;
-    filter: brightness(0.6) contrast(1.2);
-    background-color: var(--background-color);
+    opacity: 1; /* Full opacity */
+    filter: none; /* Remove filters */
+    background-color: #ffffff !important; /* Force white background */
     max-width: 100vw;
     max-height: 100vh;
     object-fit: cover;
@@ -992,8 +1007,9 @@ a::before {
 /* Mobile-specific canvas styling */
 @media (max-width: 768px) {
     #graph-canvas {
-        filter: brightness(0.4) contrast(1.1);
-        opacity: 0.9;
+        filter: none;
+        opacity: 1;
+        background-color: #ffffff !important;
     }
     
     #binary-trees-canvas {
@@ -1008,8 +1024,9 @@ a::before {
 /* Desktop-specific canvas styling */
 @media (min-width: 769px) {
     #binary-trees-canvas {
-        filter: brightness(0.6) contrast(1.2);
-        opacity: 0.95;
+        filter: none; /* Remove any filters */
+        opacity: 1;
+        background-color: #ffffff !important;
     }
     
     #graph-canvas {
@@ -1121,11 +1138,13 @@ main {
 .portfolio-section h2 {
     display: block;
     margin-bottom: 20px;
+    color: #000000 !important;
 }
 
 .portfolio-section h3 {
     font-size: 1.6rem;
     margin: 30px 0 20px;
+    color: #000000 !important;
 }
 
 .portfolio {
@@ -1137,9 +1156,10 @@ main {
 
 /* Project containers */
 .project {
-    border: var(--border-width) solid var(--border-color);
+    border: 1px solid #cccccc;
     padding: 15px;
     margin-bottom: 15px;
+    background-color: #ffffff !important;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     transform-origin: center;
 }
@@ -1147,21 +1167,29 @@ main {
 .project h2 {
     font-size: 1.5rem;
     margin-bottom: 10px;
+    color: #000000 !important;
 }
 
 .project-date {
     font-style: italic;
     margin-bottom: 15px;
     font-size: 0.9rem;
+    color: #333333 !important;
+}
+
+.project-description {
+    color: #000000 !important;
 }
 
 .company-tag {
-    border: var(--border-width) solid var(--border-color);
+    border: 1px solid #cccccc;
     padding: 5px 10px;
     font-size: 0.9rem;
     display: inline-block;
     margin-bottom: 12px;
     font-weight: bold;
+    background-color: #f5f5f5 !important;
+    color: #000000 !important;
 }
 
 .project-links {
@@ -1173,9 +1201,11 @@ main {
 
 .project-links a {
     padding: 5px 10px;
-    border: var(--border-width) solid var(--border-color);
+    border: 1px solid #cccccc;
     font-size: 0.9rem;
     font-weight: bold;
+    background-color: #f5f5f5 !important;
+    color: #000000 !important;
 }
 
 .project-tech {
@@ -1188,8 +1218,10 @@ main {
 .tech-tag {
     font-size: 0.8rem;
     padding: 3px 8px;
-    border: var(--border-width) solid var(--border-color);
+    border: 1px solid #cccccc;
     margin: 5px;
+    background-color: #f5f5f5 !important;
+    color: #000000 !important;
 }
 
 /* Experience section */
@@ -1306,14 +1338,17 @@ main {
 .skill-list {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
-    margin-bottom: 0;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
 }
 
 .skill {
-    padding: 5px 10px;
-    font-size: 0.9rem;
-    border: var(--border-width) solid var(--border-color);
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    background-color: #f0f0f0;
+    border: 1px solid #cccccc;
+    border-radius: 2px;
+    color: #000000 !important;
 }
 
 /* Personal projects container */
@@ -1397,12 +1432,18 @@ main {
     display: flex;
     align-items: center;
     padding: 0.75rem;
-    border: 1px solid var(--border-color, rgba(0, 0, 0, 0.1));
+    border: 1px solid #cccccc;
     border-radius: 3px;
     text-decoration: none;
-    color: inherit;
-    background: transparent !important;
+    color: #000000 !important;
+    background: #f0f0f0 !important;
     font-size: 0.9rem;
+}
+
+body.dark-mode .contact-link {
+    border-color: #cccccc;
+    background: #f0f0f0 !important;
+    color: #000000 !important;
 }
 
 .contact-container h2 {

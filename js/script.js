@@ -811,63 +811,19 @@ function initializeThemeToggle() {
     });
 }
 
-// Add simple theme switcher to mobile view - similar to Eric Chung's site
+// Remove theme switcher completely, as per user request
 function initializeThemeSwitcher() {
-    // Create theme switcher container
-    const themeSwitcher = document.createElement('div');
-    themeSwitcher.className = 'theme-switcher';
-    
-    // Create theme buttons
-    const themes = ['light', 'dark', 'dusk', 'banana'];
-    themes.forEach(theme => {
-        const button = document.createElement('button');
-        button.id = `theme-${theme}`;
-        button.className = 'theme-btn';
-        button.textContent = theme;
-        button.addEventListener('click', () => switchTheme(theme));
-        themeSwitcher.appendChild(button);
-    });
-    
-    // Add to mobile intro container
-    const mobileIntroContainer = document.querySelector('.mobile-intro-container');
-    if (mobileIntroContainer) {
-        mobileIntroContainer.appendChild(themeSwitcher);
-    }
-    
-    // Check saved theme
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    switchTheme(savedTheme);
+    // Function intentionally empty - theme switcher disabled
+    console.log("Theme switcher disabled as per user request");
 }
 
-// Switch theme function
+// Switch theme function - disabled but kept for backward compatibility
 function switchTheme(theme) {
-    const body = document.body;
-    const themeButtons = document.querySelectorAll('.theme-btn');
-    
-    // Remove all theme classes
-    body.classList.remove('light-theme', 'dark-theme', 'dusk-theme', 'banana-theme');
-    
-    // Remove active class from all buttons
-    themeButtons.forEach(btn => btn.classList.remove('active'));
-    
-    // Set dark-mode class for backward compatibility
+    // Function intentionally minimal - theme switching disabled
+    // Just set dark mode if needed for app functionality
     if (theme === 'dark') {
-        body.classList.add('dark-mode');
-    } else {
-        body.classList.remove('dark-mode');
+        document.body.classList.add('dark-mode');
     }
-    
-    // Add new theme class
-    body.classList.add(`${theme}-theme`);
-    
-    // Set active button
-    const activeButton = document.getElementById(`theme-${theme}`);
-    if (activeButton) {
-        activeButton.classList.add('active');
-    }
-    
-    // Save preference
-    localStorage.setItem('theme', theme);
 }
 
 // Initialization when DOM is loaded
