@@ -117,12 +117,28 @@
         b: parseInt(COLORS.newGrowthColor.slice(5, 7), 16)
     };
 
-    // Binary tree settings - INCREASED TREE COUNT FOR DENSITY
-    const MAX_TREES = 12; // Increased from 10 to 12 for more coverage
-    const MIN_VERTICAL_SPACING = 110; // Further decreased spacing for more density
+    // Binary tree settings - MOBILE-RESPONSIVE TREE COUNT AND SPACING
+    let MAX_TREES = 12; // Default for desktop
+    let MIN_VERTICAL_SPACING = 110; // Default for desktop
     
-    // Calculate optimal spacing based on canvas height
+    // Detect mobile and adjust tree settings
+    function isMobile() {
+        return window.innerWidth <= 768;
+    }
+    
+    function updateTreeSettings() {
+        if (isMobile()) {
+            MAX_TREES = 6; // Much fewer trees for mobile
+            MIN_VERTICAL_SPACING = 80; // Tighter spacing for mobile
+        } else {
+            MAX_TREES = 12; // More trees for desktop
+            MIN_VERTICAL_SPACING = 110; // Wider spacing for desktop
+        }
+    }
+    
+    // Calculate optimal spacing based on canvas height and device type
     function calculateSpacing() {
+        updateTreeSettings();
         const spacing = Math.max(MIN_VERTICAL_SPACING, canvas.height / (MAX_TREES + 1));
         return spacing;
     }
@@ -619,8 +635,11 @@
             cancelAnimationFrame(window.BinaryTrees.animationId);
         }
         
+        // Update tree settings based on current screen size
+        updateTreeSettings();
+        
         activeTrees = [];
-        // Create more trees for density
+        // Create appropriate number of trees for current device
         for (let i = 0; i < MAX_TREES; i++) {
             activeTrees.push(new BinaryTree(i));
         }
@@ -723,4 +742,17 @@
     if (canvas.classList.contains('active')) {
         init();
     }
+
+    // Add resize handler to reinitialize trees when switching between mobile/desktop
+    let lastIsMobile = isMobile();
+    window.addEventListener('resize', function() {
+        const currentIsMobile = isMobile();
+        if (currentIsMobile !== lastIsMobile) {
+            lastIsMobile = currentIsMobile;
+            // Reinitialize with new tree count
+            if (window.BinaryTrees.active) {
+                init();
+            }
+        }
+    });
 })(); 
