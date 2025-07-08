@@ -928,6 +928,12 @@
         // Start animation
         window.BinaryTrees.active = true;
         animate();
+        
+        // Stop animation after 20 seconds
+        setTimeout(() => {
+            console.log('Binary trees: 20 seconds elapsed, stopping animation');
+            stopAnimation();
+        }, 20000); // 20 seconds = 20000 milliseconds
     }
 
     function update() {
