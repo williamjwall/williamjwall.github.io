@@ -274,7 +274,7 @@ function addToTaskbar(appName) {
     };
     
     const titles = {
-        portfolio: 'Portfolio',
+        portfolio: 'Projects',
         experience: 'Experience',
         education: 'Education',
         skills: 'Skills',
@@ -448,6 +448,10 @@ async function renderProjects() {
             return;
         }
         
+        // Debug logging
+        console.log('Projects data:', projectsData);
+        console.log('Personal projects count:', projectsData.personalProjects ? projectsData.personalProjects.length : 0);
+        
         // Ensure the element has the portfolio-section class
         portfolioSection.className = 'portfolio-section';
         
@@ -482,6 +486,8 @@ async function renderProjects() {
         
         // Create personal projects section as a single scrollable container
         if (projectsData.personalProjects && projectsData.personalProjects.length > 0) {
+            console.log('Rendering personal projects section');
+            
             // Create a single container for all personal projects
             const personalContainer = document.createElement('div');
             personalContainer.className = 'personal-projects-container';
@@ -491,10 +497,12 @@ async function renderProjects() {
             projectsHeader.textContent = 'Projects';
             personalContainer.appendChild(projectsHeader);
             
-            projectsData.personalProjects.forEach(project => {
+            projectsData.personalProjects.forEach((project, index) => {
+                console.log(`Processing project ${index}:`, project);
                 if (project && typeof project === 'object') {
                     const projectEl = createProjectElement(project);
                     if (projectEl) {
+                        console.log(`Created project element for: ${project.title}`);
                         // Remove the standalone project box styling for personal projects
                         projectEl.style.boxShadow = 'none';
                         projectEl.style.borderRadius = '0';
@@ -504,7 +512,10 @@ async function renderProjects() {
                 }
             });
             
+            console.log('Appending personal container to portfolio section');
             portfolioSection.appendChild(personalContainer);
+        } else {
+            console.log('No personal projects to render');
         }
         
         // Apply staggered animation to project cards

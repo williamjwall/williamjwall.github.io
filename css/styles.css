@@ -1100,6 +1100,65 @@ h1, h2, h3, h4, h5, h6, p, span, a {
     line-height: 1.7 !important;
 }
 
+/* Animation classes */
+.animated {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* Project styling */
+.project {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: rgba(250, 250, 250, 0.95);
+}
+
+.project h2 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+    color: #000;
+}
+
+.project-date {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.project-description {
+    margin-bottom: 15px;
+    line-height: 1.5;
+    color: #333;
+}
+
+.project-tech {
+    margin-top: 10px;
+}
+
+.company-tag {
+    display: inline-block;
+    padding: 3px 8px;
+    background-color: rgba(0, 112, 243, 0.1);
+    border: 1px solid rgba(0, 112, 243, 0.3);
+    border-radius: 3px;
+    font-size: 0.8rem;
+    color: #0070f3;
+    margin-bottom: 10px;
+}
+
+.personal-projects-container {
+    padding: 0;
+}
+
+.personal-projects-container h2 {
+    margin-bottom: 20px;
+    font-size: 1.4rem;
+    color: #000;
+}
+
 /* Project links and skills styling */
 .project-links a {
     display: inline-block;
@@ -1133,6 +1192,24 @@ h1, h2, h3, h4, h5, h6, p, span, a {
 }
 
 .skill:hover {
+    background-color: rgba(230, 230, 230, 0.95);
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.tech-tag {
+    display: inline-block;
+    margin: 3px;
+    padding: 4px 8px;
+    background-color: rgba(240, 240, 240, 0.95);
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    color: #000;
+    transition: all 0.2s ease;
+}
+
+.tech-tag:hover {
     background-color: rgba(230, 230, 230, 0.95);
     transform: translateY(-2px);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
