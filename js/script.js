@@ -362,9 +362,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const isInsideWindow = e.target.closest('.app-window');
         const isDesktopApp = e.target.closest('.desktop-app');
         const isTaskbarApp = e.target.closest('.taskbar-app');
+        const isWindowControl = e.target.closest('.window-controls');
         
-        // Only close if clicking outside and not on an app or taskbar
-        if (!isInsideWindow && !isDesktopApp && !isTaskbarApp && openWindows.size > 0) {
+        // Only close if clicking outside and not on an app, taskbar, or window controls
+        if (!isInsideWindow && !isDesktopApp && !isTaskbarApp && !isWindowControl && openWindows.size > 0) {
+            console.log('Backdrop click detected, closing windows');
             // Close all open windows
             openWindows.forEach(appName => {
                 closeApp(appName);
@@ -372,21 +374,32 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
     
-    // Add touch handler for mobile devices
+    // Add touch handler for mobile devices with better touch detection
     document.addEventListener('touchend', (e) => {
-        // Check if touch is outside any open window
-        const isInsideWindow = e.target.closest('.app-window');
-        const isDesktopApp = e.target.closest('.desktop-app');
-        const isTaskbarApp = e.target.closest('.taskbar-app');
+        // Prevent duplicate events
+        e.preventDefault();
         
-        // Only close if touching outside and not on an app or taskbar
-        if (!isInsideWindow && !isDesktopApp && !isTaskbarApp && openWindows.size > 0) {
+        // Get the touch target
+        const touch = e.changedTouches[0];
+        const target = document.elementFromPoint(touch.clientX, touch.clientY);
+        
+        if (!target) return;
+        
+        // Check if touch is outside any open window
+        const isInsideWindow = target.closest('.app-window');
+        const isDesktopApp = target.closest('.desktop-app');
+        const isTaskbarApp = target.closest('.taskbar-app');
+        const isWindowControl = target.closest('.window-controls');
+        
+        // Only close if touching outside and not on an app, taskbar, or window controls
+        if (!isInsideWindow && !isDesktopApp && !isTaskbarApp && !isWindowControl && openWindows.size > 0) {
+            console.log('Backdrop touch detected, closing windows');
             // Close all open windows
             openWindows.forEach(appName => {
                 closeApp(appName);
             });
         }
-    });
+    }, { passive: false });
     
     // Initialize draggable desktop apps
     initializeDraggableApps();
