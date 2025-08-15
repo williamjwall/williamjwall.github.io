@@ -356,6 +356,38 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
     
+    // Add backdrop click handler to close windows
+    document.addEventListener('click', (e) => {
+        // Check if click is outside any open window
+        const isInsideWindow = e.target.closest('.app-window');
+        const isDesktopApp = e.target.closest('.desktop-app');
+        const isTaskbarApp = e.target.closest('.taskbar-app');
+        
+        // Only close if clicking outside and not on an app or taskbar
+        if (!isInsideWindow && !isDesktopApp && !isTaskbarApp && openWindows.size > 0) {
+            // Close all open windows
+            openWindows.forEach(appName => {
+                closeApp(appName);
+            });
+        }
+    });
+    
+    // Add touch handler for mobile devices
+    document.addEventListener('touchend', (e) => {
+        // Check if touch is outside any open window
+        const isInsideWindow = e.target.closest('.app-window');
+        const isDesktopApp = e.target.closest('.desktop-app');
+        const isTaskbarApp = e.target.closest('.taskbar-app');
+        
+        // Only close if touching outside and not on an app or taskbar
+        if (!isInsideWindow && !isDesktopApp && !isTaskbarApp && openWindows.size > 0) {
+            // Close all open windows
+            openWindows.forEach(appName => {
+                closeApp(appName);
+            });
+        }
+    });
+    
     // Initialize draggable desktop apps
     initializeDraggableApps();
     initializeGridPositions();

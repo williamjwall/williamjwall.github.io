@@ -568,15 +568,23 @@ html {
     }
     
     .education-large {
+        width: 95% !important;
         max-width: 95% !important;
-        min-width: 300px !important;
-        max-height: 90vh !important;
+        min-width: 280px !important;
+        max-height: 85vh !important;
+        height: auto !important;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        position: fixed !important;
     }
     
     .education-large .window-content {
-        padding: 20px !important;
+        padding: 15px !important;
         font-size: 14px !important;
-        line-height: 1.5 !important;
+        line-height: 1.4 !important;
+        overflow-y: auto !important;
+        max-height: calc(85vh - 60px) !important;
     }
     
     .mobile-intro-container {
@@ -909,6 +917,28 @@ html {
     
     .app-name {
         font-size: 12px;
+    }
+    
+    .education-large {
+        width: 98% !important;
+        max-width: 98% !important;
+        min-width: 250px !important;
+        max-height: 90vh !important;
+        margin: 1% !important;
+    }
+    
+    .education-large .window-content {
+        padding: 10px !important;
+        font-size: 13px !important;
+        max-height: calc(90vh - 50px) !important;
+    }
+    
+    .education-large .window-header {
+        padding: 8px !important;
+    }
+    
+    .education-large .window-title {
+        font-size: 12px !important;
     }
 }
 
