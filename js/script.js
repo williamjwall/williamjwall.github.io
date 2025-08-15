@@ -51,6 +51,33 @@ function initializeDraggableApps() {
         app.addEventListener('touchstart', handleTouchStart);
         app.addEventListener('touchmove', handleTouchMove);
         app.addEventListener('touchend', handleTouchEnd);
+        
+        // Simple tap handler as fallback for mobile
+        let touchStartTime = 0;
+        let touchMoved = false;
+        
+        app.addEventListener('touchstart', (e) => {
+            touchStartTime = Date.now();
+            touchMoved = false;
+        }, { passive: true });
+        
+        app.addEventListener('touchmove', (e) => {
+            touchMoved = true;
+        }, { passive: true });
+        
+        app.addEventListener('touchend', (e) => {
+            const touchDuration = Date.now() - touchStartTime;
+            
+            // If it was a quick tap without movement, open the app
+            if (!touchMoved && touchDuration < 300) {
+                e.preventDefault();
+                const appName = e.currentTarget.getAttribute('data-app');
+                if (appName) {
+                    console.log('Simple tap opening app:', appName);
+                    openApp(appName);
+                }
+            }
+        }, { passive: false });
     });
     
     document.addEventListener('mousemove', dragApp);
@@ -374,32 +401,48 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
     
-    // Add touch handler for mobile devices with better touch detection
+    // Add touch handler for mobile devices (backdrop close only)
+    document.addEventListener('touchstart', (e) => {
+        // Store touch start for backdrop detection
+        window.touchStartTarget = e.target;
+    }, { passive: true });
+    
     document.addEventListener('touchend', (e) => {
-        // Prevent duplicate events
-        e.preventDefault();
+        // Only handle backdrop touches, don't interfere with app interactions
+        const touchStartTarget = window.touchStartTarget;
+        const touchEndTarget = e.target;
         
-        // Get the touch target
-        const touch = e.changedTouches[0];
-        const target = document.elementFromPoint(touch.clientX, touch.clientY);
-        
-        if (!target) return;
-        
-        // Check if touch is outside any open window
-        const isInsideWindow = target.closest('.app-window');
-        const isDesktopApp = target.closest('.desktop-app');
-        const isTaskbarApp = target.closest('.taskbar-app');
-        const isWindowControl = target.closest('.window-controls');
-        
-        // Only close if touching outside and not on an app, taskbar, or window controls
-        if (!isInsideWindow && !isDesktopApp && !isTaskbarApp && !isWindowControl && openWindows.size > 0) {
-            console.log('Backdrop touch detected, closing windows');
-            // Close all open windows
-            openWindows.forEach(appName => {
-                closeApp(appName);
-            });
+        // Only proceed if touch started and ended on the same non-interactive element
+        if (touchStartTarget === touchEndTarget) {
+            // Check if touch is outside any open window
+            const isInsideWindow = touchEndTarget.closest('.app-window');
+            const isDesktopApp = touchEndTarget.closest('.desktop-app');
+            const isTaskbarApp = touchEndTarget.closest('.taskbar-app');
+            const isWindowControl = touchEndTarget.closest('.window-controls');
+            const isButton = touchEndTarget.closest('button');
+            const isLink = touchEndTarget.closest('a');
+            
+            // Only close if touching backdrop (body or background elements)
+            const isBackdrop = touchEndTarget === document.body || 
+                              touchEndTarget.classList.contains('container') ||
+                              touchEndTarget.classList.contains('intro') ||
+                              touchEndTarget.classList.contains('desktop');
+            
+            if (isBackdrop && !isInsideWindow && !isDesktopApp && !isTaskbarApp && 
+                !isWindowControl && !isButton && !isLink && openWindows.size > 0) {
+                console.log('Backdrop touch detected, closing windows');
+                // Small delay to ensure touch events complete
+                setTimeout(() => {
+                    openWindows.forEach(appName => {
+                        closeApp(appName);
+                    });
+                }, 100);
+            }
         }
-    }, { passive: false });
+        
+        // Clear touch start target
+        window.touchStartTarget = null;
+    }, { passive: true });
     
     // Initialize draggable desktop apps
     initializeDraggableApps();
@@ -721,20 +764,31 @@ function handleTouchMove(e) {
 }
 
 function handleTouchEnd(e) {
-    if (!draggedApp) return;
-    
-    let mouseEvent;
-    if (e.changedTouches && e.changedTouches.length > 0) {
-        const touch = e.changedTouches[0];
-        mouseEvent = new MouseEvent('mouseup', {
-            clientX: touch.clientX,
-            clientY: touch.clientY
-        });
-    } else {
-        mouseEvent = new MouseEvent('mouseup', {});
+    // If we're dragging, handle the drag end
+    if (draggedApp) {
+        let mouseEvent;
+        if (e.changedTouches && e.changedTouches.length > 0) {
+            const touch = e.changedTouches[0];
+            mouseEvent = new MouseEvent('mouseup', {
+                clientX: touch.clientX,
+                clientY: touch.clientY
+            });
+        } else {
+            mouseEvent = new MouseEvent('mouseup', {});
+        }
+        
+        document.dispatchEvent(mouseEvent);
+        return;
     }
     
-    document.dispatchEvent(mouseEvent);
+    // If not dragging, this might be a simple tap to open an app
+    if (!isDraggingApp && (Date.now() - dragStartTime) <= 200) {
+        const appName = e.currentTarget.getAttribute('data-app');
+        if (appName) {
+            console.log('Touch end opening app:', appName);
+            openApp(appName);
+        }
+    }
 }
 
 // Initialize mobile-specific functionality
