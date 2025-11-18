@@ -17,11 +17,48 @@
     if (!canvas) return; // Exit if canvas doesn't exist
     
     const ctx = canvas.getContext('2d');
+
+    const themeColors = {
+        gradientStart: '#111111',
+        gradientEnd: '#121220',
+        edgeRGB: '255, 255, 255',
+        edgeBaseOpacity: 0.12,
+        nodeRGB: '255, 255, 255',
+        nodeOpacity: 0.7,
+        background: '#111111'
+    };
+
+    function updateThemeColors() {
+        const target = document.body || document.documentElement;
+        const styles = target ? getComputedStyle(target) : null;
+        if (!styles) return;
+
+        const gradientStart = styles.getPropertyValue('--canvas-gradient-start').trim();
+        const gradientEnd = styles.getPropertyValue('--canvas-gradient-end').trim();
+        const edgeRGB = styles.getPropertyValue('--canvas-edge-rgb').trim();
+        const edgeOpacity = parseFloat(styles.getPropertyValue('--canvas-edge-base-opacity'));
+        const nodeRGB = styles.getPropertyValue('--canvas-node-rgb').trim();
+        const nodeOpacity = parseFloat(styles.getPropertyValue('--canvas-node-opacity'));
+        const background = styles.getPropertyValue('--canvas-background').trim();
+
+        if (gradientStart) themeColors.gradientStart = gradientStart;
+        if (gradientEnd) themeColors.gradientEnd = gradientEnd;
+        if (edgeRGB) themeColors.edgeRGB = edgeRGB;
+        if (!Number.isNaN(edgeOpacity)) themeColors.edgeBaseOpacity = edgeOpacity;
+        if (nodeRGB) themeColors.nodeRGB = nodeRGB;
+        if (!Number.isNaN(nodeOpacity)) themeColors.nodeOpacity = nodeOpacity;
+        if (background) themeColors.background = background;
+
+        canvas.style.backgroundColor = themeColors.background;
+    }
+
+    updateThemeColors();
     
     // Set canvas to cover the entire window
     function resizeCanvas() {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
+        updateThemeColors();
     }
     
     // Call resize on load and when window is resized
@@ -44,6 +81,7 @@
     }
     
     function init() {
+        updateThemeColors();
         // Clear existing nodes and edges
         Graph.nodes.length = 0;
         Graph.edges.length = 0;
@@ -164,15 +202,15 @@
         
         // Very subtle background gradient
         const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-        gradient.addColorStop(0, '#111111');
-        gradient.addColorStop(1, '#121220');
+        gradient.addColorStop(0, themeColors.gradientStart);
+        gradient.addColorStop(1, themeColors.gradientEnd);
         ctx.fillStyle = gradient;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         
         // Draw proximity edges with reduced opacity
         edges.forEach(edge => {
-            const opacity = 0.12 * (1 - edge.dist / maxDistance); // Increased opacity
-            ctx.strokeStyle = `rgba(255, 255, 255, ${opacity})`;
+            const opacity = Math.max(0, Math.min(1, themeColors.edgeBaseOpacity * (1 - edge.dist / maxDistance)));
+            ctx.strokeStyle = `rgba(${themeColors.edgeRGB}, ${opacity})`;
             ctx.lineWidth = 1.0; // Increased line width
             ctx.beginPath();
             ctx.moveTo(edge.from.x, edge.from.y);
@@ -182,7 +220,7 @@
         
         // Draw nodes
         nodes.forEach(node => {
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+            ctx.fillStyle = `rgba(${themeColors.nodeRGB}, ${themeColors.nodeOpacity})`;
             ctx.beginPath();
             ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
             ctx.fill();
@@ -223,5 +261,16 @@
                 init();
             }
         }, 500);
+    });
+
+    document.addEventListener('themechange', () => {
+        updateThemeColors();
+        if (Graph.active) {
+            draw();
+        } else {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = themeColors.gradientStart;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
     });
 })(); 

@@ -36,6 +36,7 @@
             canvas.style.display = 'block';
             canvas.style.zIndex = '-1';
             canvas.style.pointerEvents = 'none';
+            canvas.style.backgroundColor = themeColors.background;
         } else {
             // Mobile - hide canvas completely
             canvas.style.display = 'none';
@@ -89,11 +90,36 @@
     // Force initial resize after a short delay to ensure DOM is ready
     setTimeout(resizeCanvas, 100);
 
-    // Black and white color palette for minimal design
-    const COLORS = {
-        background: '#ffffff', // White background
-        branchColor: '#000000'  // Black for branches
+    // Theme-aware color palette
+    const themeColors = {
+        background: '#ffffff',
+        branchColor: '#000000'
     };
+
+    function updateThemeColors() {
+        if (!canvas) return;
+        const target = document.body || document.documentElement;
+        const styles = target ? getComputedStyle(target) : null;
+        if (!styles) {
+            return;
+        }
+
+        const background = styles.getPropertyValue('--canvas-background').trim() ||
+                           styles.getPropertyValue('--background-color').trim();
+        const branch = styles.getPropertyValue('--canvas-branch-color').trim() ||
+                       styles.getPropertyValue('--text-color').trim();
+
+        if (background) {
+            themeColors.background = background;
+            canvas.style.backgroundColor = background;
+        }
+
+        if (branch) {
+            themeColors.branchColor = branch;
+        }
+    }
+
+    updateThemeColors();
 
     // Binary tree settings - More trees for full screen
     let MAX_TREES = 20; // Increased from 15 to better fill the screen
@@ -836,12 +862,12 @@
                 // Set visual style based on whether segment reached an app area
                 if (segment.nearApp !== undefined) {
                     // Segments that reached app areas get a slightly thicker line
-                    ctx.strokeStyle = '#000000';
+                    ctx.strokeStyle = themeColors.branchColor;
                     ctx.lineWidth = 1.0;
                     ctx.lineCap = 'round';
                 } else {
                     // Regular segments
-                    ctx.strokeStyle = '#000000';
+                    ctx.strokeStyle = themeColors.branchColor;
                     ctx.lineWidth = 0.5;
                     ctx.lineCap = 'butt';
                 }
@@ -893,6 +919,7 @@
             return;
         }
         
+        updateThemeColors();
         console.log('Binary trees: Initializing for desktop');
         
         // Force initial resize to ensure canvas is properly sized
@@ -963,14 +990,14 @@
     }
 
     function draw() {
-        // Clear with solid white background
-        ctx.fillStyle = '#ffffff';
+        // Clear with theme background
+        ctx.fillStyle = themeColors.background;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         
         // Remove test rectangle - no longer needed
         
         // Ensure line color is set to pure black
-        ctx.strokeStyle = '#000000';
+        ctx.strokeStyle = themeColors.branchColor;
         ctx.lineWidth = 0.5;
         ctx.lineCap = 'butt';
         
@@ -1011,10 +1038,20 @@
         // Clear canvas
         if (ctx && canvas.width && canvas.height) {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = themeColors.background;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
         }
         
         console.log('Binary trees: Memory cleared');
     }
+
+    document.addEventListener('themechange', () => {
+        updateThemeColors();
+        if (ctx && canvas.width && canvas.height) {
+            ctx.fillStyle = themeColors.background;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+    });
 
     // Auto-initialize if the canvas is active
     setTimeout(() => {

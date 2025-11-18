@@ -8,6 +8,117 @@ let dragOffset = { x: 0, y: 0 };
 let isDraggingApp = false;
 let dragStartTime = 0;
 
+const CLICK_GUARD_DELAY = 350;
+const actionCooldowns = new Map();
+let interactionLockUntil = 0;
+const THEME_STORAGE_KEY = 'preferredTheme';
+const DEFAULT_THEME = 'light';
+
+document.documentElement.setAttribute('data-theme', DEFAULT_THEME);
+
+function getStoredTheme() {
+    try {
+        return localStorage.getItem(THEME_STORAGE_KEY);
+    } catch (error) {
+        console.warn('Unable to access theme preference storage:', error);
+        return null;
+    }
+}
+
+function storeTheme(theme) {
+    try {
+        localStorage.setItem(THEME_STORAGE_KEY, theme);
+    } catch (error) {
+        console.warn('Unable to persist theme preference:', error);
+    }
+}
+
+function updateThemeToggle(theme) {
+    const toggle = document.getElementById('theme-toggle');
+    if (!toggle) {
+        return;
+    }
+
+    const icon = toggle.querySelector('i');
+    const isDark = theme === 'dark';
+
+    toggle.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+    toggle.setAttribute('data-theme', theme);
+
+    if (icon) {
+        icon.classList.remove('fa-moon', 'fa-sun');
+        icon.classList.add(isDark ? 'fa-sun' : 'fa-moon');
+    }
+}
+
+function applyTheme(theme, { persist = true } = {}) {
+    // Force light mode only
+    const normalizedTheme = 'light';
+    const body = document.body;
+    if (!body) {
+        return;
+    }
+
+    body.classList.remove('light-theme', 'dark-theme');
+    body.classList.add(`${normalizedTheme}-theme`);
+    document.documentElement.setAttribute('data-theme', normalizedTheme);
+    updateThemeToggle(normalizedTheme);
+
+    if (persist) {
+        storeTheme(normalizedTheme);
+    }
+
+    document.dispatchEvent(new CustomEvent('themechange', {
+        detail: { theme: normalizedTheme }
+    }));
+}
+
+function shouldThrottleAction(key, delay = CLICK_GUARD_DELAY) {
+    const now = performance.now ? performance.now() : Date.now();
+    const lastTime = actionCooldowns.get(key) || 0;
+    if (now - lastTime < delay) {
+        return true;
+    }
+    actionCooldowns.set(key, now);
+    return false;
+}
+
+function addDoubleClickGuard(element) {
+    if (!element || element.dataset.doubleClickGuard === 'true') {
+        return;
+    }
+
+    let lastClickTime = 0;
+
+    const handler = (event) => {
+        const now = performance.now ? performance.now() : Date.now();
+        if (now - lastClickTime < CLICK_GUARD_DELAY) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            return;
+        }
+        lastClickTime = now;
+    };
+
+    element.addEventListener('click', handler, true);
+    element.addEventListener('dblclick', (event) => {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+    }, true);
+
+    element.dataset.doubleClickGuard = 'true';
+}
+
+function lockInteractions(delay = CLICK_GUARD_DELAY) {
+    const now = performance.now ? performance.now() : Date.now();
+    interactionLockUntil = now + delay;
+}
+
+function isInteractionLocked() {
+    const now = performance.now ? performance.now() : Date.now();
+    return now < interactionLockUntil;
+}
+
 // Store the original positions for reset
 const originalPositions = {
     'portfolio': { x: 0, y: 0 },
@@ -38,6 +149,10 @@ function initializeDraggableApps() {
     
     // Store original positions from bounding rect
     apps.forEach(app => {
+        if (app.dataset.draggableInitialized === 'true') {
+            return;
+        }
+
         const rect = app.getBoundingClientRect();
         const appName = app.getAttribute('data-app');
         originalPositions[appName] = { x: rect.left, y: rect.top };
@@ -72,12 +187,15 @@ function initializeDraggableApps() {
             if (!touchMoved && touchDuration < 300) {
                 e.preventDefault();
                 const appName = e.currentTarget.getAttribute('data-app');
-                if (appName) {
+                if (appName && !isInteractionLocked()) {
                     console.log('Simple tap opening app:', appName);
                     openApp(appName);
                 }
             }
         }, { passive: false });
+
+        addDoubleClickGuard(app);
+        app.dataset.draggableInitialized = 'true';
     });
     
     document.addEventListener('mousemove', dragApp);
@@ -85,6 +203,18 @@ function initializeDraggableApps() {
 }
 
 function handleAppClick(e) {
+    if (e.detail && e.detail > 1) {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+    }
+
+    if (isInteractionLocked()) {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+    }
+
     // Only open app if we weren't dragging
     if (isDraggingApp || (Date.now() - dragStartTime) > 200) {
         e.preventDefault();
@@ -226,12 +356,23 @@ function initializeGridPositions() {
     });
 }
 
+function initializeButtonGuards() {
+    const controlButtons = document.querySelectorAll('.window-controls button');
+    controlButtons.forEach((button) => {
+        addDoubleClickGuard(button);
+    });
+}
+
 function resetAppStyle(app) {
     // Remove all inline styles
     app.style.cssText = '';
 }
 
 function openApp(appName) {
+    if (!appName || shouldThrottleAction(`open:${appName}`)) {
+        return;
+    }
+
     const windowId = `${appName}-window`;
     const window = document.getElementById(windowId);
     
@@ -258,6 +399,10 @@ function openApp(appName) {
 }
 
 function closeApp(appName) {
+    if (!appName || shouldThrottleAction(`close:${appName}`)) {
+        return;
+    }
+
     const windowId = `${appName}-window`;
     const window = document.getElementById(windowId);
     
@@ -265,16 +410,22 @@ function closeApp(appName) {
         window.style.display = 'none';
         openWindows.delete(appName);
         removeFromTaskbar(appName);
+        lockInteractions();
     }
 }
 
 function minimizeApp(appName) {
+    if (!appName || shouldThrottleAction(`minimize:${appName}`)) {
+        return;
+    }
+
     const windowId = `${appName}-window`;
     const window = document.getElementById(windowId);
     
     if (window) {
         window.style.display = 'none';
         addToTaskbar(appName);
+        lockInteractions();
     }
 }
 
@@ -310,6 +461,7 @@ function addToTaskbar(appName) {
     
     taskbarApp.innerHTML = `<img src="${icons[appName]}" alt="${titles[appName]}" class="taskbar-icon">${titles[appName]}`;
     taskbarApps.appendChild(taskbarApp);
+    addDoubleClickGuard(taskbarApp);
 }
 
 function removeFromTaskbar(appName) {
@@ -320,6 +472,11 @@ function removeFromTaskbar(appName) {
 }
 
 function makeDraggable(windowElement) {
+    if (!windowElement || windowElement.dataset.draggableInitialized === 'true') {
+        return;
+    }
+
+    windowElement.dataset.draggableInitialized = 'true';
     const header = windowElement.querySelector('.window-header');
     let isDragging = false;
     let currentX;
@@ -447,6 +604,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize draggable desktop apps
     initializeDraggableApps();
     initializeGridPositions();
+    initializeButtonGuards();
+    initializeProjects();
+    // Theme toggle disabled - light mode only
+    // initializeThemeToggle();
+    applyTheme('light', { persist: false });
+    initializeMobileSupport();
+    initializeCanvasSwitching();
+    initializeMobileNav();
 });
 
 async function fetchProjects() {
@@ -784,7 +949,7 @@ function handleTouchEnd(e) {
     // If not dragging, this might be a simple tap to open an app
     if (!isDraggingApp && (Date.now() - dragStartTime) <= 200) {
         const appName = e.currentTarget.getAttribute('data-app');
-        if (appName) {
+        if (appName && !isInteractionLocked()) {
             console.log('Touch end opening app:', appName);
             openApp(appName);
         }
@@ -978,22 +1143,36 @@ function initializeCanvasSwitching() {
 
 // Initialize theme toggle functionality
 function initializeThemeToggle() {
-    // Theme toggle functionality removed - no longer needed
-    console.log('Theme toggle functionality removed');
-}
+    const toggle = document.getElementById('theme-toggle');
+    const storedTheme = getStoredTheme();
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const initialTheme = storedTheme || (prefersDark ? 'dark' : DEFAULT_THEME);
 
-// Initialization when DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
-    initializeDraggableApps();
-    initializeGridPositions();
-    initializeProjects();
-    setupUnderlineAnimations();
-    initializeMobileSupport();
-    initializeCanvasSwitching();
-    
-    // Initialize the mobile navigation
-    initializeMobileNav();
-    
-    // Theme toggle removed
-    // initializeThemeToggle();
-}); 
+    applyTheme(initialTheme, { persist: false });
+
+    if (!toggle) {
+        return;
+    }
+
+    addDoubleClickGuard(toggle);
+
+    toggle.addEventListener('click', () => {
+        const nextTheme = document.body.classList.contains('dark-theme') ? 'light' : 'dark';
+        applyTheme(nextTheme);
+    });
+
+    if (window.matchMedia) {
+        const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+        const mediaListener = (event) => {
+            if (!getStoredTheme()) {
+                applyTheme(event.matches ? 'dark' : 'light', { persist: false });
+            }
+        };
+
+        if (typeof mediaQuery.addEventListener === 'function') {
+            mediaQuery.addEventListener('change', mediaListener);
+        } else if (typeof mediaQuery.addListener === 'function') {
+            mediaQuery.addListener(mediaListener);
+        }
+    }
+}

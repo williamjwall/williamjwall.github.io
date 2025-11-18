@@ -14,6 +14,15 @@
     --minimal-accent: #0070f3;
     --minimal-spacing: 1.5rem;
     --minimal-border: #e0e0e0;
+    /* Canvas/animation palette */
+    --canvas-background: #ffffff;
+    --canvas-branch-color: #000000;
+    --canvas-gradient-start: #f4f6ff;
+    --canvas-gradient-end: #e9edff;
+    --canvas-edge-rgb: 28, 32, 43;
+    --canvas-edge-base-opacity: 0.12;
+    --canvas-node-rgb: 42, 48, 63;
+    --canvas-node-opacity: 0.55;
 }
 
 /* Import Merriweather font and add a monospace font for minimal design */
@@ -74,6 +83,10 @@ body {
     padding: 0;
     width: 100%;
     min-height: 100vh;
+}
+
+body.light-theme {
+    color-scheme: light;
 }
 
 html {
@@ -241,14 +254,13 @@ html {
 /* BeOS-style monochrome app windows */
 .app-window {
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    top: 20px;
+    right: 20px;
     width: auto;
-    max-width: 800px;
-    min-width: 300px;
+    min-width: 400px;
+    max-width: calc(100vw - 40px);
     height: auto;
-    max-height: 80vh;
+    max-height: calc(100vh - 40px);
     border: 1px solid #000000;
     border-radius: 8px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
@@ -263,6 +275,20 @@ html {
 .app-window.focused {
     border: 2px solid #000000;
     box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Portfolio window - wider */
+@media (min-width: 769px) {
+    #portfolio-window {
+        width: 700px;
+        min-width: 600px;
+    }
+    
+    /* Skills window - half width */
+    #skills-window {
+        width: 350px;
+        min-width: 300px;
+    }
 }
 
 .window-header {
@@ -286,6 +312,8 @@ html {
     font-size: 12px;
     color: #000000 !important;
     font-family: 'Arial', sans-serif;
+    flex: 1;
+    height: 100%;
 }
 
 .window-title i {
@@ -336,12 +364,13 @@ html {
 .window-content {
     padding: 20px;
     overflow-y: auto;
+    overflow-x: hidden;
     background-color: #ffffff !important;
     color: #000000 !important;
     font-family: 'Arial', sans-serif;
-    width: auto;
-    height: auto;
+    width: 100%;
     flex: 1;
+    min-height: 0;
 }
 
 /* Remove terminal headers and colored window styling */
@@ -1000,6 +1029,12 @@ a:hover, button:hover, .tech-tag:hover {
 
 .header-section {
     margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    gap: 16px;
+    flex-wrap: wrap;
 }
 
 .logo a {
@@ -1008,26 +1043,60 @@ a:hover, button:hover, .tech-tag:hover {
     text-decoration: none;
     color: var(--text-color);
     font-family: 'Merriweather', serif;
-    margin-left: 40px;
+    margin-left: 0;
+}
+
+.theme-toggle-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 6px 16px;
+    border-radius: 999px;
+    border: 1px solid var(--border-color);
+    background: transparent;
+    color: var(--text-color);
+    font-family: 'Roboto Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
+}
+
+.theme-toggle-button i {
+    font-size: 0.85rem;
+}
+
+.theme-toggle-button:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.theme-toggle-button:active {
+    transform: translateY(1px);
+}
+
+
+.intro-section {
+    padding: 0 40px;
 }
 
 .intro-section h1 {
     font-size: 1.6rem;
     font-weight: 500;
-    margin: 0 0 25px 40px;
+    margin: 0 0 25px 0;
     line-height: 1.2;
 }
 
 .intro-section p {
     font-size: 1rem;
     line-height: 1.6;
-    margin: 0 0 10px 40px;
+    margin: 0 0 10px 0;
     max-width: 600px;
 }
 
 .contact-info {
     margin-top: 20px;
-    margin-left: 40px;
+    margin-left: 0;
 }
 
 .contact-info a {
@@ -1136,9 +1205,10 @@ h1, h2, h3, h4, h5, h6, p, span, a {
 /* Education window - make it bigger (desktop only) */
 @media (min-width: 769px) {
     .education-large {
-        max-width: 900px !important;
-        min-width: 600px !important;
-        max-height: 85vh !important;
+        max-width: calc(100vw - 40px) !important;
+        width: 600px !important;
+        min-width: 500px !important;
+        max-height: calc(100vh - 40px) !important;
     }
 
     .education-large .window-content {
@@ -1261,4 +1331,198 @@ h1, h2, h3, h4, h5, h6, p, span, a {
     background-color: rgba(230, 230, 230, 0.95);
     transform: translateY(-2px);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark theme overrides */
+body.dark-theme {
+    --text-color: #e6eaff;
+    --background-color: #060b1a;
+    --border-color: rgba(158, 179, 255, 0.45);
+    --taskbar-bg: rgba(6, 10, 24, 0.92);
+    --minimal-accent: #7ea2ff;
+    --window-bg: rgba(16, 21, 36, 0.95);
+    --window-header-bg: rgba(25, 33, 54, 0.95);
+    --canvas-background: #050a1a;
+    --canvas-branch-color: #c6d4ff;
+    --canvas-gradient-start: #070b1e;
+    --canvas-gradient-end: #090f24;
+    --canvas-edge-rgb: 206, 218, 255;
+    --canvas-edge-base-opacity: 0.2;
+    --canvas-node-rgb: 214, 224, 255;
+    --canvas-node-opacity: 0.7;
+    color-scheme: dark;
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+body.dark-theme .theme-toggle-button {
+    border-color: rgba(158, 179, 255, 0.45);
+}
+
+body.dark-theme .theme-toggle-button:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+body.dark-theme .desktop-app:hover {
+    background-color: rgba(255, 255, 255, 0.04);
+}
+
+body.dark-theme .desktop-app:hover .app-icon {
+    background: linear-gradient(135deg, rgba(90, 111, 173, 0.45) 0%, rgba(52, 70, 124, 0.75) 100%);
+    box-shadow: 3px 3px 12px rgba(0, 0, 0, 0.45);
+}
+
+body.dark-theme .app-icon i,
+body.dark-theme .app-name {
+    color: var(--text-color);
+}
+
+body.dark-theme .app-window {
+    background-color: var(--window-bg) !important;
+    border: 1px solid rgba(158, 179, 255, 0.32);
+    box-shadow: 0 25px 60px rgba(2, 5, 16, 0.65);
+}
+
+body.dark-theme .app-window.focused {
+    border: 2px solid rgba(126, 162, 255, 0.6);
+    box-shadow: 0 30px 70px rgba(1, 3, 12, 0.75);
+}
+
+body.dark-theme .window-header {
+    background: linear-gradient(90deg, rgba(34, 45, 77, 0.95) 0%, rgba(23, 32, 58, 0.95) 100%) !important;
+    border-bottom: 1px solid rgba(158, 179, 255, 0.32);
+}
+
+body.dark-theme #portfolio-window .window-header,
+body.dark-theme #experience-window .window-header,
+body.dark-theme #education-window .window-header,
+body.dark-theme #skills-window .window-header,
+body.dark-theme #contact-window .window-header {
+    background: linear-gradient(90deg, rgba(34, 45, 77, 0.95) 0%, rgba(23, 32, 58, 0.95) 100%) !important;
+    border-bottom: 1px solid rgba(158, 179, 255, 0.32);
+}
+
+body.dark-theme .window-title,
+body.dark-theme .window-title i {
+    color: var(--text-color) !important;
+}
+
+body.dark-theme .window-controls button {
+    background: linear-gradient(135deg, rgba(50, 66, 115, 0.92) 0%, rgba(35, 49, 92, 0.92) 100%) !important;
+    border-color: rgba(158, 179, 255, 0.45);
+}
+
+body.dark-theme .window-controls button:hover {
+    background: linear-gradient(135deg, rgba(60, 78, 130, 0.95) 0%, rgba(40, 55, 102, 0.95) 100%) !important;
+}
+
+body.dark-theme .window-controls button:active {
+    background: linear-gradient(135deg, rgba(32, 44, 88, 0.95) 0%, rgba(26, 36, 66, 0.95) 100%) !important;
+}
+
+body.dark-theme .window-controls button i {
+    color: #f7f9ff !important;
+}
+
+body.dark-theme .window-content,
+body.dark-theme #portfolio-window .window-content,
+body.dark-theme #experience-window .window-content,
+body.dark-theme #education-window .window-content,
+body.dark-theme #skills-window .window-content,
+body.dark-theme #contact-window .window-content {
+    background-color: rgba(11, 16, 30, 0.96) !important;
+    color: var(--text-color) !important;
+}
+
+body.dark-theme .intro-section h1,
+body.dark-theme .intro-section p,
+body.dark-theme .contact-info a {
+    color: var(--text-color);
+}
+
+body.dark-theme .contact-info a:hover {
+    color: #bcd0ff;
+}
+
+body.dark-theme a {
+    color: #b1c9ff;
+}
+
+body.dark-theme a:hover {
+    color: #d2e2ff;
+}
+
+body.dark-theme .project {
+    background-color: rgba(20, 28, 48, 0.9);
+    border-color: rgba(158, 179, 255, 0.25);
+}
+
+body.dark-theme .project h2 {
+    color: var(--text-color);
+}
+
+body.dark-theme .personal-projects-container h2 {
+    color: var(--text-color);
+}
+
+body.dark-theme .project-date {
+    color: rgba(214, 220, 255, 0.72);
+}
+
+body.dark-theme .project-description {
+    color: rgba(230, 234, 255, 0.92);
+}
+
+body.dark-theme .project-links a,
+body.dark-theme .skill,
+body.dark-theme .tech-tag {
+    background-color: rgba(30, 40, 68, 0.85);
+    border-color: rgba(158, 179, 255, 0.32);
+    color: var(--text-color);
+    box-shadow: none;
+}
+
+body.dark-theme .project-links a:hover,
+body.dark-theme .skill:hover,
+body.dark-theme .tech-tag:hover {
+    background-color: rgba(42, 54, 90, 0.95);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.35);
+}
+
+body.dark-theme .company-tag {
+    background-color: rgba(94, 123, 204, 0.2);
+    border-color: rgba(158, 179, 255, 0.3);
+    color: #bdd2ff;
+}
+
+body.dark-theme .contact-link {
+    color: #c4d6ff;
+}
+
+body.dark-theme .contact-link:hover {
+    color: #e0e8ff;
+}
+
+body.dark-theme .mobile-intro-container {
+    background: rgba(16, 21, 36, 0.95) !important;
+    border-color: rgba(158, 179, 255, 0.32);
+}
+
+body.dark-theme .mobile-title h1,
+body.dark-theme .mobile-subtitle,
+body.dark-theme .mobile-bio p,
+body.dark-theme .mobile-location span,
+body.dark-theme .mobile-location i {
+    color: var(--text-color);
+}
+
+body.dark-theme .logo a,
+body.dark-theme .mobile-title h1 {
+    color: #ffffff;
+}
+
+@media (max-width: 768px) {
+    body.dark-theme .window-controls button i {
+        color: #f7f9ff !important;
+    }
 }
