@@ -104,6 +104,7 @@ html {
     padding: 0;
     position: relative;
     z-index: 2;
+    background-color: transparent;
 }
 
 /* Desktop Icons */
@@ -1037,6 +1038,7 @@ a:hover, button:hover, .tech-tag:hover {
     padding: 40px 0;
     border-bottom: 2px solid var(--border-color);
     margin-bottom: 30px;
+    background-color: transparent;
 }
 
 .header-section {
@@ -1346,22 +1348,22 @@ h1, h2, h3, h4, h5, h6, p, span, a {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-/* Dark theme overrides */
+/* Dark theme overrides - matching ben.bolte.cc aesthetic */
 body.dark-theme {
-    --text-color: #e6eaff;
-    --background-color: #060b1a;
-    --border-color: rgba(158, 179, 255, 0.45);
-    --taskbar-bg: rgba(6, 10, 24, 0.92);
-    --minimal-accent: #7ea2ff;
-    --window-bg: rgba(16, 21, 36, 0.95);
-    --window-header-bg: rgba(25, 33, 54, 0.95);
-    --canvas-background: #050a1a;
-    --canvas-branch-color: #c6d4ff;
-    --canvas-gradient-start: #070b1e;
-    --canvas-gradient-end: #090f24;
-    --canvas-edge-rgb: 206, 218, 255;
+    --text-color: #d9d7e0;
+    --background-color: #1b191f;
+    --border-color: rgba(217, 215, 224, 0.3);
+    --taskbar-bg: rgba(27, 25, 31, 0.95);
+    --minimal-accent: #d9d7e0;
+    --window-bg: rgba(27, 25, 31, 0.98);
+    --window-header-bg: rgba(35, 33, 39, 0.98);
+    --canvas-background: #1b191f;
+    --canvas-branch-color: #d3d3d3;
+    --canvas-gradient-start: #1b191f;
+    --canvas-gradient-end: #1b191f;
+    --canvas-edge-rgb: 211, 211, 211;
     --canvas-edge-base-opacity: 0.2;
-    --canvas-node-rgb: 214, 224, 255;
+    --canvas-node-rgb: 211, 211, 211;
     --canvas-node-opacity: 0.7;
     color-scheme: dark;
     background-color: var(--background-color);
@@ -1369,20 +1371,21 @@ body.dark-theme {
 }
 
 body.dark-theme .theme-toggle-button {
-    border-color: rgba(158, 179, 255, 0.45);
+    border-color: rgba(217, 215, 224, 0.3);
+    color: var(--text-color);
 }
 
 body.dark-theme .theme-toggle-button:hover {
-    background-color: rgba(255, 255, 255, 0.08);
+    background-color: rgba(217, 215, 224, 0.1);
 }
 
 body.dark-theme .desktop-app:hover {
-    background-color: rgba(255, 255, 255, 0.04);
+    background-color: rgba(217, 215, 224, 0.05);
 }
 
 body.dark-theme .desktop-app:hover .app-icon {
-    background: linear-gradient(135deg, rgba(90, 111, 173, 0.45) 0%, rgba(52, 70, 124, 0.75) 100%);
-    box-shadow: 3px 3px 12px rgba(0, 0, 0, 0.45);
+    background: rgba(217, 215, 224, 0.1);
+    box-shadow: 3px 3px 12px rgba(0, 0, 0, 0.3);
 }
 
 body.dark-theme .app-icon i,
@@ -1392,18 +1395,18 @@ body.dark-theme .app-name {
 
 body.dark-theme .app-window {
     background-color: var(--window-bg) !important;
-    border: 1px solid rgba(158, 179, 255, 0.32);
-    box-shadow: 0 25px 60px rgba(2, 5, 16, 0.65);
+    border: 1px solid rgba(217, 215, 224, 0.2);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
 }
 
 body.dark-theme .app-window.focused {
-    border: 2px solid rgba(126, 162, 255, 0.6);
-    box-shadow: 0 30px 70px rgba(1, 3, 12, 0.75);
+    border: 2px solid rgba(217, 215, 224, 0.4);
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.6);
 }
 
 body.dark-theme .window-header {
-    background: linear-gradient(90deg, rgba(34, 45, 77, 0.95) 0%, rgba(23, 32, 58, 0.95) 100%) !important;
-    border-bottom: 1px solid rgba(158, 179, 255, 0.32);
+    background: var(--window-header-bg) !important;
+    border-bottom: 1px solid rgba(217, 215, 224, 0.2);
 }
 
 body.dark-theme #portfolio-window .window-header,
@@ -1411,8 +1414,8 @@ body.dark-theme #experience-window .window-header,
 body.dark-theme #education-window .window-header,
 body.dark-theme #skills-window .window-header,
 body.dark-theme #contact-window .window-header {
-    background: linear-gradient(90deg, rgba(34, 45, 77, 0.95) 0%, rgba(23, 32, 58, 0.95) 100%) !important;
-    border-bottom: 1px solid rgba(158, 179, 255, 0.32);
+    background: var(--window-header-bg) !important;
+    border-bottom: 1px solid rgba(217, 215, 224, 0.2);
 }
 
 body.dark-theme .window-title,
@@ -1421,20 +1424,20 @@ body.dark-theme .window-title i {
 }
 
 body.dark-theme .window-controls button {
-    background: linear-gradient(135deg, rgba(50, 66, 115, 0.92) 0%, rgba(35, 49, 92, 0.92) 100%) !important;
-    border-color: rgba(158, 179, 255, 0.45);
+    background: rgba(217, 215, 224, 0.1) !important;
+    border-color: rgba(217, 215, 224, 0.3);
 }
 
 body.dark-theme .window-controls button:hover {
-    background: linear-gradient(135deg, rgba(60, 78, 130, 0.95) 0%, rgba(40, 55, 102, 0.95) 100%) !important;
+    background: rgba(217, 215, 224, 0.15) !important;
 }
 
 body.dark-theme .window-controls button:active {
-    background: linear-gradient(135deg, rgba(32, 44, 88, 0.95) 0%, rgba(26, 36, 66, 0.95) 100%) !important;
+    background: rgba(217, 215, 224, 0.2) !important;
 }
 
 body.dark-theme .window-controls button i {
-    color: #f7f9ff !important;
+    color: var(--text-color) !important;
 }
 
 body.dark-theme .window-content,
@@ -1443,31 +1446,31 @@ body.dark-theme #experience-window .window-content,
 body.dark-theme #education-window .window-content,
 body.dark-theme #skills-window .window-content,
 body.dark-theme #contact-window .window-content {
-    background-color: rgba(11, 16, 30, 0.96) !important;
+    background-color: var(--window-bg) !important;
     color: var(--text-color) !important;
 }
 
 body.dark-theme .intro-section h1,
 body.dark-theme .intro-section p,
 body.dark-theme .contact-info a {
-    color: var(--text-color);
+    color: #ffffff;
 }
 
 body.dark-theme .contact-info a:hover {
-    color: #bcd0ff;
+    color: rgba(217, 215, 224, 0.8);
 }
 
 body.dark-theme a {
-    color: #b1c9ff;
+    color: var(--text-color);
 }
 
 body.dark-theme a:hover {
-    color: #d2e2ff;
+    color: rgba(217, 215, 224, 0.8);
 }
 
 body.dark-theme .project {
-    background-color: rgba(20, 28, 48, 0.9);
-    border-color: rgba(158, 179, 255, 0.25);
+    background-color: rgba(35, 33, 39, 0.9);
+    border-color: rgba(217, 215, 224, 0.2);
 }
 
 body.dark-theme .project h2 {
@@ -1479,18 +1482,18 @@ body.dark-theme .personal-projects-container h2 {
 }
 
 body.dark-theme .project-date {
-    color: rgba(214, 220, 255, 0.72);
+    color: rgba(217, 215, 224, 0.7);
 }
 
 body.dark-theme .project-description {
-    color: rgba(230, 234, 255, 0.92);
+    color: rgba(217, 215, 224, 0.9);
 }
 
 body.dark-theme .project-links a,
 body.dark-theme .skill,
 body.dark-theme .tech-tag {
-    background-color: rgba(30, 40, 68, 0.85);
-    border-color: rgba(158, 179, 255, 0.32);
+    background-color: rgba(217, 215, 224, 0.1);
+    border-color: rgba(217, 215, 224, 0.3);
     color: var(--text-color);
     box-shadow: none;
 }
@@ -1498,27 +1501,27 @@ body.dark-theme .tech-tag {
 body.dark-theme .project-links a:hover,
 body.dark-theme .skill:hover,
 body.dark-theme .tech-tag:hover {
-    background-color: rgba(42, 54, 90, 0.95);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.35);
+    background-color: rgba(217, 215, 224, 0.15);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
 }
 
 body.dark-theme .company-tag {
-    background-color: rgba(94, 123, 204, 0.2);
-    border-color: rgba(158, 179, 255, 0.3);
-    color: #bdd2ff;
+    background-color: rgba(217, 215, 224, 0.15);
+    border-color: rgba(217, 215, 224, 0.3);
+    color: var(--text-color);
 }
 
 body.dark-theme .contact-link {
-    color: #c4d6ff;
+    color: var(--text-color);
 }
 
 body.dark-theme .contact-link:hover {
-    color: #e0e8ff;
+    color: rgba(217, 215, 224, 0.8);
 }
 
 body.dark-theme .mobile-intro-container {
-    background: rgba(16, 21, 36, 0.95) !important;
-    border-color: rgba(158, 179, 255, 0.32);
+    background: var(--background-color) !important;
+    border-color: rgba(217, 215, 224, 0.2);
 }
 
 body.dark-theme .mobile-title h1,

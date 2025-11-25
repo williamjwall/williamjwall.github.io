@@ -52,24 +52,22 @@ function updateThemeToggle(theme) {
 }
 
 function applyTheme(theme, { persist = true } = {}) {
-    // Force light mode only
-    const normalizedTheme = 'light';
     const body = document.body;
     if (!body) {
         return;
     }
 
     body.classList.remove('light-theme', 'dark-theme');
-    body.classList.add(`${normalizedTheme}-theme`);
-    document.documentElement.setAttribute('data-theme', normalizedTheme);
-    updateThemeToggle(normalizedTheme);
+    body.classList.add(`${theme}-theme`);
+    document.documentElement.setAttribute('data-theme', theme);
+    updateThemeToggle(theme);
 
     if (persist) {
-        storeTheme(normalizedTheme);
+        storeTheme(theme);
     }
 
     document.dispatchEvent(new CustomEvent('themechange', {
-        detail: { theme: normalizedTheme }
+        detail: { theme: theme }
     }));
 }
 
@@ -343,8 +341,8 @@ function initializeGridPositions() {
     const positions = [
         { app: 'portfolio', col: 1, row: 1 },
         { app: 'experience', col: 2, row: 1 },
-        { app: 'education', col: 3, row: 1 },
-        { app: 'skills', col: 1, row: 2 },
+        { app: 'skills', col: 3, row: 1 },
+        { app: 'education', col: 1, row: 2 },
         { app: 'contact', col: 2, row: 2 }
     ];
     
@@ -606,9 +604,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initializeGridPositions();
     initializeButtonGuards();
     initializeProjects();
-    // Theme toggle disabled - light mode only
-    // initializeThemeToggle();
-    applyTheme('light', { persist: false });
+    initializeThemeToggle();
     initializeMobileSupport();
     initializeCanvasSwitching();
     initializeMobileNav();
@@ -1145,8 +1141,8 @@ function initializeCanvasSwitching() {
 function initializeThemeToggle() {
     const toggle = document.getElementById('theme-toggle');
     const storedTheme = getStoredTheme();
-    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const initialTheme = storedTheme || (prefersDark ? 'dark' : DEFAULT_THEME);
+    // Always default to light mode, ignore system preference
+    const initialTheme = storedTheme || DEFAULT_THEME;
 
     applyTheme(initialTheme, { persist: false });
 
@@ -1161,18 +1157,19 @@ function initializeThemeToggle() {
         applyTheme(nextTheme);
     });
 
-    if (window.matchMedia) {
-        const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-        const mediaListener = (event) => {
-            if (!getStoredTheme()) {
-                applyTheme(event.matches ? 'dark' : 'light', { persist: false });
-            }
-        };
-
-        if (typeof mediaQuery.addEventListener === 'function') {
-            mediaQuery.addEventListener('change', mediaListener);
-        } else if (typeof mediaQuery.addListener === 'function') {
-            mediaQuery.addListener(mediaListener);
-        }
-    }
+    // Disabled system preference listener - always default to light mode
+    // if (window.matchMedia) {
+    //     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    //     const mediaListener = (event) => {
+    //         if (!getStoredTheme()) {
+    //             applyTheme(event.matches ? 'dark' : 'light', { persist: false });
+    //         }
+    //     };
+    //
+    //     if (typeof mediaQuery.addEventListener === 'function') {
+    //         mediaQuery.addEventListener('change', mediaListener);
+    //     } else if (typeof mediaQuery.addListener === 'function') {
+    //         mediaQuery.addListener(mediaListener);
+    //     }
+    // }
 }

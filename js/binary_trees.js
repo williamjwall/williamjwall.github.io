@@ -990,13 +990,13 @@
     }
 
     function draw() {
-        // Clear with theme background
+        // Clear with theme background - always use current theme color
         ctx.fillStyle = themeColors.background;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         
         // Remove test rectangle - no longer needed
         
-        // Ensure line color is set to pure black
+        // Ensure line color uses current theme color
         ctx.strokeStyle = themeColors.branchColor;
         ctx.lineWidth = 0.5;
         ctx.lineCap = 'butt';
@@ -1046,10 +1046,29 @@
     }
 
     document.addEventListener('themechange', () => {
+        // Update theme colors first
         updateThemeColors();
+        
+        // Force immediate canvas redraw to handle caching
         if (ctx && canvas.width && canvas.height) {
+            // Clear canvas with new background color
             ctx.fillStyle = themeColors.background;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // If animation is active, redraw all trees with new colors immediately
+            if (window.BinaryTrees.active && activeTrees.length > 0) {
+                // Update stroke style for all segments
+                ctx.strokeStyle = themeColors.branchColor;
+                ctx.lineWidth = 0.5;
+                ctx.lineCap = 'butt';
+                
+                // Redraw all trees
+                for (let i = 0; i < activeTrees.length; i++) {
+                    if (activeTrees[i] && activeTrees[i].segments) {
+                        activeTrees[i].draw(ctx);
+                    }
+                }
+            }
         }
     });
 
