@@ -1423,6 +1423,22 @@ body.dark-theme .window-title i {
     color: #ffffff !important;
 }
 
+body.dark-theme #portfolio-window .window-title,
+body.dark-theme #experience-window .window-title,
+body.dark-theme #education-window .window-title,
+body.dark-theme #skills-window .window-title,
+body.dark-theme #contact-window .window-title {
+    color: #ffffff !important;
+}
+
+body.dark-theme #portfolio-window .window-title i,
+body.dark-theme #experience-window .window-title i,
+body.dark-theme #education-window .window-title i,
+body.dark-theme #skills-window .window-title i,
+body.dark-theme #contact-window .window-title i {
+    color: #ffffff !important;
+}
+
 body.dark-theme .window-controls button {
     background: rgba(217, 215, 224, 0.1) !important;
     border-color: rgba(217, 215, 224, 0.3);
