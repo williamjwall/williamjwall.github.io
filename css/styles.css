@@ -1420,7 +1420,7 @@ body.dark-theme #contact-window .window-header {
 
 body.dark-theme .window-title,
 body.dark-theme .window-title i {
-    color: var(--text-color) !important;
+    color: #ffffff !important;
 }
 
 body.dark-theme .window-controls button {

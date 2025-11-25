@@ -1155,6 +1155,8 @@ function initializeThemeToggle() {
     toggle.addEventListener('click', () => {
         const nextTheme = document.body.classList.contains('dark-theme') ? 'light' : 'dark';
         applyTheme(nextTheme);
+        // Reload the page after theme change
+        window.location.reload();
     });
 
     // Disabled system preference listener - always default to light mode
