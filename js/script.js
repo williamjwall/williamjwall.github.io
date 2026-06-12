@@ -384,7 +384,7 @@ function openApp(appName) {
         resetMobileWindowStyles(window);
         window.style.display = 'flex';
     } else {
-        window.style.display = 'block';
+        window.style.display = 'flex';
         makeDraggable(window);
     }
     window.style.zIndex = ++windowZIndex;
