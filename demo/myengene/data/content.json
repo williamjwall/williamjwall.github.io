@@ -1,0 +1,986 @@
+{
+  "entries": [
+    {
+      "id": "hero",
+      "title": "Right Drug, Right Dose, Right Now",
+      "category": "Overview",
+      "tags": [
+        "pharmacogenomics",
+        "PGx",
+        "personalized medicine",
+        "preventative"
+      ],
+      "summary": "The beginning of personalized preventative medicine.",
+      "anchor": "hero",
+      "body": "MyEngene is an engine for your genes. By analyzing genetic profiles, we assess the effectiveness of prescribed drugs and help patients and physicians choose safer, more effective therapies.",
+      "page": "home",
+      "href": "index.html#hero"
+    },
+    {
+      "id": "problem-adr",
+      "title": "Adverse Drug Reactions (ADR)",
+      "category": "Problem",
+      "tags": [
+        "ADR",
+        "adverse drug reactions",
+        "death",
+        "hospitalization"
+      ],
+      "summary": "ADR is the 4th leading cause of death in the USA. 128,000 Americans die annually from adverse drug reactions.",
+      "anchor": "problem",
+      "body": "There is a lack of use and understanding of genomics to help prescribe the right medicine and reduce hospitalizations and deaths. 128,000 Americans die each year from adverse drug reactions and their side effects. Pharmacogenomics uses information about a person's genetic makeup to choose drugs and doses likely to work best. MyEngene claims adverse drug reaction pain, suffering, and costs can be reduced by up to 95%.",
+      "page": "home",
+      "href": "index.html#problem"
+    },
+    {
+      "id": "vision",
+      "title": "Vision and Mission",
+      "category": "Overview",
+      "tags": [
+        "vision",
+        "mission",
+        "personalized medicine"
+      ],
+      "summary": "MyEngene started with a vision to truly personalize medicine.",
+      "anchor": "vision",
+      "body": "MyEngene is an engine for your genes. An individual's unique DNA can make some medications ineffective or dangerous. The only way to know which medications are safe is through a genomic test and advanced analysis. Our mission is to create a positive healthcare experience by elevating the standard of care that patients deserve. Proactive, preventative, personalized medicine.",
+      "page": "home",
+      "href": "index.html#vision"
+    },
+    {
+      "id": "genetic-variation",
+      "title": "97% Genetic Variation Stat",
+      "category": "Science",
+      "tags": [
+        "genetics",
+        "variants",
+        "medication response"
+      ],
+      "summary": "97% of people have genetic variants that affect medication response.",
+      "anchor": "vision",
+      "body": "One-size-fits-all medication does not work. 97% of us have genetic variations which may severely impact the response to a normally safe drug. These variants cannot be reliably identified by family history, blood tests, or other routine methods. Almost 99% of people carry genes that impact how they respond to medication.",
+      "page": "home",
+      "href": "index.html#vision"
+    },
+    {
+      "id": "how-it-works",
+      "title": "How It Works",
+      "category": "Process",
+      "tags": [
+        "workflow",
+        "genome",
+        "report",
+        "upload"
+      ],
+      "summary": "Four steps from genome to actionable reports.",
+      "anchor": "how-it-works",
+      "body": "Step 1: Acquire genome in digital format. Step 2: Analyze genome sequence. Step 3: File uploaded at MyEngene. Step 4: Get reports and updates. For at-home collection: open your MyEngene kit, swab the inside of your cheek for 30 seconds, place the swab in the tube and mail it. Reports typically delivered in 5-7 business days.",
+      "page": "home",
+      "href": "index.html#how-it-works"
+    },
+    {
+      "id": "pillar-personalized",
+      "title": "Personalized Medicine",
+      "category": "Pillars",
+      "tags": [
+        "personalized",
+        "genome",
+        "clinical"
+      ],
+      "summary": "Translate your genome into clinically meaningful information.",
+      "anchor": "pillars",
+      "body": "Adverse drug reactions send millions to the ER, urgent care centers, and their own doctors every year. MyEngene personalizes medicine by translating your genome into clinically meaningful information. Our technology has the potential to transform how we think about, diagnose, and treat health issues.",
+      "page": "home",
+      "href": "index.html#pillars"
+    },
+    {
+      "id": "pillar-proactive",
+      "title": "Proactive Care",
+      "category": "Pillars",
+      "tags": [
+        "proactive",
+        "AI",
+        "cloud",
+        "guidelines"
+      ],
+      "summary": "Receive optimized prescription drug guidelines in seconds.",
+      "anchor": "pillars",
+      "body": "After a few seconds of processing, you or your physician receive guidelines that optimize your prescription drugs. The platform continuously learns and adapts using artificial intelligence and cloud-based software to provide actionable information.",
+      "page": "home",
+      "href": "index.html#pillars"
+    },
+    {
+      "id": "pillar-preventative",
+      "title": "Preventative Medicine",
+      "category": "Pillars",
+      "tags": [
+        "preventative",
+        "safety",
+        "prescribing"
+      ],
+      "summary": "Identify unsafe medications before adverse reactions occur.",
+      "anchor": "pillars",
+      "body": "Not all prescription drugs are safe for everyone. 97% of us have genetic variants that can cause a normally safe drug to be ineffective or even deadly. MyEngene provides doctors with a clinical tool to suggest better treatment and therapies before harm occurs.",
+      "page": "home",
+      "href": "index.html#pillars"
+    },
+    {
+      "id": "platform-overview",
+      "title": "MyEngene Platform",
+      "category": "Technology",
+      "tags": [
+        "platform",
+        "AI",
+        "machine learning",
+        "PAAS"
+      ],
+      "summary": "Pharmacogenomics platform using ML and AI for personalized drug recommendations.",
+      "anchor": "platform",
+      "body": "MyEngene is a pharmacogenomics platform for individuals and healthcare professionals, utilizing machine learning and artificial intelligence to translate a patient's genetic makeup into personalized drug recommendations. Platform as a service featuring genomics, bioinformatics, and machine learning to provide insights into DNA variations that lead to poor drug response.",
+      "page": "platform",
+      "href": "platform.html#platform"
+    },
+    {
+      "id": "platform-ai",
+      "title": "AI-Driven Analysis",
+      "category": "Technology",
+      "tags": [
+        "AI",
+        "machine learning",
+        "algorithms",
+        "dosing"
+      ],
+      "summary": "Proprietary AI algorithms generate reports with up-to-date drug and dosing recommendations.",
+      "anchor": "platform",
+      "body": "The platform generates a report based on a person's genome through machine learning and proprietary AI algorithms. Information is rapidly analyzed to provide the most up-to-date drug and dosing recommendations possible. Recommendations maximize drug effectiveness while minimizing drug toxicity.",
+      "page": "platform",
+      "href": "platform.html#platform"
+    },
+    {
+      "id": "platform-datalake",
+      "title": "Pharmacogenomics Datalake",
+      "category": "Technology",
+      "tags": [
+        "datalake",
+        "dosing guidelines",
+        "NGS",
+        "diagnostics"
+      ],
+      "summary": "Comprehensive datalake including dosing guidelines, diagnostics, and NGS.",
+      "anchor": "platform",
+      "body": "MyEngene maintains a comprehensive pharmacogenomics datalake including dosing guidelines, disease diagnostics, next-generation sequencing data, and AI-based technology. These advances save lives, reduce hospital admissions and stays, and lower costs.",
+      "page": "platform",
+      "href": "platform.html#platform"
+    },
+    {
+      "id": "science-wgs",
+      "title": "Whole Genome Sequencing at 30X",
+      "category": "Science",
+      "tags": [
+        "WGS",
+        "30X",
+        "sequencing",
+        "genome"
+      ],
+      "summary": "Complete coverage of 3.2 billion base pairs at 30X depth.",
+      "anchor": "science",
+      "body": "MyEngene uses Whole Genome Sequencing at 30X depth for the most complete picture possible. We analyze all 3.2 billion base pairs. 30X depth ensures highly accurate, reliable results and captures rare variants that typical SNP panels miss.",
+      "page": "platform",
+      "href": "platform.html#science"
+    },
+    {
+      "id": "science-hybrid-intelligence",
+      "title": "Hybrid Intelligence Model",
+      "category": "Science",
+      "tags": [
+        "hybrid AI",
+        "deterministic",
+        "clinical safety",
+        "explainable"
+      ],
+      "summary": "Separates deterministic interpretation from AI communication for clinical safety.",
+      "anchor": "science",
+      "body": "MyEngene strategically separates deterministic interpretation from AI communication. Deterministic knowledge base is automated and continuously updated with FDA alerts and PGx databases. Every conclusion follows strict, evidence-backed rules. AI-powered communication translates complex results into personalized, easy-to-understand language with zero room for AI improvisation. 100% explainable AI with traceable rationale.",
+      "page": "platform",
+      "href": "platform.html#science"
+    },
+    {
+      "id": "science-drugs",
+      "title": "990+ Drug Coverage",
+      "category": "Science",
+      "tags": [
+        "drugs",
+        "pharmacogenomics",
+        "coverage",
+        "polypharmacy"
+      ],
+      "summary": "Instant insights on 990+ drugs powered by genetics and real-time updates.",
+      "anchor": "science",
+      "body": "Get instant insights on 990+ drugs, powered by patient genetics and real-time updates. Understand drug-to-gene, drug-to-drug, and lifestyle interactions in a single view. Visual polypharmacy matrix helps assess safety across all current medications. Genotype simulation models risk when genetic data is incomplete.",
+      "page": "platform",
+      "href": "platform.html#science"
+    },
+    {
+      "id": "science-genes",
+      "title": "1,110 Genes Analyzed",
+      "category": "Science",
+      "tags": [
+        "genes",
+        "coverage",
+        "genetic testing"
+      ],
+      "summary": "Unmatched genetic coverage across 1,110 genes.",
+      "anchor": "science",
+      "body": "MyEngene provides analysis across 1,110 genes with comprehensive drug profiles for 990+ medications, offering unmatched genetic coverage compared to typical providers capped around 500 drugs.",
+      "page": "platform",
+      "href": "platform.html#science"
+    },
+    {
+      "id": "individuals-americans",
+      "title": "PGx for Americans",
+      "category": "Individuals",
+      "tags": [
+        "Americans",
+        "USA",
+        "patients",
+        "consumers"
+      ],
+      "summary": "Personalized pharmacogenomics for American patients.",
+      "anchor": "individuals",
+      "body": "MyEngene provides comprehensive PGx reporting for American patients. Take control of your treatment with genetic testing that reveals how your DNA affects medication response, side effects, and safety.",
+      "page": "audiences",
+      "href": "audiences.html#individuals"
+    },
+    {
+      "id": "individuals-canadians",
+      "title": "PGx for Canadians",
+      "category": "Individuals",
+      "tags": [
+        "Canadians",
+        "Canada",
+        "PIPEDA"
+      ],
+      "summary": "Pharmacogenomics solutions for Canadian patients with PIPEDA compliance.",
+      "anchor": "individuals",
+      "body": "MyEngene Canada Inc. is based in Calgary, AB with remote-friendly operations across Canada. Genetic data is protected under PIPEDA and global privacy standards including HIPAA and GDPR.",
+      "page": "audiences",
+      "href": "audiences.html#individuals"
+    },
+    {
+      "id": "individuals-indigenous",
+      "title": "PGx for Indigenous Communities",
+      "category": "Individuals",
+      "tags": [
+        "Indigenous",
+        "communities",
+        "population genetics"
+      ],
+      "summary": "Tailored pharmacogenomic insights for Indigenous populations.",
+      "anchor": "individuals",
+      "body": "MyEngene offers pharmacogenomic testing and reporting tailored to Indigenous communities, accounting for population-specific genetic variation that affects medication response and safety.",
+      "page": "audiences",
+      "href": "audiences.html#individuals"
+    },
+    {
+      "id": "individuals-hutterites",
+      "title": "PGx for Hutterites",
+      "category": "Individuals",
+      "tags": [
+        "Hutterites",
+        "population",
+        "genetics"
+      ],
+      "summary": "Specialized PGx support for Hutterite communities.",
+      "anchor": "individuals",
+      "body": "MyEngene provides pharmacogenomic testing designed for Hutterite communities, recognizing unique founder-population genetics that influence drug metabolism and treatment outcomes.",
+      "page": "audiences",
+      "href": "audiences.html#individuals"
+    },
+    {
+      "id": "industry-health-insurers",
+      "title": "Health Insurers",
+      "category": "Industries",
+      "tags": [
+        "insurance",
+        "payers",
+        "cost reduction"
+      ],
+      "summary": "Reduce ADR-related claims and hospitalizations through PGx.",
+      "anchor": "industries",
+      "body": "Health insurers use MyEngene to reduce adverse drug reaction costs, prevent hospitalizations, and improve member outcomes through proactive pharmacogenomic screening at scale.",
+      "page": "audiences",
+      "href": "audiences.html#industries"
+    },
+    {
+      "id": "industry-big-pharma",
+      "title": "Big Pharma",
+      "category": "Industries",
+      "tags": [
+        "pharmaceutical",
+        "drug development",
+        "pharmacovigilance"
+      ],
+      "summary": "Pharmacovigilance and real-world evidence for pharmaceutical partners.",
+      "anchor": "industries",
+      "body": "Pharmaceutical companies partner with MyEngene for pharmacovigilance, real-world genomic insights, and safer prescribing data across diverse patient populations.",
+      "page": "audiences",
+      "href": "audiences.html#industries"
+    },
+    {
+      "id": "industry-sports",
+      "title": "Professional Sports and Athletes",
+      "category": "Industries",
+      "tags": [
+        "sports",
+        "athletes",
+        "performance",
+        "medication safety"
+      ],
+      "summary": "Safe medication management for athletes and sports organizations.",
+      "anchor": "industries",
+      "body": "Professional sports associations and athletes use MyEngene to ensure medications and treatments are genetically compatible, reducing adverse reactions that affect performance and health.",
+      "page": "audiences",
+      "href": "audiences.html#industries"
+    },
+    {
+      "id": "industry-health-administrators",
+      "title": "Health Administrators",
+      "category": "Industries",
+      "tags": [
+        "administration",
+        "health systems",
+        "operations"
+      ],
+      "summary": "System-wide PGx integration for health administrators.",
+      "anchor": "industries",
+      "body": "Health administrators deploy MyEngene to standardize pharmacogenomic testing across facilities, streamline workflows, and improve population health outcomes.",
+      "page": "audiences",
+      "href": "audiences.html#industries"
+    },
+    {
+      "id": "industry-snf",
+      "title": "Elderly Care and Skilled Nursing Facilities",
+      "category": "Industries",
+      "tags": [
+        "elderly",
+        "SNF",
+        "nursing",
+        "polypharmacy"
+      ],
+      "summary": "Reduce polypharmacy risks in elderly and skilled nursing populations.",
+      "anchor": "industries",
+      "body": "Elderly care and skilled nursing facilities use MyEngene to manage complex medication regimens, reduce polypharmacy adverse events, and protect vulnerable patients.",
+      "page": "audiences",
+      "href": "audiences.html#industries"
+    },
+    {
+      "id": "industry-hospitals",
+      "title": "Hospitals",
+      "category": "Industries",
+      "tags": [
+        "hospitals",
+        "inpatient",
+        "clinical"
+      ],
+      "summary": "Integrate PGx into hospital prescribing workflows.",
+      "anchor": "industries",
+      "body": "Hospitals integrate MyEngene to prevent adverse drug reactions, reduce readmissions, and provide clinicians with instant pharmacogenomic reports at the point of care.",
+      "page": "audiences",
+      "href": "audiences.html#industries"
+    },
+    {
+      "id": "industry-clinics",
+      "title": "Medical Clinics",
+      "category": "Industries",
+      "tags": [
+        "clinics",
+        "primary care",
+        "outpatient"
+      ],
+      "summary": "Outpatient PGx testing for medical clinics.",
+      "anchor": "industries",
+      "body": "Medical clinics offer MyEngene testing to move from trial-and-error prescribing to targeted, genetically informed treatment plans for every patient.",
+      "page": "audiences",
+      "href": "audiences.html#industries"
+    },
+    {
+      "id": "industry-corporations",
+      "title": "Corporations",
+      "category": "Industries",
+      "tags": [
+        "employers",
+        "corporate wellness",
+        "benefits"
+      ],
+      "summary": "Employee health benefits with pharmacogenomic screening.",
+      "anchor": "industries",
+      "body": "Corporations add MyEngene to employee health benefits, reducing healthcare costs and improving workforce wellness through personalized medication safety.",
+      "page": "audiences",
+      "href": "audiences.html#industries"
+    },
+    {
+      "id": "industry-concierge",
+      "title": "Concierge Healthcare",
+      "category": "Industries",
+      "tags": [
+        "concierge",
+        "premium care",
+        "personalized"
+      ],
+      "summary": "Premium personalized medicine for concierge practices.",
+      "anchor": "industries",
+      "body": "Concierge healthcare providers offer MyEngene as a premium service, delivering comprehensive genetic medication profiles with physician-reviewed reports.",
+      "page": "audiences",
+      "href": "audiences.html#industries"
+    },
+    {
+      "id": "industry-longevity",
+      "title": "Longevity Medicine",
+      "category": "Industries",
+      "tags": [
+        "longevity",
+        "preventive",
+        "anti-aging"
+      ],
+      "summary": "DNA-based strategies for healthy aging and longevity planning.",
+      "anchor": "industries",
+      "body": "Longevity medicine practices use MyEngene for DNA-based strategies to extend healthy living, optimize supplement and medication plans, and anticipate future health conditions.",
+      "page": "audiences",
+      "href": "audiences.html#industries"
+    },
+    {
+      "id": "industry-psychiatry",
+      "title": "Psychiatry Practice",
+      "category": "Industries",
+      "tags": [
+        "psychiatry",
+        "mental health",
+        "antidepressants"
+      ],
+      "summary": "Targeted psychiatric prescribing based on genetic response.",
+      "anchor": "industries",
+      "body": "Psychiatry practices use MyEngene to match antidepressants and psychiatric medications to patient genetics. Case example: switching from Fluoxetine to Bupropion improved mood within 10 days with no GI side effects.",
+      "page": "audiences",
+      "href": "audiences.html#industries"
+    },
+    {
+      "id": "industry-cardiology",
+      "title": "Cardiology Practice",
+      "category": "Industries",
+      "tags": [
+        "cardiology",
+        "heart",
+        "clopidogrel",
+        "statins"
+      ],
+      "summary": "Cardiac medication optimization including statins and antiplatelets.",
+      "anchor": "industries",
+      "body": "Cardiology practices use MyEngene for statin dosing, antiplatelet selection, and blood pressure management. Case example: Clopidogrel ineffective patient switched to Prasugrel with safe INR achievement. Rosuvastatin case: patient overprescribed 40mg reduced to 10mg, LDL dropped from 180 to 140.",
+      "page": "audiences",
+      "href": "audiences.html#industries"
+    },
+    {
+      "id": "industry-dermatology",
+      "title": "Dermatology Practice",
+      "category": "Industries",
+      "tags": [
+        "dermatology",
+        "skin",
+        "topical",
+        "systemic"
+      ],
+      "summary": "Genetically informed dermatologic prescribing.",
+      "anchor": "industries",
+      "body": "Dermatology practices use MyEngene to identify genetic factors affecting systemic and topical medication metabolism, reducing adverse skin and systemic reactions.",
+      "page": "audiences",
+      "href": "audiences.html#industries"
+    },
+    {
+      "id": "industry-oncology",
+      "title": "Oncology Practice",
+      "category": "Industries",
+      "tags": [
+        "oncology",
+        "cancer",
+        "chemotherapy",
+        "toxicity"
+      ],
+      "summary": "Reduce chemotherapy toxicity with PGx-guided dosing.",
+      "anchor": "industries",
+      "body": "Oncology practices use MyEngene to adjust chemo doses and supportive medications based on genetic sensitivity. Case example: high 5-FU sensitivity led to adjusted dose with fewer GI side effects and uninterrupted therapy.",
+      "page": "audiences",
+      "href": "audiences.html#industries"
+    },
+    {
+      "id": "industry-pharmacists",
+      "title": "Pharmacists",
+      "category": "Industries",
+      "tags": [
+        "pharmacists",
+        "pharmacy",
+        "medication review"
+      ],
+      "summary": "Clinical pharmacists use PGx for medication therapy management.",
+      "anchor": "industries",
+      "body": "Pharmacists leverage MyEngene reports for medication therapy management, drug interaction review, and patient counseling on genetically informed prescribing.",
+      "page": "audiences",
+      "href": "audiences.html#industries"
+    },
+    {
+      "id": "outcomes-stats",
+      "title": "Clinical Outcomes and Savings",
+      "category": "Outcomes",
+      "tags": [
+        "outcomes",
+        "savings",
+        "hospitalizations",
+        "ADR reduction"
+      ],
+      "summary": "34% fewer hospitalizations, $4,000/year saved, 34.1% ADR reduction.",
+      "anchor": "outcomes",
+      "body": "34% fewer hospitalizations for patients with chronic conditions. $4,000 per year saved for patients with chronic conditions. 34.1% reduction in adverse drug reactions. 44.3% reduction in hospital admissions. $74,000 average cost savings per prevented ADR. 70% or more of people receive at least one prescription annually that may not suit their DNA.",
+      "page": "platform",
+      "href": "platform.html#outcomes"
+    },
+    {
+      "id": "comparison-table",
+      "title": "MyEngene vs Other Providers",
+      "category": "Outcomes",
+      "tags": [
+        "comparison",
+        "CLIA",
+        "CAP",
+        "HIPAA",
+        "GDPR"
+      ],
+      "summary": "Feature comparison showing MyEngene advantages over typical providers.",
+      "anchor": "outcomes",
+      "body": "CLIA/CAP certified labs: Yes vs not always. Physician review included: Yes vs often extra. Comprehensive drug coverage: 990+ drugs vs max 500. Transparent AI: Explainable AI vs not disclosed. Data privacy: HIPAA and GDPR compliant vs not always clear. Report delivery: 5-7 business days vs longer. Free consultation: Available vs paid or not included. Customer support: 24/7 email and chat vs limited hours.",
+      "page": "platform",
+      "href": "platform.html#outcomes"
+    },
+    {
+      "id": "case-rosuvastatin",
+      "title": "Rosuvastatin Case Study",
+      "category": "Case Studies",
+      "tags": [
+        "rosuvastatin",
+        "cholesterol",
+        "statin",
+        "dosing"
+      ],
+      "summary": "Patient reduced Rosuvastatin from 40mg to 10mg based on genetic report.",
+      "anchor": "case-studies",
+      "body": "Patient with high cholesterol, after receiving the MyEngene report, determined they were overprescribed Rosuvastatin at 40mg and should only take 10mg. After reducing the dose, they felt much better. LDL cholesterol level went from 180 to 140.",
+      "page": "platform",
+      "href": "platform.html#case-studies"
+    },
+    {
+      "id": "case-sarah",
+      "title": "Sarah's Anxiety Medication Journey",
+      "category": "Case Studies",
+      "tags": [
+        "anxiety",
+        "antidepressant",
+        "Sarah",
+        "medication switch"
+      ],
+      "summary": "DNA-matched treatment saved over $3,000 annually in medical costs.",
+      "anchor": "case-studies",
+      "body": "After years of trial-and-error with medications for anxiety, Sarah took the MyEngene test. Results revealed a genetic variant affecting medication response. With her doctor's guidance, she switched to a DNA-matched treatment. Within weeks, symptoms improved, reducing healthcare visits and saving over $3,000 annually.",
+      "page": "platform",
+      "href": "platform.html#case-studies"
+    },
+    {
+      "id": "case-primary-care",
+      "title": "Primary Care Medication Plan",
+      "category": "Case Studies",
+      "tags": [
+        "primary care",
+        "blood pressure",
+        "polypharmacy"
+      ],
+      "summary": "Nine incompatible drugs identified; two BP medications replaced with stable results.",
+      "anchor": "case-studies",
+      "body": "Primary care case: 9 incompatible drugs identified. Two blood pressure medications replaced. Result: stable blood pressure and improved energy.",
+      "page": "platform",
+      "href": "platform.html#case-studies"
+    },
+    {
+      "id": "team-rao",
+      "title": "Dr. Rao Madhavrao, PhD",
+      "category": "Team",
+      "tags": [
+        "CEO",
+        "founder",
+        "leadership"
+      ],
+      "summary": "Founder and CEO of MyEngene.",
+      "anchor": "team",
+      "body": "Dr. Rao Madhavrao, PhD — Founder and CEO. Integrity, caring, expertise.",
+      "page": "about",
+      "href": "about.html#team"
+    },
+    {
+      "id": "team-max",
+      "title": "Dr. Maximilien (Max) Arella, PhD",
+      "category": "Team",
+      "tags": [
+        "advisor",
+        "science",
+        "technology"
+      ],
+      "summary": "Science and Technology Advisor.",
+      "anchor": "team",
+      "body": "Dr. Maximilien (Max) Arella, PhD — Science and Technology Advisor.",
+      "page": "about",
+      "href": "about.html#team"
+    },
+    {
+      "id": "team-patrinos",
+      "title": "Prof. George P. Patrinos",
+      "category": "Team",
+      "tags": [
+        "advisor",
+        "pharmacogenomics",
+        "scientific"
+      ],
+      "summary": "Scientific and Technology Advisor, Pharmacogenomics Advisor.",
+      "anchor": "team",
+      "body": "Prof. George P. Patrinos — Scientific and Technology Advisor, Pharmacogenomics Advisor.",
+      "page": "about",
+      "href": "about.html#team"
+    },
+    {
+      "id": "team-tafazoli",
+      "title": "Dr. Alireza Tafazoli, DMSc, PhD, PGCert",
+      "category": "Team",
+      "tags": [
+        "advisor",
+        "strategic"
+      ],
+      "summary": "Strategic Advisor.",
+      "anchor": "team",
+      "body": "Dr. Alireza Tafazoli, DMSc, PhD, PGCert — Strategic Advisor.",
+      "page": "about",
+      "href": "about.html#team"
+    },
+    {
+      "id": "team-czlonka",
+      "title": "John Czlonka, BS, BA",
+      "category": "Team",
+      "tags": [
+        "bioinformatics",
+        "R&D",
+        "scientist"
+      ],
+      "summary": "Senior Scientist and Bioinformatics R&D.",
+      "anchor": "team",
+      "body": "John Czlonka, BS, BA — Senior Scientist and Bioinformatics R&D.",
+      "page": "about",
+      "href": "about.html#team"
+    },
+    {
+      "id": "team-hamdy",
+      "title": "Dr. Dalia A. Hamdy, PhD",
+      "category": "Team",
+      "tags": [
+        "IT",
+        "security",
+        "architecture"
+      ],
+      "summary": "IT Architecture and Security Advisor.",
+      "anchor": "team",
+      "body": "Dr. Dalia A. Hamdy, PhD — IT Architecture and Security Advisor.",
+      "page": "about",
+      "href": "about.html#team"
+    },
+    {
+      "id": "team-blaxall",
+      "title": "Burns C. Blaxall, PhD",
+      "category": "Team",
+      "tags": [
+        "pharmacy",
+        "business",
+        "advisor"
+      ],
+      "summary": "Business and Pharmacy Advisor. Principal, PMG Insights. CPIC member.",
+      "anchor": "team",
+      "body": "Burns C. Blaxall, PhD — Business and Pharmacy Advisor. Principal at PMG Insights, CPIC member.",
+      "page": "about",
+      "href": "about.html#team"
+    },
+    {
+      "id": "team-josephs",
+      "title": "Trish Josephs, BS, MA",
+      "category": "Team",
+      "tags": [
+        "clinical",
+        "emergency",
+        "advisor"
+      ],
+      "summary": "Clinical and Technical Advisor, Emergency Physician.",
+      "anchor": "team",
+      "body": "Trish Josephs, BS, MA — Clinical and Technical Advisor, Emergency Physician.",
+      "page": "about",
+      "href": "about.html#team"
+    },
+    {
+      "id": "team-rajoite",
+      "title": "Denis Rajotte, JD, BCom",
+      "category": "Team",
+      "tags": [
+        "global business",
+        "commercial",
+        "advisor"
+      ],
+      "summary": "Global Business Advisor, Strategic Commercial Advisor.",
+      "anchor": "team",
+      "body": "Denis Rajotte, JD, BCom — Global Business Advisor, Strategic Commercial Advisor.",
+      "page": "about",
+      "href": "about.html#team"
+    },
+    {
+      "id": "careers-overview",
+      "title": "Careers at MyEngene",
+      "category": "Careers",
+      "tags": [
+        "careers",
+        "jobs",
+        "Houston",
+        "Calgary"
+      ],
+      "summary": "Based in Houston's health technology hub. MyEngene Canada in Calgary.",
+      "anchor": "careers",
+      "body": "We make big ideas happen. Based in Houston's health technology hub. MyEngene Canada Inc. operates from Calgary, AB with hybrid or remote options across Canada. Passionate about revolutionizing healthcare through cutting-edge technology. Changing the future of adverse drug reactions through pharmacovigilance and AI.",
+      "page": "about",
+      "href": "about.html#careers"
+    },
+    {
+      "id": "careers-bioinformatics",
+      "title": "Senior Bioinformatics Software Engineer",
+      "category": "Careers",
+      "tags": [
+        "job",
+        "bioinformatics",
+        "engineer",
+        "remote",
+        "Canada"
+      ],
+      "summary": "Remote Canada role. Scale PGxME platform and build B2C e-commerce.",
+      "anchor": "careers",
+      "body": "Senior Bioinformatics Software Engineer — Calgary, AB hybrid or remote Canada-wide. Last updated Jan 5, 2026. Scale PGxME pharmacogenomics platform. Build bioinformatics pipelines, web and mobile apps, AWS infrastructure. Requirements: 5+ years bioinformatics or healthcare software, NGS pipelines (fastq, bam, vcf), Nextflow or Snakemake, Python, React, AWS, HIPAA compliance. Apply to careers@myengene.com with subject Senior Bioinformatics Software Engineer.",
+      "page": "about",
+      "href": "about.html#careers"
+    },
+    {
+      "id": "resource-pgx-summary",
+      "title": "PGx Summary",
+      "category": "Resources",
+      "tags": [
+        "PDF",
+        "summary",
+        "reporting",
+        "PGx",
+        "comprehensive"
+      ],
+      "summary": "MyEngene provides the most comprehensive PGx reporting in the industry.",
+      "anchor": "resource-pgx-summary",
+      "body": "MyEngene provides the most comprehensive pharmacogenomic reporting in the industry. The platform translates patient genes into personalized drug recommendations to maximize effectiveness and minimize toxicity. Identifies DNA variations leading to dysfunctional enzymes affecting drug metabolism. Physicians receive clear reports to confidently suggest optimal therapies. Covers 990+ drugs across 1,110 genes. Reports include dosing guidelines, drug-gene interactions, drug-drug interactions, and lifestyle factors. Delivered in 5-7 business days with physician review. Reduces adverse drug reactions — the 4th leading cause of death in the USA affecting 128,000 Americans annually. Potential to reduce ADR costs by up to 95%.",
+      "page": "about",
+      "href": "about.html#resource-pgx-summary"
+    },
+    {
+      "id": "resource-is-pgx-for-me",
+      "title": "Is PGx For Me?",
+      "category": "Resources",
+      "tags": [
+        "PDF",
+        "guide",
+        "patients",
+        "eligibility",
+        "who should test"
+      ],
+      "summary": "Guide to who benefits from pharmacogenomic testing.",
+      "anchor": "resource-is-pgx-for-me",
+      "body": "PGx testing may be right for you if you: take prescription medications and want to know if they suit your DNA; manage chronic health conditions like diabetes, heart disease, or high blood pressure; have a family history of drug reactions or allergies; undergo psychiatric, cancer, or cardiac care requiring critical treatments; have experienced trial-and-error with medications without relief; want proactive, preventative personalized medicine. 70% or more receive at least one prescription annually that may not suit their DNA. 97% carry genetic variants affecting medication response. Providers evaluating PGx should consider integration into daily clinical practice across psychiatry, cardiology, oncology, and primary care.",
+      "page": "about",
+      "href": "about.html#resource-is-pgx-for-me"
+    },
+    {
+      "id": "privacy-security",
+      "title": "Data Privacy and Security",
+      "category": "Resources",
+      "tags": [
+        "HIPAA",
+        "GDPR",
+        "PIPEDA",
+        "privacy",
+        "encryption"
+      ],
+      "summary": "HIPAA, GDPR, PIPEDA, and CCPA compliant with full user control.",
+      "anchor": "resources",
+      "body": "Genetic data safeguarded with encryption, anonymization, and strict privacy measures. 99.9% data encryption rate. Exceeds HIPAA, GDPR, PIPEDA, and CCPA requirements. Users control who accesses their genetic report with 100% user access authorization. CLIA/CAP certified laboratory processing.",
+      "page": "about",
+      "href": "about.html#resources"
+    },
+    {
+      "id": "lifetime-monitoring",
+      "title": "Lifetime Medication Safety Monitoring",
+      "category": "Science",
+      "tags": [
+        "monitoring",
+        "lifetime",
+        "pharmacovigilance",
+        "alerts"
+      ],
+      "summary": "Continuous drug compatibility monitoring with real-time alerts.",
+      "anchor": "science",
+      "body": "MyEngene transforms static genetic tests into dynamic health protection. Continuous pharmacovigilance with real-time updates. Lifetime monitoring as new drugs, interactions, and risks emerge. Over 95% accuracy in compatibility checks. Instant drug risk alerts. Evolving guideline access for personalized treatment.",
+      "page": "platform",
+      "href": "platform.html#science"
+    },
+    {
+      "id": "faq-pgx-testing",
+      "title": "What is PGx testing?",
+      "category": "FAQ",
+      "tags": [
+        "FAQ",
+        "testing",
+        "what is PGx"
+      ],
+      "summary": "Pharmacogenomic testing analyzes how your genes affect drug response.",
+      "anchor": "faq",
+      "body": "Pharmacogenomic (PGx) testing examines your DNA to determine how your body metabolizes and responds to medications. MyEngene uses whole genome sequencing at 30X depth to provide the most comprehensive analysis available, covering 990+ drugs and 1,110 genes.",
+      "page": "about",
+      "href": "about.html#faq"
+    },
+    {
+      "id": "faq-improve-treatments",
+      "title": "How does PGx improve treatments?",
+      "category": "FAQ",
+      "tags": [
+        "FAQ",
+        "treatment",
+        "effectiveness"
+      ],
+      "summary": "PGx enables genetically matched prescriptions instead of trial-and-error.",
+      "anchor": "faq",
+      "body": "PGx replaces trial-and-error prescribing with genetically informed decisions. Physicians receive reports showing which drugs and doses are safe and effective for each patient, reducing adverse reactions and improving outcomes across specialties.",
+      "page": "about",
+      "href": "about.html#faq"
+    },
+    {
+      "id": "faq-workflow",
+      "title": "Can PGx integrate into my workflow?",
+      "category": "FAQ",
+      "tags": [
+        "FAQ",
+        "workflow",
+        "integration",
+        "EHR"
+      ],
+      "summary": "Yes — order review, instant reports, and patient management tools included.",
+      "anchor": "faq",
+      "body": "MyEngene provides tools to manage orders, patients, and reports. Track test orders in real-time, access pharmacogenomic reports instantly, and organize patient profiles in one secure platform. Integrations with laboratory partners and healthcare systems are available.",
+      "page": "about",
+      "href": "about.html#faq"
+    },
+    {
+      "id": "faq-specialties",
+      "title": "Is PGx useful across specialties?",
+      "category": "FAQ",
+      "tags": [
+        "FAQ",
+        "specialties",
+        "psychiatry",
+        "cardiology",
+        "oncology"
+      ],
+      "summary": "Yes — psychiatry, cardiology, oncology, and primary care all benefit.",
+      "anchor": "faq",
+      "body": "PGx is valuable across psychiatry, cardiology, oncology, primary care, dermatology, and more. Each specialty has documented case studies showing improved outcomes when prescribing is guided by genetic data.",
+      "page": "about",
+      "href": "about.html#faq"
+    },
+    {
+      "id": "faq-data-secure",
+      "title": "Is patient data secure?",
+      "category": "FAQ",
+      "tags": [
+        "FAQ",
+        "security",
+        "HIPAA",
+        "privacy"
+      ],
+      "summary": "Yes — HIPAA, GDPR, and PIPEDA compliant with encryption and user control.",
+      "anchor": "faq",
+      "body": "All genetic data is encrypted, anonymized where appropriate, and stored under HIPAA, GDPR, PIPEDA, and CCPA standards. Patients control who can access their reports.",
+      "page": "about",
+      "href": "about.html#faq"
+    },
+    {
+      "id": "faq-results-timing",
+      "title": "When will I get results?",
+      "category": "FAQ",
+      "tags": [
+        "FAQ",
+        "turnaround",
+        "delivery",
+        "timeline"
+      ],
+      "summary": "Reports typically delivered in 5-7 business days.",
+      "anchor": "faq",
+      "body": "MyEngene reports are typically delivered within 5-7 business days after the lab receives your sample. Each report is reviewed by clinical pharmacists and licensed providers before delivery.",
+      "page": "about",
+      "href": "about.html#faq"
+    },
+    {
+      "id": "faq-share-results",
+      "title": "Can I share results with my doctor?",
+      "category": "FAQ",
+      "tags": [
+        "FAQ",
+        "sharing",
+        "physician",
+        "provider"
+      ],
+      "summary": "Yes — reports are designed for easy sharing with your healthcare team.",
+      "anchor": "faq",
+      "body": "MyEngene reports include clear next steps and are formatted for physicians to act on immediately. You control access and can share results directly with your healthcare providers.",
+      "page": "about",
+      "href": "about.html#faq"
+    },
+    {
+      "id": "contact",
+      "title": "Contact MyEngene",
+      "category": "Contact",
+      "tags": [
+        "contact",
+        "email",
+        "support"
+      ],
+      "summary": "Reach us at info@myengene.com or careers@myengene.com.",
+      "anchor": "contact",
+      "body": "General inquiries: info@myengene.com. Careers: careers@myengene.com. Healthcare provider support: myengene@support.com.",
+      "page": "about",
+      "href": "about.html#contact"
+    },
+    {
+      "id": "associations",
+      "title": "Our Associations",
+      "category": "Partners",
+      "tags": [
+        "ASOP",
+        "STRIPE",
+        "Golden Helix",
+        "partners"
+      ],
+      "summary": "American Society of Pharmacovigilance, STRIPE, Golden Helix Foundation.",
+      "anchor": "footer",
+      "body": "MyEngene is associated with the American Society of Pharmacovigilance, Standardizing Laboratory Practices in Pharmacogenomics (STRIPE), and the Golden Helix Foundation.",
+      "page": "about",
+      "href": "about.html#footer"
+    }
+  ]
+}

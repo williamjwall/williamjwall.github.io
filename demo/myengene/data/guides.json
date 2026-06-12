@@ -1,0 +1,266 @@
+{
+  "entries": [
+    {
+      "id": "resource-is-pgx-for-me",
+      "title": "Is PGx For Me?",
+      "category": "Guides",
+      "summary": "Guide to who benefits from pharmacogenomic testing.",
+      "body": "PGx testing may be right for you if you: take prescription medications and want to know if they suit your DNA; manage chronic health conditions like diabetes, heart disease, or high blood pressure; have a family history of drug reactions or allergies; undergo psychiatric, cancer, or cardiac care requiring critical treatments; have experienced trial-and-error with medications without relief; want proactive, preventative personalized medicine. 70% or more receive at least one prescription annually that may not suit their DNA. 97% carry genetic variants affecting medication response. Providers evaluating PGx should consider integration into daily clinical practice across psychiatry, cardiology, oncology, and primary care.",
+      "tags": [
+        "PDF",
+        "guide",
+        "patients",
+        "eligibility",
+        "who should test"
+      ]
+    },
+    {
+      "id": "resource-pgx-summary",
+      "title": "PGx Summary",
+      "category": "Guides",
+      "summary": "MyEngene provides the most comprehensive PGx reporting in the industry.",
+      "body": "MyEngene provides the most comprehensive pharmacogenomic reporting in the industry. The platform translates patient genes into personalized drug recommendations to maximize effectiveness and minimize toxicity. Identifies DNA variations leading to dysfunctional enzymes affecting drug metabolism. Physicians receive clear reports to confidently suggest optimal therapies. Covers 990+ drugs across 1,110 genes. Reports include dosing guidelines, drug-gene interactions, drug-drug interactions, and lifestyle factors. Delivered in 5-7 business days with physician review. Reduces adverse drug reactions — the 4th leading cause of death in the USA affecting 128,000 Americans annually. Potential to reduce ADR costs by up to 95%.",
+      "tags": [
+        "PDF",
+        "summary",
+        "reporting",
+        "PGx",
+        "comprehensive"
+      ]
+    },
+    {
+      "id": "individuals-americans",
+      "title": "PGx for Americans",
+      "category": "For Individuals",
+      "summary": "Personalized pharmacogenomics for American patients.",
+      "body": "MyEngene provides comprehensive PGx reporting for American patients. Take control of your treatment with genetic testing that reveals how your DNA affects medication response, side effects, and safety.",
+      "tags": [
+        "Americans",
+        "USA",
+        "patients",
+        "consumers"
+      ]
+    },
+    {
+      "id": "individuals-canadians",
+      "title": "PGx for Canadians",
+      "category": "For Individuals",
+      "summary": "Pharmacogenomics solutions for Canadian patients with PIPEDA compliance.",
+      "body": "MyEngene Canada Inc. is based in Calgary, AB with remote-friendly operations across Canada. Genetic data is protected under PIPEDA and global privacy standards including HIPAA and GDPR.",
+      "tags": [
+        "Canadians",
+        "Canada",
+        "PIPEDA"
+      ]
+    },
+    {
+      "id": "individuals-hutterites",
+      "title": "PGx for Hutterites",
+      "category": "For Individuals",
+      "summary": "Specialized PGx support for Hutterite communities.",
+      "body": "MyEngene provides pharmacogenomic testing designed for Hutterite communities, recognizing unique founder-population genetics that influence drug metabolism and treatment outcomes.",
+      "tags": [
+        "Hutterites",
+        "population",
+        "genetics"
+      ]
+    },
+    {
+      "id": "individuals-indigenous",
+      "title": "PGx for Indigenous Communities",
+      "category": "For Individuals",
+      "summary": "Tailored pharmacogenomic insights for Indigenous populations.",
+      "body": "MyEngene offers pharmacogenomic testing and reporting tailored to Indigenous communities, accounting for population-specific genetic variation that affects medication response and safety.",
+      "tags": [
+        "Indigenous",
+        "communities",
+        "population genetics"
+      ]
+    },
+    {
+      "id": "industry-big-pharma",
+      "title": "Big Pharma",
+      "category": "For Industries",
+      "summary": "Pharmacovigilance and real-world evidence for pharmaceutical partners.",
+      "body": "Pharmaceutical companies partner with MyEngene for pharmacovigilance, real-world genomic insights, and safer prescribing data across diverse patient populations.",
+      "tags": [
+        "pharmaceutical",
+        "drug development",
+        "pharmacovigilance"
+      ]
+    },
+    {
+      "id": "industry-cardiology",
+      "title": "Cardiology Practice",
+      "category": "For Industries",
+      "summary": "Cardiac medication optimization including statins and antiplatelets.",
+      "body": "Cardiology practices use MyEngene for statin dosing, antiplatelet selection, and blood pressure management. Case example: Clopidogrel ineffective patient switched to Prasugrel with safe INR achievement. Rosuvastatin case: patient overprescribed 40mg reduced to 10mg, LDL dropped from 180 to 140.",
+      "tags": [
+        "cardiology",
+        "heart",
+        "clopidogrel",
+        "statins"
+      ]
+    },
+    {
+      "id": "industry-concierge",
+      "title": "Concierge Healthcare",
+      "category": "For Industries",
+      "summary": "Premium personalized medicine for concierge practices.",
+      "body": "Concierge healthcare providers offer MyEngene as a premium service, delivering comprehensive genetic medication profiles with physician-reviewed reports.",
+      "tags": [
+        "concierge",
+        "premium care",
+        "personalized"
+      ]
+    },
+    {
+      "id": "industry-corporations",
+      "title": "Corporations",
+      "category": "For Industries",
+      "summary": "Employee health benefits with pharmacogenomic screening.",
+      "body": "Corporations add MyEngene to employee health benefits, reducing healthcare costs and improving workforce wellness through personalized medication safety.",
+      "tags": [
+        "employers",
+        "corporate wellness",
+        "benefits"
+      ]
+    },
+    {
+      "id": "industry-dermatology",
+      "title": "Dermatology Practice",
+      "category": "For Industries",
+      "summary": "Genetically informed dermatologic prescribing.",
+      "body": "Dermatology practices use MyEngene to identify genetic factors affecting systemic and topical medication metabolism, reducing adverse skin and systemic reactions.",
+      "tags": [
+        "dermatology",
+        "skin",
+        "topical",
+        "systemic"
+      ]
+    },
+    {
+      "id": "industry-snf",
+      "title": "Elderly Care and Skilled Nursing Facilities",
+      "category": "For Industries",
+      "summary": "Reduce polypharmacy risks in elderly and skilled nursing populations.",
+      "body": "Elderly care and skilled nursing facilities use MyEngene to manage complex medication regimens, reduce polypharmacy adverse events, and protect vulnerable patients.",
+      "tags": [
+        "elderly",
+        "SNF",
+        "nursing",
+        "polypharmacy"
+      ]
+    },
+    {
+      "id": "industry-health-administrators",
+      "title": "Health Administrators",
+      "category": "For Industries",
+      "summary": "System-wide PGx integration for health administrators.",
+      "body": "Health administrators deploy MyEngene to standardize pharmacogenomic testing across facilities, streamline workflows, and improve population health outcomes.",
+      "tags": [
+        "administration",
+        "health systems",
+        "operations"
+      ]
+    },
+    {
+      "id": "industry-health-insurers",
+      "title": "Health Insurers",
+      "category": "For Industries",
+      "summary": "Reduce ADR-related claims and hospitalizations through PGx.",
+      "body": "Health insurers use MyEngene to reduce adverse drug reaction costs, prevent hospitalizations, and improve member outcomes through proactive pharmacogenomic screening at scale.",
+      "tags": [
+        "insurance",
+        "payers",
+        "cost reduction"
+      ]
+    },
+    {
+      "id": "industry-hospitals",
+      "title": "Hospitals",
+      "category": "For Industries",
+      "summary": "Integrate PGx into hospital prescribing workflows.",
+      "body": "Hospitals integrate MyEngene to prevent adverse drug reactions, reduce readmissions, and provide clinicians with instant pharmacogenomic reports at the point of care.",
+      "tags": [
+        "hospitals",
+        "inpatient",
+        "clinical"
+      ]
+    },
+    {
+      "id": "industry-longevity",
+      "title": "Longevity Medicine",
+      "category": "For Industries",
+      "summary": "DNA-based strategies for healthy aging and longevity planning.",
+      "body": "Longevity medicine practices use MyEngene for DNA-based strategies to extend healthy living, optimize supplement and medication plans, and anticipate future health conditions.",
+      "tags": [
+        "longevity",
+        "preventive",
+        "anti-aging"
+      ]
+    },
+    {
+      "id": "industry-clinics",
+      "title": "Medical Clinics",
+      "category": "For Industries",
+      "summary": "Outpatient PGx testing for medical clinics.",
+      "body": "Medical clinics offer MyEngene testing to move from trial-and-error prescribing to targeted, genetically informed treatment plans for every patient.",
+      "tags": [
+        "clinics",
+        "primary care",
+        "outpatient"
+      ]
+    },
+    {
+      "id": "industry-oncology",
+      "title": "Oncology Practice",
+      "category": "For Industries",
+      "summary": "Reduce chemotherapy toxicity with PGx-guided dosing.",
+      "body": "Oncology practices use MyEngene to adjust chemo doses and supportive medications based on genetic sensitivity. Case example: high 5-FU sensitivity led to adjusted dose with fewer GI side effects and uninterrupted therapy.",
+      "tags": [
+        "oncology",
+        "cancer",
+        "chemotherapy",
+        "toxicity"
+      ]
+    },
+    {
+      "id": "industry-pharmacists",
+      "title": "Pharmacists",
+      "category": "For Industries",
+      "summary": "Clinical pharmacists use PGx for medication therapy management.",
+      "body": "Pharmacists leverage MyEngene reports for medication therapy management, drug interaction review, and patient counseling on genetically informed prescribing.",
+      "tags": [
+        "pharmacists",
+        "pharmacy",
+        "medication review"
+      ]
+    },
+    {
+      "id": "industry-sports",
+      "title": "Professional Sports and Athletes",
+      "category": "For Industries",
+      "summary": "Safe medication management for athletes and sports organizations.",
+      "body": "Professional sports associations and athletes use MyEngene to ensure medications and treatments are genetically compatible, reducing adverse reactions that affect performance and health.",
+      "tags": [
+        "sports",
+        "athletes",
+        "performance",
+        "medication safety"
+      ]
+    },
+    {
+      "id": "industry-psychiatry",
+      "title": "Psychiatry Practice",
+      "category": "For Industries",
+      "summary": "Targeted psychiatric prescribing based on genetic response.",
+      "body": "Psychiatry practices use MyEngene to match antidepressants and psychiatric medications to patient genetics. Case example: switching from Fluoxetine to Bupropion improved mood within 10 days with no GI side effects.",
+      "tags": [
+        "psychiatry",
+        "mental health",
+        "antidepressants"
+      ]
+    }
+  ]
+}

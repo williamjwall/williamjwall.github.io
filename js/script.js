@@ -34,21 +34,24 @@ function storeTheme(theme) {
 }
 
 function updateThemeToggle(theme) {
-    const toggle = document.getElementById('theme-toggle');
-    if (!toggle) {
-        return;
-    }
-
-    const icon = toggle.querySelector('i');
     const isDark = theme === 'dark';
+    const label = isDark ? 'Switch to light mode' : 'Switch to dark mode';
 
-    toggle.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
-    toggle.setAttribute('data-theme', theme);
+    ['theme-toggle', 'mobile-theme-toggle'].forEach((id) => {
+        const toggle = document.getElementById(id);
+        if (!toggle) {
+            return;
+        }
 
-    if (icon) {
-        icon.classList.remove('fa-moon', 'fa-sun');
-        icon.classList.add(isDark ? 'fa-sun' : 'fa-moon');
-    }
+        const icon = toggle.querySelector('i');
+        toggle.setAttribute('aria-label', label);
+        toggle.setAttribute('data-theme', theme);
+
+        if (icon) {
+            icon.classList.remove('fa-moon', 'fa-sun');
+            icon.classList.add(isDark ? 'fa-sun' : 'fa-moon');
+        }
+    });
 }
 
 function applyTheme(theme, { persist = true } = {}) {
@@ -117,6 +120,23 @@ function isInteractionLocked() {
     return now < interactionLockUntil;
 }
 
+function isMobileViewport() {
+    return window.innerWidth <= 768;
+}
+
+function resetMobileWindowStyles(windowElement) {
+    windowElement.style.top = '';
+    windowElement.style.left = '';
+    windowElement.style.right = '';
+    windowElement.style.bottom = '';
+    windowElement.style.transform = '';
+    windowElement.style.width = '';
+    windowElement.style.maxWidth = '';
+    windowElement.style.minWidth = '';
+    windowElement.style.maxHeight = '';
+    windowElement.style.height = '';
+}
+
 // Store the original positions for reset
 const originalPositions = {
     'portfolio': { x: 0, y: 0 },
@@ -151,8 +171,16 @@ function initializeDraggableApps() {
             return;
         }
 
-        const rect = app.getBoundingClientRect();
         const appName = app.getAttribute('data-app');
+
+        if (isMobileViewport()) {
+            app.addEventListener('click', handleAppClick);
+            addDoubleClickGuard(app);
+            app.dataset.draggableInitialized = 'true';
+            return;
+        }
+
+        const rect = app.getBoundingClientRect();
         originalPositions[appName] = { x: rect.left, y: rect.top };
         
         // Mouse events
@@ -160,37 +188,10 @@ function initializeDraggableApps() {
         app.addEventListener('dragstart', e => e.preventDefault()); // Prevent default drag
         app.addEventListener('click', handleAppClick);
         
-        // Touch events for mobile
+        // Touch events for tablet-sized touch screens
         app.addEventListener('touchstart', handleTouchStart);
         app.addEventListener('touchmove', handleTouchMove);
         app.addEventListener('touchend', handleTouchEnd);
-        
-        // Simple tap handler as fallback for mobile
-        let touchStartTime = 0;
-        let touchMoved = false;
-        
-        app.addEventListener('touchstart', (e) => {
-            touchStartTime = Date.now();
-            touchMoved = false;
-        }, { passive: true });
-        
-        app.addEventListener('touchmove', (e) => {
-            touchMoved = true;
-        }, { passive: true });
-        
-        app.addEventListener('touchend', (e) => {
-            const touchDuration = Date.now() - touchStartTime;
-            
-            // If it was a quick tap without movement, open the app
-            if (!touchMoved && touchDuration < 300) {
-                e.preventDefault();
-                const appName = e.currentTarget.getAttribute('data-app');
-                if (appName && !isInteractionLocked()) {
-                    console.log('Simple tap opening app:', appName);
-                    openApp(appName);
-                }
-            }
-        }, { passive: false });
 
         addDoubleClickGuard(app);
         app.dataset.draggableInitialized = 'true';
@@ -213,8 +214,8 @@ function handleAppClick(e) {
         return false;
     }
 
-    // Only open app if we weren't dragging
-    if (isDraggingApp || (Date.now() - dragStartTime) > 200) {
+    // Only open app if we weren't dragging (dragStartTime is set on mousedown)
+    if (isDraggingApp || (dragStartTime > 0 && Date.now() - dragStartTime > 200)) {
         e.preventDefault();
         e.stopPropagation();
         return false;
@@ -379,8 +380,13 @@ function openApp(appName) {
         return;
     }
     
-    // Show the window
-    window.style.display = 'block';
+    if (isMobileViewport()) {
+        resetMobileWindowStyles(window);
+        window.style.display = 'flex';
+    } else {
+        window.style.display = 'block';
+        makeDraggable(window);
+    }
     window.style.zIndex = ++windowZIndex;
     
     // Add to open windows set
@@ -388,9 +394,6 @@ function openApp(appName) {
     
     // Remove from taskbar if it was minimized
     removeFromTaskbar(appName);
-    
-    // Make window draggable
-    makeDraggable(window);
     
     // Focus the window
     focusWindow(window);
@@ -470,6 +473,10 @@ function removeFromTaskbar(appName) {
 }
 
 function makeDraggable(windowElement) {
+    if (isMobileViewport()) {
+        return;
+    }
+
     if (!windowElement || windowElement.dataset.draggableInitialized === 'true') {
         return;
     }
@@ -963,15 +970,13 @@ function initializeMobileSupport() {
     // Add visual feedback for mobile app interactions
     const desktopApps = document.querySelectorAll('.desktop-app');
     desktopApps.forEach(app => {
-        app.addEventListener('touchstart', function(e) {
-            this.style.backgroundColor = 'rgba(0, 0, 0, 0.1)';
-            this.style.transform = 'scale(0.95)';
+        app.addEventListener('touchstart', function() {
+            this.style.opacity = '0.7';
         }, { passive: true });
         
-        app.addEventListener('touchend', function(e) {
+        app.addEventListener('touchend', function() {
             setTimeout(() => {
-                this.style.backgroundColor = '';
-                this.style.transform = '';
+                this.style.opacity = '';
             }, 150);
         }, { passive: true });
         
@@ -990,19 +995,17 @@ function initializeMobileSupport() {
 
 // Helper function to handle resize/orientation changes
 function adjustForOrientation() {
-    // Close any open windows that might be positioned incorrectly
-    const openAppWindows = document.querySelectorAll('.app-window[style*="display: block"]');
-    
-    if (window.innerWidth <= 480) {
-        // On very small screens, ensure windows are properly sized
-        openAppWindows.forEach(window => {
-            window.style.width = '100%';
-            window.style.maxHeight = '90vh';
-            window.style.top = '5vh';
-            window.style.left = '50%';
-            window.style.transform = 'translateX(-50%)';
-        });
+    if (!isMobileViewport()) {
+        return;
     }
+
+    document.querySelectorAll('.app-window').forEach(window => {
+        if (window.style.display === 'none') {
+            return;
+        }
+        resetMobileWindowStyles(window);
+        window.style.display = 'flex';
+    });
 }
 
 // Debounce function to limit rapid executions
@@ -1139,24 +1142,26 @@ function initializeCanvasSwitching() {
 
 // Initialize theme toggle functionality
 function initializeThemeToggle() {
-    const toggle = document.getElementById('theme-toggle');
     const storedTheme = getStoredTheme();
     // Always default to light mode, ignore system preference
     const initialTheme = storedTheme || DEFAULT_THEME;
 
     applyTheme(initialTheme, { persist: false });
 
-    if (!toggle) {
-        return;
-    }
-
-    addDoubleClickGuard(toggle);
-
-    toggle.addEventListener('click', () => {
+    const handleThemeToggle = () => {
         const nextTheme = document.body.classList.contains('dark-theme') ? 'light' : 'dark';
         applyTheme(nextTheme);
-        // Reload the page after theme change
         window.location.reload();
+    };
+
+    ['theme-toggle', 'mobile-theme-toggle'].forEach((id) => {
+        const toggle = document.getElementById(id);
+        if (!toggle) {
+            return;
+        }
+
+        addDoubleClickGuard(toggle);
+        toggle.addEventListener('click', handleThemeToggle);
     });
 
     // Disabled system preference listener - always default to light mode

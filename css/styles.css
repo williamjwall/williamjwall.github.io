@@ -473,40 +473,63 @@ html {
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
+    body {
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
     .app-window {
         position: fixed !important;
         top: 50% !important;
         left: 50% !important;
+        right: auto !important;
         transform: translate(-50%, -50%) !important;
-        width: 95% !important;
-        max-width: 500px !important;
-        min-width: 280px !important;
+        width: 92% !important;
+        max-width: 92vw !important;
+        min-width: 0 !important;
         height: auto !important;
         max-height: 85vh !important;
         min-height: auto !important;
         border-radius: 0 !important;
-        border: 1px solid #000 !important;
+        border: 1px solid var(--border-color) !important;
         box-shadow: none !important;
-        background-color: #fff !important;
+        background-color: var(--window-bg) !important;
         overflow: hidden !important;
         flex-direction: column !important;
+        overscroll-behavior: contain;
+    }
+
+    #portfolio-window,
+    #experience-window,
+    #education-window,
+    #skills-window,
+    #contact-window {
+        min-width: 0 !important;
+        width: 92% !important;
+        max-width: 92vw !important;
     }
     
-    .app-window[style*="display: block"] {
+    .app-window[style*="display: block"],
+    .app-window[style*="display: flex"] {
         display: flex !important;
     }
     
     .desktop {
-        margin: 20px 0; /* Increased top margin for more space from mobile intro */
+        margin: 20px 0;
+        justify-content: center;
+        width: 100%;
     }
     
     .desktop-icons {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         grid-gap: 15px;
         justify-content: center;
-        padding: 20px 10px;
-        max-width: none;
+        justify-items: center;
+        padding: 20px 16px;
+        margin: 0 auto;
+        width: 100%;
+        max-width: 320px;
+        box-sizing: border-box;
     }
     
     /* Reset grid positioning on mobile to allow natural wrapping */
@@ -541,7 +564,7 @@ html {
     .app-name {
         font-size: 12px;
         font-weight: normal;
-        color: #000;
+        color: var(--text-color);
         background: none;
         border: none;
         padding: 0;
@@ -555,6 +578,10 @@ html {
         padding: 10px;
         transition: none;
         opacity: 1;
+        touch-action: manipulation;
+        cursor: pointer;
+        width: 100%;
+        min-width: 0;
     }
     
     .desktop-app:hover {
@@ -566,40 +593,48 @@ html {
     .window-content {
         padding: 15px !important;
         overflow-y: auto !important;
-        width: auto !important;
+        overflow-x: hidden !important;
+        -webkit-overflow-scrolling: touch;
+        width: 100% !important;
         height: auto !important;
-        flex: 1 !important;
+        flex: 1 1 auto !important;
+        min-height: 0 !important;
         font-family: Arial, sans-serif !important;
         font-size: 14px !important;
         line-height: 1.4 !important;
-        background: #fff !important;
-        color: #000 !important;
+        background: var(--window-bg) !important;
+        color: var(--text-color) !important;
+        box-sizing: border-box;
     }
     
     .window-header {
-        background: #f0f0f0 !important;
-        border-bottom: 1px solid #000 !important;
+        background: var(--window-header-bg) !important;
+        border-bottom: 1px solid var(--border-color) !important;
         padding: 10px !important;
+        cursor: default;
+        height: auto;
+        min-height: 36px;
+        flex-shrink: 0;
     }
     
     .window-title {
         font-size: 14px !important;
         font-weight: normal !important;
-        color: #000 !important;
+        color: var(--text-color) !important;
     }
     
     .window-controls button {
         width: 20px;
         height: 20px;
         font-size: 12px;
-        border: 1px solid #000 !important;
-        background: #fff !important;
+        border: 1px solid var(--border-color) !important;
+        background: var(--window-bg) !important;
         border-radius: 0 !important;
     }
     
     .window-controls button i {
         font-size: 10px;
-        color: #000 !important;
+        color: var(--text-color) !important;
     }
     
     .window-icon {
@@ -631,8 +666,8 @@ html {
     
     .mobile-intro-container {
         display: block;
-        background: #fff !important;
-        border: 1px solid #000;
+        background: var(--background-color) !important;
+        border: 1px solid var(--border-color);
         border-radius: 0;
         padding: 20px;
         margin: 10px 10px 30px 10px;
@@ -643,18 +678,22 @@ html {
         overflow: hidden;
         text-transform: lowercase;
         box-sizing: border-box;
+        width: auto;
+        max-width: 100%;
     }
     
     .mobile-header {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         align-items: flex-start;
+        justify-content: space-between;
         margin-bottom: 15px;
-        gap: 5px;
+        gap: 12px;
     }
-    
-    .mobile-avatar {
-        display: none;
+
+    .mobile-theme-toggle {
+        flex-shrink: 0;
+        margin-top: 2px;
     }
     
     .mobile-title h1 {
@@ -662,14 +701,14 @@ html {
         font-weight: normal;
         margin: 0;
         margin-left: 0;
-        color: #000;
+        color: var(--text-color);
         line-height: 1.2;
         font-family: Arial, sans-serif;
     }
 
     .mobile-subtitle {
         font-size: 16px;
-        color: #000;
+        color: var(--text-color);
         font-weight: normal;
         margin: 0;
         margin-left: 0;
@@ -685,7 +724,7 @@ html {
     .mobile-bio p {
         font-size: 14px;
         line-height: 1.4;
-        color: #000;
+        color: var(--text-color);
         margin: 0;
         font-family: Arial, sans-serif;
     }
@@ -697,13 +736,13 @@ html {
         margin: 15px 0;
         margin-left: 0;
         font-size: 14px;
-        color: #000;
+        color: var(--text-color);
         font-family: Arial, sans-serif;
     }
 
     .mobile-location i {
         font-size: 14px;
-        color: #000;
+        color: var(--text-color);
     }
 
     .mobile-location span {
@@ -774,15 +813,21 @@ html {
 
     .container {
         max-width: 100%;
-        padding: 0 5px;
-        margin: 0;
+        padding: 0 10px;
+        margin: 0 auto;
+        box-sizing: border-box;
+    }
+
+    .intro {
+        max-width: 100%;
     }
 
     .taskbar {
-        padding: 0 8px;
-        height: 40px;
-        background-color: var(--taskbar-bg) !important;
-        border-top: 1px solid var(--border-color);
+        display: none;
+    }
+
+    .minimize-btn {
+        display: none;
     }
 
     .taskbar-app {
@@ -818,7 +863,7 @@ html {
 
 @media (max-width: 480px) {
     .mobile-intro-container {
-        margin: 5px 5px 25px 5px; /* More space below intro */
+        margin: 5px 5px 25px 5px;
         padding: 15px;
     }
     
@@ -834,16 +879,16 @@ html {
     
     .mobile-title h1 {
         font-size: 1.8rem;
-        margin-left: 25px;
+        margin-left: 0;
     }
     
     .mobile-subtitle {
         font-size: 0.8rem;
-        margin-left: 25px;
+        margin-left: 0;
     }
     
     .mobile-bio {
-        margin-left: 25px;
+        margin-left: 0;
     }
     
     .mobile-bio p {
@@ -851,7 +896,7 @@ html {
     }
     
     .mobile-location {
-        margin-left: 25px;
+        margin-left: 0;
     }
     
     .mobile-location i,
@@ -928,16 +973,16 @@ html {
     
     .mobile-title h1 {
         font-size: 1.6rem;
-        margin-left: 20px;
+        margin-left: 0;
     }
     
     .mobile-subtitle {
         font-size: 0.75rem;
-        margin-left: 20px;
+        margin-left: 0;
     }
     
     .mobile-bio {
-        margin-left: 20px;
+        margin-left: 0;
     }
     
     .mobile-bio p {
@@ -945,7 +990,7 @@ html {
     }
     
     .mobile-location {
-        margin-left: 20px;
+        margin-left: 0;
     }
     
     .mobile-location i,

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MyEngene for individuals and industries.">
+    <title>MyEngene | Who We Serve</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header id="site-header"></header>
+
+    <main class="page-main">
+        <div class="container">
+            <header class="page-intro">
+                <h1>Who We Serve</h1>
+                <p>Patients, communities, and organizations using pharmacogenomics to prescribe safer and more effective treatments.</p>
+            </header>
+
+            <div class="serve-explorer">
+                <div class="serve-explorer-search">
+                    <svg class="serve-explorer-search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                    <input type="search" id="serve-search" class="serve-explorer-input" placeholder="Search audiences and topics…" autocomplete="off" aria-label="Search audiences and topics">
+                    <span class="serve-explorer-badge" id="serve-count" aria-live="polite"></span>
+                </div>
+
+                <div class="serve-explorer-tabs" id="serve-tabs" role="tablist" aria-label="Filter by audience">
+                    <button type="button" class="serve-explorer-tab active" data-category="" role="tab" aria-selected="true">All</button>
+                    <button type="button" class="serve-explorer-tab" data-category="Guides" role="tab" aria-selected="false">General</button>
+                    <button type="button" class="serve-explorer-tab" data-category="For Individuals" role="tab" aria-selected="false">Individuals</button>
+                    <button type="button" class="serve-explorer-tab" data-category="For Industries" role="tab" aria-selected="false">Industries</button>
+                </div>
+
+                <div class="serve-explorer-body">
+                    <nav class="serve-explorer-nav" aria-label="Topics">
+                        <ul class="serve-explorer-list" id="serve-list"></ul>
+                    </nav>
+                    <article class="serve-explorer-panel" id="serve-panel">
+                        <p class="serve-explorer-empty">Select a topic to read.</p>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer id="site-footer"></footer>
+    <div id="search-mount"></div>
+
+    <script src="js/layout.js" data-page="audiences"></script>
+    <script src="js/effects.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js"></script>
+    <script src="js/search.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/audiences.js"></script>
+</body>
+</html>
