@@ -304,6 +304,7 @@ html {
     user-select: none;
     cursor: move;
     height: 24px;
+    flex-shrink: 0;
 }
 
 .window-title {
@@ -514,80 +515,105 @@ html {
     }
     
     .desktop {
-        margin: 20px 0;
-        justify-content: center;
-        width: 100%;
+        margin: 0 10px 30px 10px;
+        justify-content: stretch;
+        width: auto;
     }
     
     .desktop-icons {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        grid-gap: 15px;
-        justify-content: center;
-        justify-items: center;
-        padding: 20px 16px;
-        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 0;
         width: 100%;
-        max-width: 320px;
+        max-width: none;
+        margin: 0;
+        padding: 0;
+        border: 1px solid var(--border-color);
         box-sizing: border-box;
+        background: var(--background-color);
     }
     
-    /* Reset grid positioning on mobile to allow natural wrapping */
+    /* Reset desktop grid positioning on mobile */
     .grid-pos-1-1,
     .grid-pos-2-1,
     .grid-pos-3-1,
     .grid-pos-1-2,
     .grid-pos-2-2,
     .grid-pos-3-2 {
-        grid-column: auto;
-        grid-row: auto;
+        grid-column: unset;
+        grid-row: unset;
+    }
+    
+    .desktop-app {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 14px;
+        width: 100%;
+        min-width: 0;
+        height: auto;
+        padding: 14px 16px;
+        border: none;
+        border-bottom: 1px solid var(--border-color);
+        border-radius: 0;
+        background: var(--background-color) !important;
+        transition: background-color 0.15s ease;
+        opacity: 1;
+        touch-action: manipulation;
+        cursor: pointer;
+        box-sizing: border-box;
+    }
+
+    .desktop-app:last-child {
+        border-bottom: none;
+    }
+    
+    .desktop-app:hover,
+    .desktop-app:active {
+        background: rgba(0, 0, 0, 0.04) !important;
+        transform: none !important;
+        opacity: 1;
+    }
+
+    .desktop-app:hover .app-icon,
+    .desktop-app:hover .app-icon img {
+        transform: none;
+        box-shadow: none;
     }
     
     .app-icon {
-        width: 40px;
-        height: 40px;
+        width: 36px;
+        height: 36px;
+        flex-shrink: 0;
         border: none;
         background: none;
-        margin-bottom: 5px;
+        margin: 0;
     }
     
     .app-icon img {
-        width: 40px;
-        height: 40px;
+        width: 36px;
+        height: 36px;
         border-radius: 0;
     }
     
     .app-icon i {
-        font-size: 20px;
+        font-size: 18px;
     }
     
     .app-name {
-        font-size: 12px;
+        font-size: 15px;
         font-weight: normal;
         color: var(--text-color);
         background: none;
         border: none;
         padding: 0;
-        margin-top: 5px;
-        text-align: center;
-    }
-    
-    .desktop-app {
-        border: none !important;
-        background: none !important;
-        padding: 10px;
-        transition: none;
-        opacity: 1;
-        touch-action: manipulation;
-        cursor: pointer;
-        width: 100%;
-        min-width: 0;
-    }
-    
-    .desktop-app:hover {
-        background: none !important;
-        transform: none !important;
-        opacity: 1;
+        margin: 0;
+        text-align: left;
+        white-space: normal;
+        font-family: Arial, sans-serif;
+        text-transform: lowercase;
+        letter-spacing: 0;
     }
     
     .window-content {
@@ -905,25 +931,22 @@ html {
     }
     
     .desktop {
-        margin: 25px 0 15px 0; /* More space from intro */
+        margin: 0 5px 25px 5px;
     }
-    
-    .desktop-icons {
-        gap: 15px;
+
+    .desktop-app {
+        padding: 12px 14px;
+        gap: 12px;
     }
-    
-    .app-icon {
-        width: 60px;
-        height: 60px;
-    }
-    
+
+    .app-icon,
     .app-icon img {
-        width: 52px;
-        height: 52px;
+        width: 32px;
+        height: 32px;
     }
-    
+
     .app-name {
-        font-size: 13px;
+        font-size: 14px;
     }
     
     .app-window {
@@ -999,27 +1022,22 @@ html {
     }
     
     .desktop {
-        margin: 20px 0 10px 0;
+        margin: 0 2px 20px 2px;
     }
-    
-    .desktop-icons {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
-        max-width: none;
+
+    .desktop-app {
+        padding: 11px 12px;
+        gap: 10px;
     }
-    
-    .app-icon {
-        width: 52px;
-        height: 52px;
-    }
-    
+
+    .app-icon,
     .app-icon img {
-        width: 44px;
-        height: 44px;
+        width: 30px;
+        height: 30px;
     }
-    
+
     .app-name {
-        font-size: 12px;
+        font-size: 13px;
     }
     
     .education-large {
@@ -1216,7 +1234,7 @@ a:hover, button:hover, .tech-tag:hover {
     }
     
     .desktop {
-        margin: 20px 0;
+        margin: 0 10px 30px 10px;
     }
 }
 
@@ -1601,5 +1619,25 @@ body.dark-theme .mobile-title h1 {
 @media (max-width: 768px) {
     body.dark-theme .window-controls button i {
         color: #f7f9ff !important;
+    }
+
+    body.dark-theme .desktop-icons {
+        border-color: rgba(217, 215, 224, 0.2);
+        background: var(--background-color);
+    }
+
+    body.dark-theme .desktop-app {
+        background: var(--background-color) !important;
+        border-bottom-color: rgba(217, 215, 224, 0.15);
+    }
+
+    body.dark-theme .desktop-app:hover,
+    body.dark-theme .desktop-app:active {
+        background: rgba(217, 215, 224, 0.06) !important;
+    }
+
+    body.dark-theme .desktop-app:hover .app-icon {
+        background: none;
+        box-shadow: none;
     }
 }
