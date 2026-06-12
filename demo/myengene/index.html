@@ -7,7 +7,7 @@
     <title>MyEngene | Home</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -15,59 +15,83 @@
 
     <main>
         <section class="hero" id="hero">
-            <div class="container">
-                <p class="eyebrow">Personalized Preventative Medicine</p>
-                <h1>Right Drug, Right Dose, <em>Right Now</em></h1>
-                <p class="hero-lead">MyEngene is an engine for your genes — translating your DNA into safer, more effective prescriptions through advanced pharmacogenomics and AI.</p>
-                <div class="hero-actions">
-                    <a href="about.html#contact" class="btn btn-primary">Get in Touch</a>
-                    <a href="platform.html" class="btn btn-secondary">Explore Platform</a>
+            <div class="container hero-inner">
+                <div class="hero-main">
+                    <p class="hero-kicker">Pharmacogenomics · Clinical AI</p>
+                    <h1>Right drug. Right dose. <span class="hero-accent">Right now.</span></h1>
+                    <p class="hero-lead">MyEngene translates DNA into prescribing decisions — comprehensive PGx reporting with explainable recommendations physicians can act on.</p>
+                    <div class="hero-actions">
+                        <a href="about.html#contact" class="btn btn-primary">Get in Touch</a>
+                        <a href="platform.html" class="btn btn-secondary">Explore Platform</a>
+                    </div>
                 </div>
+                <aside class="hero-facts" aria-label="Platform at a glance">
+                    <div class="hero-fact">
+                        <span class="hero-fact-value">990+</span>
+                        <span class="hero-fact-label">Drugs in reporting database</span>
+                    </div>
+                    <div class="hero-fact">
+                        <span class="hero-fact-value">1,110</span>
+                        <span class="hero-fact-label">Genes analyzed per profile</span>
+                    </div>
+                    <div class="hero-fact">
+                        <span class="hero-fact-value">5–7 days</span>
+                        <span class="hero-fact-label">To physician-reviewed report</span>
+                    </div>
+                </aside>
             </div>
         </section>
 
         <section class="section section-alt" id="problem">
             <div class="container">
-                <h2 class="section-title">The Problem: Adverse Drug Reactions</h2>
-                <p class="section-lead">ADR is the 4th leading cause of death in the United States.</p>
+                <div class="section-head">
+                    <p class="section-kicker">The problem</p>
+                    <h2 class="section-title">Adverse drug reactions are a leading cause of death</h2>
+                    <p class="section-lead">Most prescriptions still ignore how your body metabolizes them. Pharmacogenomics closes that gap.</p>
+                </div>
                 <div class="stat-grid">
                     <div class="stat-card"><span class="stat-value" data-count="128" data-suffix="k">0k</span><span class="stat-label">Americans die annually from ADRs</span></div>
                     <div class="stat-card"><span class="stat-value">4th</span><span class="stat-label">Leading cause of death in the USA</span></div>
-                    <div class="stat-card"><span class="stat-value" data-count="97" data-suffix="%">0%</span><span class="stat-label">Have genetic variants affecting drug response</span></div>
+                    <div class="stat-card"><span class="stat-value" data-count="97" data-suffix="%">0%</span><span class="stat-label">Carry variants affecting drug response</span></div>
                     <div class="stat-card"><span class="stat-value" data-count="95" data-suffix="%">0%</span><span class="stat-label">Potential reduction in ADR costs</span></div>
                 </div>
-                <p class="prose">Pharmacogenomics uses your genetic makeup to choose drugs and doses likely to work best — combining pharmacology and genomics into actionable clinical guidance.</p>
             </div>
         </section>
 
         <section class="section" id="vision">
             <div class="container narrow">
-                <h2 class="section-title">An Engine for Your Genes</h2>
-                <p class="section-lead">MyEngene started with a vision to truly personalize medicine.</p>
-                <p class="prose">An individual's unique DNA can make some medications ineffective or dangerous. The only way to know which medications are safe is through a genomic test and advanced analysis.</p>
-                <p class="prose"><strong>One-size-fits-all medication does not work.</strong> Technology and increased genomic sequencing accessibility now make personalized prescribing feasible at scale.</p>
+                <p class="section-kicker">Our vision</p>
+                <h2 class="section-title">An engine for your genes</h2>
+                <p class="prose lead">An individual's DNA can make medications ineffective or dangerous. Genomic testing is the only reliable way to know which drugs are safe — and technology finally makes that practical at scale.</p>
+                <p class="prose"><strong>One-size-fits-all prescribing doesn't work.</strong> MyEngene turns whole-genome data into clear, physician-ready guidance.</p>
             </div>
         </section>
 
         <section class="section section-alt" id="how-it-works">
             <div class="container">
-                <h2 class="section-title">How It Works</h2>
+                <div class="section-head">
+                    <p class="section-kicker">Process</p>
+                    <h2 class="section-title">How it works</h2>
+                </div>
                 <div class="steps">
-                    <div class="step"><span class="step-num">01</span><h3>Acquire Genome</h3><p>Collect DNA via cheek swab kit or acquire genome data in digital format.</p></div>
-                    <div class="step"><span class="step-num">02</span><h3>Analyze Sequence</h3><p>Whole genome sequencing at 30X depth with AI-powered variant analysis.</p></div>
-                    <div class="step"><span class="step-num">03</span><h3>Upload to MyEngene</h3><p>Secure file upload to the pharmacogenomics analysis platform.</p></div>
-                    <div class="step"><span class="step-num">04</span><h3>Get Reports</h3><p>Physician-reviewed reports with dosing recommendations in 5–7 business days.</p></div>
+                    <div class="step"><span class="step-num">01</span><h3>Acquire genome</h3><p>Cheek swab kit or upload existing sequencing data.</p></div>
+                    <div class="step"><span class="step-num">02</span><h3>Analyze sequence</h3><p>Whole genome at 30× depth with AI variant analysis.</p></div>
+                    <div class="step"><span class="step-num">03</span><h3>Upload to MyEngene</h3><p>Secure transfer to the pharmacogenomics platform.</p></div>
+                    <div class="step"><span class="step-num">04</span><h3>Get reports</h3><p>Physician-reviewed dosing recommendations in days, not weeks.</p></div>
                 </div>
             </div>
         </section>
 
         <section class="section" id="pillars">
             <div class="container">
-                <h2 class="section-title">Proactive. Preventative. Personalized.</h2>
+                <div class="section-head">
+                    <p class="section-kicker">Approach</p>
+                    <h2 class="section-title">Proactive. Preventative. Personalized.</h2>
+                </div>
                 <div class="pillar-grid">
-                    <article class="pillar-card"><h3>Personalized</h3><p>Translate your genome into clinically meaningful information.</p></article>
-                    <article class="pillar-card"><h3>Proactive</h3><p>Receive optimized prescription guidelines in seconds via AI.</p></article>
-                    <article class="pillar-card"><h3>Preventative</h3><p>Identify unsafe medications before adverse reactions occur.</p></article>
+                    <article class="pillar-card"><h3>Personalized</h3><p>Translate genomes into clinically meaningful prescribing information.</p></article>
+                    <article class="pillar-card"><h3>Proactive</h3><p>Optimized guidelines in seconds — before a reaction happens.</p></article>
+                    <article class="pillar-card"><h3>Preventative</h3><p>Flag unsafe medications before they reach the patient.</p></article>
                 </div>
             </div>
         </section>
