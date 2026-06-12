@@ -1,6 +1,7 @@
 (function () {
     const searchInput = document.getElementById('serve-search');
     const tabsEl = document.getElementById('serve-tabs');
+    const highlightsEl = document.getElementById('serve-highlights');
     const listEl = document.getElementById('serve-list');
     const panelEl = document.getElementById('serve-panel');
     const countEl = document.getElementById('serve-count');
@@ -60,16 +61,24 @@
         history.replaceState(null, '', qs ? '?' + qs : 'audiences.html');
     }
 
-    function setCategory(category) {
-        activeCategory = category;
-        activeId = null;
-
+    function syncCategoryUI(category) {
         tabsEl.querySelectorAll('.serve-explorer-tab').forEach((tab) => {
             const isActive = tab.dataset.category === category;
             tab.classList.toggle('active', isActive);
             tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
         });
 
+        if (highlightsEl) {
+            highlightsEl.querySelectorAll('.serve-highlight').forEach((btn) => {
+                btn.classList.toggle('is-active', btn.dataset.category === category);
+            });
+        }
+    }
+
+    function setCategory(category) {
+        activeCategory = category;
+        activeId = null;
+        syncCategoryUI(category);
         render();
     }
 
@@ -152,6 +161,12 @@
         tab.addEventListener('click', () => setCategory(tab.dataset.category));
     });
 
+    if (highlightsEl) {
+        highlightsEl.querySelectorAll('.serve-highlight').forEach((btn) => {
+            btn.addEventListener('click', () => setCategory(btn.dataset.category));
+        });
+    }
+
     fetch('data/guides.json')
         .then((res) => res.json())
         .then((data) => {
@@ -166,11 +181,7 @@
             const cat = params.get('category');
             if (cat && ['Guides', 'For Individuals', 'For Industries'].includes(cat)) {
                 activeCategory = cat;
-                tabsEl.querySelectorAll('.serve-explorer-tab').forEach((tab) => {
-                    const isActive = tab.dataset.category === cat;
-                    tab.classList.toggle('active', isActive);
-                    tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
-                });
+                syncCategoryUI(cat);
             }
 
             const topic = params.get('topic');

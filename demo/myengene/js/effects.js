@@ -99,9 +99,9 @@
 
     function initReveal() {
         const targets = document.querySelectorAll(
-            '.section, .page-hero, .stat-card, .feature-card, .science-card, ' +
+            '.section, .page-hero, .serve-hero, .stat-card, .feature-card, .science-card, ' +
             '.pillar-card, .case-card, .team-card, .resource-card, ' +
-            '.serve-explorer, .job-card'
+            '.serve-highlight, .serve-explorer, .job-card'
         );
 
         targets.forEach((el) => el.classList.add('reveal'));
