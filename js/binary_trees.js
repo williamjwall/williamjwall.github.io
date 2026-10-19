@@ -71,13 +71,6 @@
         setTimeout(resizeCanvas, 300);
     });
     
-    // Handle mobile viewport changes (address bar hiding/showing)
-    window.addEventListener('scroll', function() {
-        if (window.innerWidth <= 768) return; // Skip on mobile
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(resizeCanvas, 50);
-    });
-    
     // Handle mobile visual viewport changes
     if (window.visualViewport) {
         window.visualViewport.addEventListener('resize', function() {
@@ -172,6 +165,10 @@
         return spacing;
     }
     
+    // Only advance growth every Nth frame so the trees creep in slowly
+    const UPDATE_EVERY = 10;
+    const RUN_SECONDS = 20 * UPDATE_EVERY;
+
     let activeTrees = [];
     let time = 0;
     let frameCount = 0;
@@ -956,11 +953,10 @@
         window.BinaryTrees.active = true;
         animate();
         
-        // Stop animation after 20 seconds
+        // Stop animation once growth has had the same number of steps as before
         setTimeout(() => {
-            console.log('Binary trees: 20 seconds elapsed, stopping animation');
             stopAnimation();
-        }, 20000); // 20 seconds = 20000 milliseconds
+        }, RUN_SECONDS * 1000);
     }
 
     function update() {
@@ -1009,11 +1005,16 @@
         }
     }
 
+    let frameSkip = 0;
+
     function animate() {
         if (!window.BinaryTrees.active) return;
         
         window.BinaryTrees.animationId = requestAnimationFrame(animate);
         
+        frameSkip = (frameSkip + 1) % UPDATE_EVERY;
+        if (frameSkip !== 0) return;
+
         update();
         draw();
     }

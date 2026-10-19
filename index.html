@@ -10,6 +10,8 @@
 * { box-sizing: border-box; }
 
 body {
+    --canvas-background: #ffffff;
+    --canvas-branch-color: #b8a3a3;
     margin: 0;
     background: #ffffff;
     color: #000;
@@ -120,15 +122,15 @@ hr {
 
 <body>
 
-<div id="masthead">
+<canvas id="binary-trees-canvas"></canvas>
+
+<div id="masthead" class="header-container">
     <h1><a href="/" rel="home">william wall</a></h1>
 </div>
 
-<div id="content">
+<div id="content" class="intro-container">
 
-    <p>I studied linguistics and computing at <a href="https://www.ucla.edu" target="_blank" rel="noreferrer noopener">UCLA</a>. Mostly I think about meaning &mdash; how a sentence ends up saying more than its words do on their own, and whether a machine can learn to put meaning together the way we seem to.</p>
-
-    <p>Before this, I spent a while in data engineering, most recently as a contractor at returnPro working on supply-chain software. Before that I was a teaching assistant for the data science bootcamp at Le Wagon in Mexico City. At UCLA I also did Brazilian jiu-jitsu, which was a good way to be humbled a few times a week. I live in Los Angeles.</p>
+    <p>I've done a fair amount of data engineering, including some supply-chain software at returnPro, and at one point I was a teaching assistant for a data science bootcamp at Le Wagon in Mexico City. Somewhere along the way I studied linguistics and computing at <a href="https://www.ucla.edu" target="_blank" rel="noreferrer noopener">UCLA</a>, where I also did Brazilian jiu-jitsu, which was a good way to be humbled a few times a week. I live in Los Angeles.</p>
 
     <h2>Things I've been exploring</h2>
 
@@ -140,14 +142,6 @@ hr {
         <li><a href="https://williamjwall.github.io/webGL-art-backgrounds/" target="_blank" rel="noreferrer noopener">WebGL art backgrounds (2024)</a><br>
             <span class="with">hobby</span>
             <span class="blurb">random webGL canvases I make for fun. no real point to them, they're just nice to look at.</span></li>
-    </ul>
-
-    <h2>Work</h2>
-
-    <ul class="pubs">
-        <li><b>Catalog enrichment (2024)</b><br>
-            <span class="with">returnPro</span>
-            <span class="blurb">Product listings are messy. The same item shows up on a dozen marketplaces with different names, missing details, and its own idea of which category it belongs in. We used LLMs with retrieval to fill in the gaps and sort everything into one consistent taxonomy, at a scale where nobody could do it by hand.</span></li>
     </ul>
 
     <h2>Contact</h2>
@@ -184,6 +178,14 @@ hr {
             '-' + months[stamp.getMonth()] + '-' + stamp.getFullYear();
     }
 })();
+</script>
+<script>
+if (window.innerWidth > 768 && !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+    var trees = document.createElement('script');
+    trees.src = 'js/binary_trees.js';
+    trees.async = true;
+    document.head.appendChild(trees);
+}
 </script>
 
 </body>
