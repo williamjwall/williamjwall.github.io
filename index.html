@@ -1,334 +1,172 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#000000">
-    <title>william wall</title>
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>William Wall</title>
+<meta name="description" content="William Wall — linguistics and computing at UCLA.">
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<style>
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    background: #ffffff;
+    color: #000;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 15px;
+    line-height: 1.4;
+}
+
+a         { color: #0000cc; text-decoration: underline; }
+a:visited { color: #551a8b; }
+a:active  { color: #ee0000; }
+
+/* ---------- masthead ---------- */
+
+#masthead {
+    padding: 40px 24px .5em;
+    border-bottom: 3px double #800000;
+}
+
+#masthead h1 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.7em;
+    font-weight: bold;
+    letter-spacing: -.01em;
+    line-height: 1.15;
+    margin: 0 0 .1em;
+}
+
+#masthead h1 a { color: #000; text-decoration: none; }
+
+/* ---------- content column ---------- */
+
+#content {
+    max-width: 632px;
+    padding: 1.5em 24px 44px;
+}
+
+h2 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.02em;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: .07em;
+    color: #800000;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: .25em;
+    margin: 1.7em 0 .6em;
+}
+
+p { margin: 0 0 .85em; }
+
+/* ---------- projects ---------- */
+
+ul.pubs {
+    list-style: none;
+    padding-left: 0;
+    margin: 0 0 1em;
+}
+
+ul.pubs li { margin-bottom: .9em; }
+
+ul.pubs li > a,
+ul.pubs li > b { font-weight: bold; }
+
+ul.pubs .with {
+    display: inline-block;
+    margin-left: 1.4em;
+    color: #666;
+    font-style: italic;
+    font-size: .92em;
+}
+
+ul.pubs .blurb {
+    display: block;
+    margin: .2em 0 0 1.4em;
+}
+
+/* ---------- elsewhere ---------- */
+
+ul.links {
+    list-style: none;
+    padding-left: 0;
+    margin: 0 0 1em;
+}
+
+ul.links li { margin-top: .25em; }
+
+/* ---------- footer ---------- */
+
+#footer { margin-top: 1.4em; font-size: .82em; }
+#footer p { margin: 0 0 .4em; }
+
+hr {
+    border: 0;
+    border-top: 1px solid #bbb;
+    margin: 1.2em 0;
+}
+</style>
 </head>
-<body class="light-theme">
-    <!-- Canvas for binary trees animation (desktop only) -->
-    <canvas id="binary-trees-canvas" class="desktop-canvas"></canvas>
 
-    <div class="container">
-        <main>
-            <section class="intro">
-                <!-- Mobile-optimized intro container -->
-                <div class="mobile-intro-container">
-                    <div class="mobile-header">
-                        <div class="mobile-title">
-                            <h1>william wall</h1>
-                            <p class="mobile-subtitle">developer</p>
-                        </div>
-                        <button id="mobile-theme-toggle" class="theme-toggle-button mobile-theme-toggle" aria-label="Switch to dark mode">
-                            <i class="fas fa-moon"></i>
-                        </button>
-                    </div>
-                    
-                    <div class="mobile-bio">
-                        <p>data and software. i studied linguistics and computing at ucla, with some previous professional experience in data engineering.</p>
-                    </div>
-                    
-                    <div class="mobile-location">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span>los angeles, ca</span>
-                    </div>
-                    
-                </div>
+<body>
 
-                <!-- Desktop intro container (hidden on mobile) -->
-                <div class="desktop-intro-container container-underline">
-                    <div class="header-section">
-                        <div class="logo">
-                            <a href="/">william wall</a>
-                        </div>
-                        <button id="theme-toggle" class="theme-toggle-button" aria-label="Switch to dark mode">
-                            <i class="fas fa-moon"></i>
-                        </button>
-                    </div>
-                    
-                    <div class="intro-section">
-                        <h1>developer</h1>
-                        <p>data and software. i studied linguistics and computing at ucla, with some previous professional experience in data engineering.</p>
-                        <div class="contact-info">
-                            <a href="#">los angeles, california</a>
-                        </div>
-                    </div>
-                </div>
+<div id="masthead">
+    <h1><a href="/" rel="home">William Wall</a></h1>
+</div>
 
-                <!-- Desktop with draggable app icons in 3-2 layout -->
-                <div class="desktop">
-                    <div class="desktop-icons">
-                        <!-- First row - 3 apps -->
-                        <div class="desktop-app draggable-app grid-pos-1-1" data-app="portfolio">
-                            <div class="app-icon">
-                                <img src="images/icons/Screenshot from 2025-06-08 20-07-24.png" alt="portfolio">
-                            </div>
-                            <span class="app-name">projects</span>
-                        </div>
-                        
-                        <div class="desktop-app draggable-app grid-pos-2-1" data-app="experience">
-                            <div class="app-icon">
-                                <img src="images/icons/Screenshot from 2025-06-08 20-07-36.png" alt="experience">
-                            </div>
-                            <span class="app-name">work</span>
-                        </div>
-                        
-                        <div class="desktop-app draggable-app grid-pos-3-1" data-app="skills">
-                            <div class="app-icon">
-                                <img src="images/icons/Screenshot from 2025-06-08 20-07-50.png" alt="skills">
-                            </div>
-                            <span class="app-name">skills</span>
-                        </div>
-                        
-                        <!-- Second row - 2 apps -->
-                        <div class="desktop-app draggable-app grid-pos-1-2" data-app="education">
-                            <div class="app-icon">
-                                <img src="images/icons/Screenshot from 2025-06-08 20-08-00.png" alt="education">
-                            </div>
-                            <span class="app-name">edu</span>
-                        </div>
-                        
-                        <div class="desktop-app draggable-app grid-pos-2-2" data-app="contact">
-                            <div class="app-icon">
-                                <img src="images/icons/Screenshot from 2025-06-08 20-08-23.png" alt="contact">
-                            </div>
-                            <span class="app-name">contact</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </main>
+<div id="content">
 
-        <footer>
-            <!-- Removed copyright text -->
-        </footer>
+    <p>I study linguistics and computing at <a href="https://www.ucla.edu" target="_blank" rel="noreferrer noopener">UCLA</a>. Mostly I think about meaning &mdash; how a sentence ends up saying more than its words do on their own, and whether a machine can learn to put meaning together the way we seem to.</p>
+
+    <p>Before this, I spent a while in data engineering, most recently as a contractor at returnPro working on supply-chain software. Before that I was a teaching assistant for the data science bootcamp at Le Wagon in Mexico City. I live in Los Angeles. At UCLA I also do Brazilian jiu-jitsu.</p>
+
+    <h2>Things I've been exploring</h2>
+
+    <ul class="pubs">
+        <li><a href="https://github.com/williamjwall/tree-lstm-generator" target="_blank" rel="noreferrer noopener">Tree-LSTMs and compositional semantics (2025)</a><br>
+            <span class="with">side project&nbsp;&nbsp;|&nbsp;&nbsp;code on GitHub</span>
+            <span class="blurb">Language has structure: words make phrases, phrases make clauses. Most neural nets read a sentence left to right and ignore that. A Tree-LSTM follows the parse tree instead, building up the meaning of each phrase from its parts. I wanted to see what that actually looks like, so I wired up a parser, BERT embeddings, and a Child-Sum Tree-LSTM and started poking at it.</span></li>
+    </ul>
+
+    <h2>Work</h2>
+
+    <ul class="pubs">
+        <li><b>Catalog enrichment (2024)</b><br>
+            <span class="with">returnPro</span>
+            <span class="blurb">Product listings are messy. The same item shows up on a dozen marketplaces with different names, missing details, and its own idea of which category it belongs in. We used LLMs with retrieval to fill in the gaps and sort everything into one consistent taxonomy, at a scale where nobody could do it by hand.</span></li>
+    </ul>
+
+    <h2>Contact</h2>
+
+    <p>Email: <a href="mailto:williamjwall@gmail.com">williamjwall@gmail.com</a></p>
+
+    <h2>Elsewhere</h2>
+
+    <ul class="links">
+        <li><a href="https://github.com/williamjwall" target="_blank" rel="noreferrer noopener">GitHub</a></li>
+    </ul>
+
+    <div id="footer">
+        <hr>
+        <p id="modified">Last modified: 19-Oct-2026</p>
     </div>
 
-    <!-- App Windows -->
-    <div id="portfolio-window" class="app-window" style="display: none;">
-        <div class="window-header">
-            <div class="window-title">
-                <img src="images/icons/Screenshot from 2025-06-08 20-07-24.png" alt="portfolio" class="window-icon">
-            </div>
-            <div class="window-controls">
-                <button class="minimize-btn" onclick="minimizeApp('portfolio')">
-                    <i class="fas fa-minus"></i>
-                </button>
-                <button class="close-btn" onclick="closeApp('portfolio')">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-        </div>
-        <div class="window-content">
-            <div class="terminal-header">william@personal:~$ ls -la projects/</div>
-            <div id="portfolio" class="portfolio-section">
-                <!-- Projects will be added here by JavaScript -->
-            </div>
-        </div>
-    </div>
+</div>
 
-    <div id="experience-window" class="app-window" style="display: none;">
-        <div class="window-header">
-            <div class="window-title">
-                <img src="images/icons/Screenshot from 2025-06-08 20-07-36.png" alt="experience" class="window-icon">
-                Experience
-            </div>
-            <div class="window-controls">
-                <button class="minimize-btn" onclick="minimizeApp('experience')">
-                    <i class="fas fa-minus"></i>
-                </button>
-                <button class="close-btn" onclick="closeApp('experience')">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-        </div>
-        <div class="window-content">
-            <div class="terminal-header">william@personal:~$ cat cv.txt</div>
-            <div class="work-experience-container">
-                <div class="experience-item">
-                    <div class="experience-header">
-                        <div>
-                            <h3 class="experience-title">Data Engineer (Contract)</h3>
-                            <div class="experience-company">returnPro</div>
-                        </div>
-                        <div class="experience-date">Jan. 2024 - Oct. 2024</div>
-                    </div>
-                    <div class="experience-description">
-                        <ul>
-                            <li>Developed a SaaS platform for supply chain optimization.</li>
-                            <li>Built ETL pipelines for internal and external marketplace data ingestion.</li>
-                            <li>Used Databricks for data processing and Snowflake for scalable storage.</li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <div class="experience-item">
-                    <div class="experience-header">
-                        <div>
-                            <h3 class="experience-title">Data Science Teaching Assistant</h3>
-                            <div class="experience-company">Le Wagon Mexico City</div>
-                        </div>
-                        <div class="experience-date">Sep. 2022 - Dec. 2022</div>
-                    </div>
-                    <div class="experience-description">
-                        <ul>
-                            <li>Content focused in Python, Numpy, and Pandas, emphasizing their application in data exploration.</li>
-                            <li>Guided students in optimizing, evaluating, and constructing model pipelines.</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+<script>
+(function () {
+    var stamp = new Date(document.lastModified);
+    if (!isNaN(stamp.valueOf())) {
+        var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        var pad = function (n) { return (n < 10 ? '0' : '') + n; };
+        document.getElementById('modified').textContent =
+            'Last modified: ' + pad(stamp.getDate()) +
+            '-' + months[stamp.getMonth()] + '-' + stamp.getFullYear();
+    }
+})();
+</script>
 
-    <div id="education-window" class="app-window education-large" style="display: none;">
-        <div class="window-header">
-            <div class="window-title">
-                <img src="images/icons/Screenshot from 2025-06-08 20-08-00.png" alt="education" class="window-icon">
-                Education
-            </div>
-            <div class="window-controls">
-                <button class="minimize-btn" onclick="minimizeApp('education')">
-                    <i class="fas fa-minus"></i>
-                </button>
-                <button class="close-btn" onclick="closeApp('education')">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-        </div>
-        <div class="window-content">
-            <div class="terminal-header">william@personal:~$ more edu.log</div>
-            <div class="education-container">
-                <div class="education">
-                    <div class="education-header">
-                        <div>
-                            <h3 class="education-school">University of California, Los Angeles</h3>
-                            <div class="education-degree">Bachelor's, Linguistics and Computing</div>
-                        </div>
-                        <div class="education-date">2024 - 2026</div>
-                    </div>
-                    <div class="education-activities">
-                        <h4>Activities:</h4>
-                        <ul>
-                            <li>Brazilian Jiu Jitsu Club</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="skills-window" class="app-window" style="display: none;">
-        <div class="window-header">
-            <div class="window-title">
-                <img src="images/icons/Screenshot from 2025-06-08 20-07-50.png" alt="skills" class="window-icon">
-                Skills
-            </div>
-            <div class="window-controls">
-                <button class="minimize-btn" onclick="minimizeApp('skills')">
-                    <i class="fas fa-minus"></i>
-                </button>
-                <button class="close-btn" onclick="closeApp('skills')">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-        </div>
-        <div class="window-content">
-            <div class="terminal-header">william@personal:~$ ./skills.bin</div>
-            <div class="skills-container">
-                <div class="skill-category">
-                    <div class="skill-list">
-                        <span class="skill">Python</span>
-                        <span class="skill">Agile</span>
-                        <span class="skill">Data Governance</span>
-                        <span class="skill">Snowflake</span>
-                        <span class="skill">Databricks</span>
-                        <span class="skill">Azure</span>
-                        <span class="skill">Google Cloud Platform</span>
-                        <span class="skill">LLMs</span>
-                        <span class="skill">Git</span>
-                        <span class="skill">Jupyter Notebook</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="contact-window" class="app-window" style="display: none;">
-        <div class="window-header">
-            <div class="window-title">
-                <img src="images/icons/Screenshot from 2025-06-08 20-08-23.png" alt="contact" class="window-icon">
-                Contact
-            </div>
-            <div class="window-controls">
-                <button class="minimize-btn" onclick="minimizeApp('contact')">
-                    <i class="fas fa-minus"></i>
-                </button>
-                <button class="close-btn" onclick="closeApp('contact')">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-        </div>
-        <div class="window-content">
-            <div class="terminal-header">william@personal:~$ mail -s "Hello" william@example.com</div>
-            <div class="contact-container">
-                <div class="contact-photo">
-                    <p class="contact-photo-caption">a picture of me hiking...</p>
-                    <img src="images/hiking.jpg" alt="a picture of me hiking">
-                </div>
-                <div class="contact-links">
-                    <a href="mailto:williamjwall@gmail.com" class="contact-link">
-                        <i class="fas fa-envelope"></i>
-                        williamjwall@gmail.com
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Taskbar -->
-    <div class="taskbar">
-        <div class="taskbar-apps" id="taskbar-apps">
-            <!-- Minimized apps will appear here -->
-        </div>
-    </div>
-
-    <!-- Load only essential libraries -->
-    <!-- Removed gl-matrix as it's not actually used for WebGL -->
-    
-    <!-- Load scripts conditionally based on device capability -->
-    <script>
-        // Feature detection and conditional loading
-        function supportsCanvas() {
-            const canvas = document.createElement('canvas');
-            return !!(canvas.getContext && canvas.getContext('2d'));
-        }
-        
-        function isMobile() {
-            return window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-        }
-        
-        // Load appropriate scripts based on device capability
-        if (supportsCanvas()) {
-            if (!isMobile()) {
-                // Desktop: Load binary trees animation
-                const script1 = document.createElement('script');
-                script1.src = 'js/binary_trees.js';
-                script1.async = true;
-                document.head.appendChild(script1);
-            }
-        }
-    </script>
-    
-    <!-- Add marked.js for Markdown parsing -->
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    
-    <!-- Load main script after other resources -->
-    <script src="js/script.js"></script>
 </body>
-</html> 
+</html>
