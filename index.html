@@ -102,6 +102,14 @@ ul.links li { margin-top: .25em; }
 #footer { margin-top: 1.4em; font-size: .82em; }
 #footer p { margin: 0 0 .4em; }
 
+/* ---------- photo ---------- */
+
+figure.photo { margin: 1em 0; max-width: 320px; }
+figure.photo img { display: block; width: 100%; height: auto; border: 1px solid #bbb; }
+figure.photo figcaption { margin-top: .3em; color: #666; font-style: italic; font-size: .92em; }
+
+#footer .prompt { font-family: "Courier New", Courier, monospace; color: #666; }
+
 hr {
     border: 0;
     border-top: 1px solid #bbb;
@@ -113,14 +121,14 @@ hr {
 <body>
 
 <div id="masthead">
-    <h1><a href="/" rel="home">William Wall</a></h1>
+    <h1><a href="/" rel="home">william wall</a></h1>
 </div>
 
 <div id="content">
 
-    <p>I study linguistics and computing at <a href="https://www.ucla.edu" target="_blank" rel="noreferrer noopener">UCLA</a>. Mostly I think about meaning &mdash; how a sentence ends up saying more than its words do on their own, and whether a machine can learn to put meaning together the way we seem to.</p>
+    <p>I studied linguistics and computing at <a href="https://www.ucla.edu" target="_blank" rel="noreferrer noopener">UCLA</a>. Mostly I think about meaning &mdash; how a sentence ends up saying more than its words do on their own, and whether a machine can learn to put meaning together the way we seem to.</p>
 
-    <p>Before this, I spent a while in data engineering, most recently as a contractor at returnPro working on supply-chain software. Before that I was a teaching assistant for the data science bootcamp at Le Wagon in Mexico City. I live in Los Angeles. At UCLA I also do Brazilian jiu-jitsu.</p>
+    <p>Before this, I spent a while in data engineering, most recently as a contractor at returnPro working on supply-chain software. Before that I was a teaching assistant for the data science bootcamp at Le Wagon in Mexico City. At UCLA I also did Brazilian jiu-jitsu, which was a good way to be humbled a few times a week. I live in Los Angeles.</p>
 
     <h2>Things I've been exploring</h2>
 
@@ -128,6 +136,10 @@ hr {
         <li><a href="https://github.com/williamjwall/tree-lstm-generator" target="_blank" rel="noreferrer noopener">Tree-LSTMs and compositional semantics (2025)</a><br>
             <span class="with">side project&nbsp;&nbsp;|&nbsp;&nbsp;code on GitHub</span>
             <span class="blurb">Language has structure: words make phrases, phrases make clauses. Most neural nets read a sentence left to right and ignore that. A Tree-LSTM follows the parse tree instead, building up the meaning of each phrase from its parts. I wanted to see what that actually looks like, so I wired up a parser, BERT embeddings, and a Child-Sum Tree-LSTM and started poking at it.</span></li>
+
+        <li><a href="https://williamjwall.github.io/webGL-art-backgrounds/" target="_blank" rel="noreferrer noopener">WebGL art backgrounds (2024)</a><br>
+            <span class="with">hobby</span>
+            <span class="blurb">random webGL canvases I make for fun. no real point to them, they're just nice to look at.</span></li>
     </ul>
 
     <h2>Work</h2>
@@ -142,6 +154,11 @@ hr {
 
     <p>Email: <a href="mailto:williamjwall@gmail.com">williamjwall@gmail.com</a></p>
 
+    <figure class="photo">
+        <img src="images/hiking.jpg" alt="me hiking" width="1067" height="800">
+        <figcaption>a picture of me hiking...</figcaption>
+    </figure>
+
     <h2>Elsewhere</h2>
 
     <ul class="links">
@@ -151,6 +168,7 @@ hr {
     <div id="footer">
         <hr>
         <p id="modified">Last modified: 19-Oct-2026</p>
+        <p class="prompt">william@personal:~$ exit</p>
     </div>
 
 </div>
