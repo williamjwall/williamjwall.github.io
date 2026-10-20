@@ -21,16 +21,18 @@
         const isDesktop = window.innerWidth > 768 && !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         
         if (isDesktop) {
-            // Full screen canvas for desktop
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+            // Cover the whole page (not just the viewport) so the trees scroll with the text
+            canvas.style.height = '0px';
+            const pageWidth = document.documentElement.clientWidth;
+            const pageHeight = Math.max(window.innerHeight, document.documentElement.scrollHeight);
+            canvas.width = pageWidth;
+            canvas.height = pageHeight;
             
-            // Set canvas position for full screen
-            canvas.style.position = 'fixed';
+            canvas.style.position = 'absolute';
             canvas.style.left = '0';
             canvas.style.top = '0';
-            canvas.style.width = window.innerWidth + 'px';
-            canvas.style.height = window.innerHeight + 'px';
+            canvas.style.width = pageWidth + 'px';
+            canvas.style.height = pageHeight + 'px';
             canvas.style.transform = 'none';
             canvas.style.transformOrigin = 'center';
             canvas.style.display = 'block';
@@ -148,8 +150,8 @@
             if (window.getComputedStyle(app).display !== 'none') {
                 const rect = app.getBoundingClientRect();
                 appTargets.push({
-                    x: rect.left + rect.width / 2,
-                    y: rect.top + rect.height / 2,
+                    x: rect.left + window.scrollX + rect.width / 2,
+                    y: rect.top + window.scrollY + rect.height / 2,
                     width: rect.width,
                     height: rect.height,
                     appIndex: index
@@ -166,7 +168,7 @@
     }
     
     // Only advance growth every Nth frame so the trees creep in slowly
-    const UPDATE_EVERY = 10;
+    const UPDATE_EVERY = 5;
     const RUN_SECONDS = 20 * UPDATE_EVERY;
 
     let activeTrees = [];
@@ -201,8 +203,8 @@
                 const rect = app.getBoundingClientRect();
                 // Add collision area around the app with small padding
                 collisionAreas.push({
-                    x: rect.left - 15, // Small padding around the app
-                    y: rect.top - 15,
+                    x: rect.left + window.scrollX - 15, // Small padding around the app
+                    y: rect.top + window.scrollY - 15,
                     width: rect.width + 30,
                     height: rect.height + 30,
                     type: `desktop-app-${index}`
@@ -232,8 +234,8 @@
         if (introContainer && window.getComputedStyle(introContainer).display !== 'none') {
             const rect = introContainer.getBoundingClientRect();
             collisionAreas.push({
-                x: rect.left,
-                y: rect.top,
+                x: rect.left + window.scrollX,
+                y: rect.top + window.scrollY,
                 width: rect.width,
                 height: rect.height,
                 type: 'intro-container'
@@ -245,8 +247,8 @@
         if (headerContainer && window.getComputedStyle(headerContainer).display !== 'none') {
             const rect = headerContainer.getBoundingClientRect();
             collisionAreas.push({
-                x: rect.left,
-                y: rect.top,
+                x: rect.left + window.scrollX,
+                y: rect.top + window.scrollY,
                 width: rect.width,
                 height: rect.height,
                 type: 'header-container'
