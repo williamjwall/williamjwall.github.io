@@ -99,24 +99,12 @@ ul.links {
 
 ul.links li { margin-top: .25em; }
 
-/* ---------- footer ---------- */
-
-#footer { margin-top: 1.4em; font-size: .82em; }
-#footer p { margin: 0 0 .4em; }
-
 /* ---------- photo ---------- */
 
 figure.photo { margin: 1em 0; max-width: 320px; }
 figure.photo img { display: block; width: 100%; height: auto; border: 1px solid #bbb; }
 figure.photo figcaption { margin-top: .3em; color: #666; font-style: italic; font-size: .92em; }
 
-#footer .prompt { font-family: "Courier New", Courier, monospace; color: #666; }
-
-hr {
-    border: 0;
-    border-top: 1px solid #bbb;
-    margin: 1.2em 0;
-}
 </style>
 </head>
 
@@ -159,26 +147,8 @@ hr {
         <li><a href="https://github.com/williamjwall" target="_blank" rel="noreferrer noopener">GitHub</a></li>
     </ul>
 
-    <div id="footer">
-        <hr>
-        <p id="modified">Last modified: 19-Oct-2026</p>
-        <p class="prompt">william@personal:~$ exit</p>
-    </div>
-
 </div>
 
-<script>
-(function () {
-    var stamp = new Date(document.lastModified);
-    if (!isNaN(stamp.valueOf())) {
-        var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-        var pad = function (n) { return (n < 10 ? '0' : '') + n; };
-        document.getElementById('modified').textContent =
-            'Last modified: ' + pad(stamp.getDate()) +
-            '-' + months[stamp.getMonth()] + '-' + stamp.getFullYear();
-    }
-})();
-</script>
 <script>
 if (window.innerWidth > 768 && !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
     var trees = document.createElement('script');
