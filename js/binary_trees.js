@@ -21,18 +21,16 @@
         const isDesktop = window.innerWidth > 768 && !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         
         if (isDesktop) {
-            // Cover the whole page (not just the viewport) so the trees scroll with the text
-            canvas.style.height = '0px';
-            const pageWidth = document.documentElement.clientWidth;
-            const pageHeight = Math.max(window.innerHeight, document.documentElement.scrollHeight);
-            canvas.width = pageWidth;
-            canvas.height = pageHeight;
+            // Full screen canvas for desktop
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
             
-            canvas.style.position = 'absolute';
+            // Set canvas position for full screen
+            canvas.style.position = 'fixed';
             canvas.style.left = '0';
             canvas.style.top = '0';
-            canvas.style.width = pageWidth + 'px';
-            canvas.style.height = pageHeight + 'px';
+            canvas.style.width = window.innerWidth + 'px';
+            canvas.style.height = window.innerHeight + 'px';
             canvas.style.transform = 'none';
             canvas.style.transformOrigin = 'center';
             canvas.style.display = 'block';
@@ -71,6 +69,13 @@
     // Also handle orientation changes on mobile
     window.addEventListener('orientationchange', function() {
         setTimeout(resizeCanvas, 300);
+    });
+    
+    // Handle mobile viewport changes (address bar hiding/showing)
+    window.addEventListener('scroll', function() {
+        if (window.innerWidth <= 768) return; // Skip on mobile
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(resizeCanvas, 50);
     });
     
     // Handle mobile visual viewport changes
@@ -150,8 +155,8 @@
             if (window.getComputedStyle(app).display !== 'none') {
                 const rect = app.getBoundingClientRect();
                 appTargets.push({
-                    x: rect.left + window.scrollX + rect.width / 2,
-                    y: rect.top + window.scrollY + rect.height / 2,
+                    x: rect.left + rect.width / 2,
+                    y: rect.top + rect.height / 2,
                     width: rect.width,
                     height: rect.height,
                     appIndex: index
@@ -167,10 +172,6 @@
         return spacing;
     }
     
-    // Only advance growth every Nth frame so the trees creep in slowly
-    const UPDATE_EVERY = 5;
-    const RUN_SECONDS = 20 * UPDATE_EVERY;
-
     let activeTrees = [];
     let time = 0;
     let frameCount = 0;
@@ -203,8 +204,8 @@
                 const rect = app.getBoundingClientRect();
                 // Add collision area around the app with small padding
                 collisionAreas.push({
-                    x: rect.left + window.scrollX - 15, // Small padding around the app
-                    y: rect.top + window.scrollY - 15,
+                    x: rect.left - 15, // Small padding around the app
+                    y: rect.top - 15,
                     width: rect.width + 30,
                     height: rect.height + 30,
                     type: `desktop-app-${index}`
@@ -234,8 +235,8 @@
         if (introContainer && window.getComputedStyle(introContainer).display !== 'none') {
             const rect = introContainer.getBoundingClientRect();
             collisionAreas.push({
-                x: rect.left + window.scrollX,
-                y: rect.top + window.scrollY,
+                x: rect.left,
+                y: rect.top,
                 width: rect.width,
                 height: rect.height,
                 type: 'intro-container'
@@ -247,8 +248,8 @@
         if (headerContainer && window.getComputedStyle(headerContainer).display !== 'none') {
             const rect = headerContainer.getBoundingClientRect();
             collisionAreas.push({
-                x: rect.left + window.scrollX,
-                y: rect.top + window.scrollY,
+                x: rect.left,
+                y: rect.top,
                 width: rect.width,
                 height: rect.height,
                 type: 'header-container'
@@ -955,10 +956,11 @@
         window.BinaryTrees.active = true;
         animate();
         
-        // Stop animation once growth has had the same number of steps as before
+        // Stop animation after 20 seconds
         setTimeout(() => {
+            console.log('Binary trees: 20 seconds elapsed, stopping animation');
             stopAnimation();
-        }, RUN_SECONDS * 1000);
+        }, 20000); // 20 seconds = 20000 milliseconds
     }
 
     function update() {
@@ -1007,16 +1009,11 @@
         }
     }
 
-    let frameSkip = 0;
-
     function animate() {
         if (!window.BinaryTrees.active) return;
         
         window.BinaryTrees.animationId = requestAnimationFrame(animate);
         
-        frameSkip = (frameSkip + 1) % UPDATE_EVERY;
-        if (frameSkip !== 0) return;
-
         update();
         draw();
     }
