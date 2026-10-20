@@ -619,7 +619,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function fetchProjects() {
     try {
-        const response = await fetch('js/projects.json');
+        const response = await fetch('js/projects.json', { cache: 'no-cache' });
         if (!response.ok) throw new Error('Failed to load projects');
         return await response.json();
     } catch (error) {

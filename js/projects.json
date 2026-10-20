@@ -2,7 +2,7 @@
     "professionalProjects": [],
     "personalProjects": [
         {
-            "title": "Tree-LSTM Semantic Visualizer",
+            "title": "Tree-LSTM Compositional Semantics",
             "date": "2025",
             "links": [
                 {
@@ -27,17 +27,19 @@
             "description": "random webGL canvas I make as a hobby"
         },
         {
-            "title": "Catalog Enrichment",
+            "title": "Data Engineer",
             "company": "returnPro",
             "date": "2024",
-            "description": "Built end-to-end pipelines using Retrieval-Augmented Generation (RAG) and LLMs to enrich product metadata and classify taxonomy across diverse e-commerce platforms. Designed scalable ETL pipelines in Databricks, orchestrated Snowflake workloads, and deployed solutions via Azure for near real-time enrichment.",
+            "description": "Built end-to-end pipelines using Retrieval-Augmented Generation (RAG) and LLMs to enrich product metadata and classify taxonomy across diverse e-commerce platforms. Designed scalable ETL pipelines in Databricks, orchestrated Snowflake workloads, and deployed solutions via Azure for near real-time enrichment. Trained and evaluated machine learning models on product and marketplace data, and set up MLOps workflows for model versioning, deployment, and monitoring.",
             "technologies": [
                 "Python",
                 "Databricks",
                 "Snowflake",
                 "Azure",
                 "LLMs",
-                "RAG"
+                "RAG",
+                "ML Model Training",
+                "MLOps"
             ]
         }
     ]
