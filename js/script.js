@@ -1140,43 +1140,12 @@ function initializeCanvasSwitching() {
     });
 }
 
-// Initialize theme toggle functionality
+// Dark mode was removed: always light, and drop any old saved preference
 function initializeThemeToggle() {
-    const storedTheme = getStoredTheme();
-    // Always default to light mode, ignore system preference
-    const initialTheme = storedTheme || DEFAULT_THEME;
-
-    applyTheme(initialTheme, { persist: false });
-
-    const handleThemeToggle = () => {
-        const nextTheme = document.body.classList.contains('dark-theme') ? 'light' : 'dark';
-        applyTheme(nextTheme);
-        window.location.reload();
-    };
-
-    ['theme-toggle', 'mobile-theme-toggle'].forEach((id) => {
-        const toggle = document.getElementById(id);
-        if (!toggle) {
-            return;
-        }
-
-        addDoubleClickGuard(toggle);
-        toggle.addEventListener('click', handleThemeToggle);
-    });
-
-    // Disabled system preference listener - always default to light mode
-    // if (window.matchMedia) {
-    //     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    //     const mediaListener = (event) => {
-    //         if (!getStoredTheme()) {
-    //             applyTheme(event.matches ? 'dark' : 'light', { persist: false });
-    //         }
-    //     };
-    //
-    //     if (typeof mediaQuery.addEventListener === 'function') {
-    //         mediaQuery.addEventListener('change', mediaListener);
-    //     } else if (typeof mediaQuery.addListener === 'function') {
-    //         mediaQuery.addListener(mediaListener);
-    //     }
-    // }
+    try {
+        localStorage.removeItem(THEME_STORAGE_KEY);
+    } catch (error) {
+        // storage unavailable, nothing to clear
+    }
+    applyTheme(DEFAULT_THEME, { persist: false });
 }

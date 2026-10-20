@@ -1,31 +1,44 @@
 {
-    "professionalProjects": [
-
-    ],
+    "professionalProjects": [],
     "personalProjects": [
-        {
-            "title": "Catalog Enrichment",
-            "company": "returnPro",
-            "date": "2024",
-            "description": "Built end-to-end pipelines using Retrieval-Augmented Generation (RAG) and LLMs to enrich product metadata and classify taxonomy across diverse e-commerce platforms. Designed scalable ETL pipelines in Databricks, orchestrated Snowflake workloads, and deployed solutions via Azure for near real-time enrichment.",
-            "technologies": ["Python", "Databricks", "Snowflake", "Azure", "LLMs", "RAG"]
-        },
         {
             "title": "Tree-LSTM Semantic Visualizer",
             "date": "2025",
             "links": [
-                { "text": "GitHub", "url": "https://github.com/williamjwall/tree-lstm-generator" }
+                {
+                    "text": "GitHub",
+                    "url": "https://github.com/williamjwall/tree-lstm-generator"
+                }
             ],
             "description": "An interactive tool for visualizing compositional semantics through constituency parse trees and Tree-LSTM networks. Combines constituency parsing via spaCy/Benepar, contextual embeddings via BERT, and compositional semantics via Child-Sum Tree-LSTM with interactive 2D and 3D visualizations.",
-            "technologies": ["Natural Language Processing"]
+            "technologies": [
+                "Natural Language Processing"
+            ]
         },
         {
             "title": "WebGL Art Backgrounds",
             "date": "2024",
             "links": [
-                { "text": "View Here", "url": "https://williamjwall.github.io/webGL-art-backgrounds/" }
+                {
+                    "text": "View Here",
+                    "url": "https://williamjwall.github.io/webGL-art-backgrounds/"
+                }
             ],
             "description": "random webGL canvas I make as a hobby"
+        },
+        {
+            "title": "Catalog Enrichment",
+            "company": "returnPro",
+            "date": "2024",
+            "description": "Built end-to-end pipelines using Retrieval-Augmented Generation (RAG) and LLMs to enrich product metadata and classify taxonomy across diverse e-commerce platforms. Designed scalable ETL pipelines in Databricks, orchestrated Snowflake workloads, and deployed solutions via Azure for near real-time enrichment.",
+            "technologies": [
+                "Python",
+                "Databricks",
+                "Snowflake",
+                "Azure",
+                "LLMs",
+                "RAG"
+            ]
         }
     ]
 }
