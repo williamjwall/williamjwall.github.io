@@ -1,336 +1,428 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#000000">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#000000" />
     <title>william wall</title>
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/styles.css">
-</head>
-<body class="light-theme">
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body class="light-theme">
     <!-- Canvas for binary trees animation (desktop only) -->
     <canvas id="binary-trees-canvas" class="desktop-canvas"></canvas>
 
     <div class="container">
-        <main>
-            <section class="intro">
-                <!-- Mobile-optimized intro container -->
-                <div class="mobile-intro-container">
-                    <div class="mobile-header">
-                        <div class="mobile-title">
-                            <h1>william wall</h1>
-                        </div>
-                    </div>
-                    
-                    <div class="mobile-bio">
-                        <p>i studied linguistics and computing at ucla, with some previous professional experience in data engineering.</p>
-                    </div>
-                    
-                    <div class="mobile-location">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span>los angeles, ca</span>
-                    </div>
-                    
-                </div>
+      <main>
+        <section class="intro">
+          <!-- Mobile-optimized intro container -->
+          <div class="mobile-intro-container">
+            <div class="mobile-header">
+              <div class="mobile-title">
+                <h1>william wall</h1>
+              </div>
+            </div>
 
-                <!-- Desktop intro container (hidden on mobile) -->
-                <div class="desktop-intro-container container-underline">
-                    <div class="header-section">
-                        <div class="logo">
-                            <a href="/">william wall</a>
-                        </div>
-                    </div>
-                    
-                    <div class="intro-section">
-                        <p>i studied linguistics and computing at ucla, with some previous professional experience in data engineering.</p>
-                        <div class="contact-info">
-                            <a href="#">los angeles, california</a>
-                        </div>
-                    </div>
-                </div>
+            <div class="mobile-bio">
+              <p>
+                i studied linguistics and computing at ucla, with some previous
+                professional experience in data engineering.
+              </p>
+            </div>
 
-                <!-- Desktop with draggable app icons in 3-2 layout -->
-                <div class="desktop">
-                    <div class="desktop-icons">
-                        <!-- First row - 3 apps -->
-                        <div class="desktop-app draggable-app grid-pos-1-1" data-app="portfolio">
-                            <div class="app-icon">
-                                <img src="images/icons/Screenshot from 2025-06-08 20-07-24.png" alt="portfolio">
-                            </div>
-                            <span class="app-name">projects</span>
-                        </div>
-                        
-                        <div class="desktop-app draggable-app grid-pos-2-1" data-app="experience">
-                            <div class="app-icon">
-                                <img src="images/icons/Screenshot from 2025-06-08 20-07-36.png" alt="experience">
-                            </div>
-                            <span class="app-name">work</span>
-                        </div>
-                        
-                        <div class="desktop-app draggable-app grid-pos-3-1" data-app="skills">
-                            <div class="app-icon">
-                                <img src="images/icons/Screenshot from 2025-06-08 20-07-50.png" alt="skills">
-                            </div>
-                            <span class="app-name">skills</span>
-                        </div>
-                        
-                        <!-- Second row - 2 apps -->
-                        <div class="desktop-app draggable-app grid-pos-1-2" data-app="education">
-                            <div class="app-icon">
-                                <img src="images/icons/Screenshot from 2025-06-08 20-08-00.png" alt="education">
-                            </div>
-                            <span class="app-name">edu</span>
-                        </div>
-                        
-                        <div class="desktop-app draggable-app grid-pos-2-2" data-app="contact">
-                            <div class="app-icon">
-                                <img src="images/icons/Screenshot from 2025-06-08 20-08-23.png" alt="contact">
-                            </div>
-                            <span class="app-name">contact</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </main>
+            <div class="mobile-location">
+              <i class="fas fa-map-marker-alt"></i>
+              <span>los angeles, ca</span>
+            </div>
+          </div>
 
-        <footer>
-            <!-- Removed copyright text -->
-        </footer>
+          <!-- Desktop intro container (hidden on mobile) -->
+          <div class="desktop-intro-container container-underline">
+            <div class="header-section">
+              <div class="logo">
+                <a href="/">william wall</a>
+              </div>
+            </div>
+
+            <div class="intro-section">
+              <p>
+                i studied linguistics and computing at ucla, with some previous
+                professional experience in data engineering.
+              </p>
+              <div class="contact-info">
+                <a href="#">los angeles, california</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Desktop with draggable app icons in 3-2 layout -->
+          <div class="desktop">
+            <div class="desktop-icons">
+              <!-- First row - 3 apps -->
+              <div
+                class="desktop-app draggable-app grid-pos-1-1"
+                data-app="portfolio"
+              >
+                <div class="app-icon">
+                  <img
+                    src="images/icons/Screenshot from 2025-06-08 20-07-24.png"
+                    alt="portfolio"
+                  />
+                </div>
+                <span class="app-name">projects</span>
+              </div>
+
+              <div
+                class="desktop-app draggable-app grid-pos-2-1"
+                data-app="experience"
+              >
+                <div class="app-icon">
+                  <img
+                    src="images/icons/Screenshot from 2025-06-08 20-07-36.png"
+                    alt="experience"
+                  />
+                </div>
+                <span class="app-name">work</span>
+              </div>
+
+              <div
+                class="desktop-app draggable-app grid-pos-3-1"
+                data-app="skills"
+              >
+                <div class="app-icon">
+                  <img
+                    src="images/icons/Screenshot from 2025-06-08 20-07-50.png"
+                    alt="skills"
+                  />
+                </div>
+                <span class="app-name">skills</span>
+              </div>
+
+              <!-- Second row - 2 apps -->
+              <div
+                class="desktop-app draggable-app grid-pos-1-2"
+                data-app="education"
+              >
+                <div class="app-icon">
+                  <img
+                    src="images/icons/Screenshot from 2025-06-08 20-08-00.png"
+                    alt="education"
+                  />
+                </div>
+                <span class="app-name">edu</span>
+              </div>
+
+              <div
+                class="desktop-app draggable-app grid-pos-2-2"
+                data-app="contact"
+              >
+                <div class="app-icon">
+                  <img
+                    src="images/icons/Screenshot from 2025-06-08 20-08-23.png"
+                    alt="contact"
+                  />
+                </div>
+                <span class="app-name">contact</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        <!-- Removed copyright text -->
+      </footer>
     </div>
 
     <!-- App Windows -->
-    <div id="portfolio-window" class="app-window" style="display: none;">
-        <div class="window-header">
-            <div class="window-title">
-                <img src="images/icons/Screenshot from 2025-06-08 20-07-24.png" alt="portfolio" class="window-icon">
-            </div>
-            <div class="window-controls">
-                <button class="minimize-btn" onclick="minimizeApp('portfolio')">
-                    <i class="fas fa-minus"></i>
-                </button>
-                <button class="close-btn" onclick="closeApp('portfolio')">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
+    <div id="portfolio-window" class="app-window" style="display: none">
+      <div class="window-header">
+        <div class="window-title">
+          <img
+            src="images/icons/Screenshot from 2025-06-08 20-07-24.png"
+            alt="portfolio"
+            class="window-icon"
+          />
         </div>
-        <div class="window-content">
-            <div class="terminal-header">william@personal:~$ ls -la projects/</div>
-            <div id="portfolio" class="portfolio-section">
-                <!-- Projects will be added here by JavaScript -->
-            </div>
+        <div class="window-controls">
+          <button class="minimize-btn" onclick="minimizeApp('portfolio')">
+            <i class="fas fa-minus"></i>
+          </button>
+          <button class="close-btn" onclick="closeApp('portfolio')">
+            <i class="fas fa-times"></i>
+          </button>
         </div>
+      </div>
+      <div class="window-content">
+        <div class="terminal-header">william@personal:~$ ls -la projects/</div>
+        <div id="portfolio" class="portfolio-section">
+          <!-- Projects will be added here by JavaScript -->
+        </div>
+      </div>
     </div>
 
-    <div id="experience-window" class="app-window" style="display: none;">
-        <div class="window-header">
-            <div class="window-title">
-                <img src="images/icons/Screenshot from 2025-06-08 20-07-36.png" alt="experience" class="window-icon">
-                Experience
-            </div>
-            <div class="window-controls">
-                <button class="minimize-btn" onclick="minimizeApp('experience')">
-                    <i class="fas fa-minus"></i>
-                </button>
-                <button class="close-btn" onclick="closeApp('experience')">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
+    <div id="experience-window" class="app-window" style="display: none">
+      <div class="window-header">
+        <div class="window-title">
+          <img
+            src="images/icons/Screenshot from 2025-06-08 20-07-36.png"
+            alt="experience"
+            class="window-icon"
+          />
+          Experience
         </div>
-        <div class="window-content">
-            <div class="terminal-header">william@personal:~$ cat cv.txt</div>
-            <div class="work-experience-container">
-                <div class="experience-item">
-                    <div class="experience-header">
-                        <div>
-                            <h3 class="experience-title">Data Engineer (Contract)</h3>
-                            <div class="experience-company">returnPro</div>
-                        </div>
-                        <div class="experience-date">Jan. 2024 - Oct. 2024</div>
-                    </div>
-                    <div class="experience-description">
-                        <ul>
-                            <li>Developed a SaaS platform for supply chain optimization.</li>
-                            <li>Built ETL pipelines for internal and external marketplace data ingestion.</li>
-                            <li>Used Databricks for data processing and Snowflake for scalable storage.</li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <div class="experience-item">
-                    <div class="experience-header">
-                        <div>
-                            <h3 class="experience-title">Data Science Teaching Assistant</h3>
-                            <div class="experience-company">Le Wagon Mexico City</div>
-                        </div>
-                        <div class="experience-date">Sep. 2022 - Dec. 2022</div>
-                    </div>
-                    <div class="experience-description">
-                        <ul>
-                            <li>Content focused in Python, Numpy, and Pandas, emphasizing their application in data exploration.</li>
-                            <li>Guided students in optimizing, evaluating, and constructing model pipelines.</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+        <div class="window-controls">
+          <button class="minimize-btn" onclick="minimizeApp('experience')">
+            <i class="fas fa-minus"></i>
+          </button>
+          <button class="close-btn" onclick="closeApp('experience')">
+            <i class="fas fa-times"></i>
+          </button>
         </div>
+      </div>
+      <div class="window-content">
+        <div class="terminal-header">william@personal:~$ cat cv.txt</div>
+        <div class="work-experience-container">
+          <div class="experience-item">
+            <div class="experience-header">
+              <div>
+                <h3 class="experience-title">Data Engineer (Contract)</h3>
+                <div class="experience-company">returnPro</div>
+              </div>
+              <div class="experience-date">Jan. 2024 - Oct. 2024</div>
+            </div>
+            <div class="experience-description">
+              <ul>
+                <li>
+                  Developed a SaaS platform for supply chain optimization.
+                </li>
+                <li>
+                  Built ETL pipelines for internal and external marketplace data
+                  ingestion.
+                </li>
+                <li>
+                  Used Databricks for data processing and Snowflake for scalable
+                  storage.
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="experience-item">
+            <div class="experience-header">
+              <div>
+                <h3 class="experience-title">
+                  Data Science Teaching Assistant
+                </h3>
+                <div class="experience-company">Le Wagon Mexico City</div>
+              </div>
+              <div class="experience-date">Sep. 2022 - Dec. 2022</div>
+            </div>
+            <div class="experience-description">
+              <ul>
+                <li>
+                  Content focused in Python, Numpy, and Pandas, emphasizing
+                  their application in data exploration.
+                </li>
+                <li>
+                  Guided students in optimizing, evaluating, and constructing
+                  model pipelines.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div id="education-window" class="app-window education-large" style="display: none;">
-        <div class="window-header">
-            <div class="window-title">
-                <img src="images/icons/Screenshot from 2025-06-08 20-08-00.png" alt="education" class="window-icon">
-                Education
-            </div>
-            <div class="window-controls">
-                <button class="minimize-btn" onclick="minimizeApp('education')">
-                    <i class="fas fa-minus"></i>
-                </button>
-                <button class="close-btn" onclick="closeApp('education')">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
+    <div
+      id="education-window"
+      class="app-window education-large"
+      style="display: none"
+    >
+      <div class="window-header">
+        <div class="window-title">
+          <img
+            src="images/icons/Screenshot from 2025-06-08 20-08-00.png"
+            alt="education"
+            class="window-icon"
+          />
+          Education
         </div>
-        <div class="window-content">
-            <div class="terminal-header">william@personal:~$ more edu.log</div>
-            <div class="education-container">
-                <div class="education">
-                    <div class="education-header">
-                        <div>
-                            <h3 class="education-school">University of California, Los Angeles</h3>
-                            <div class="education-degree">Bachelor's, Linguistics and Computing</div>
-                        </div>
-                        <div class="education-date">2024 - 2026</div>
-                    </div>
-                    <div class="education-activities">
-                        <h4>Activities:</h4>
-                        <ul>
-                            <li>Brazilian Jiu Jitsu Club</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="education">
-                    <div class="education-header">
-                        <div>
-                            <h3 class="education-school">City College of San Francisco</h3>
-                            <div class="education-degree">Computer Science</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="window-controls">
+          <button class="minimize-btn" onclick="minimizeApp('education')">
+            <i class="fas fa-minus"></i>
+          </button>
+          <button class="close-btn" onclick="closeApp('education')">
+            <i class="fas fa-times"></i>
+          </button>
         </div>
+      </div>
+      <div class="window-content">
+        <div class="terminal-header">william@personal:~$ more edu.log</div>
+        <div class="education-container">
+          <div class="education">
+            <div class="education-header">
+              <div>
+                <h3 class="education-school">
+                  University of California, Los Angeles
+                </h3>
+                <div class="education-degree">
+                  Bachelor's, Linguistics and Computing
+                </div>
+              </div>
+              <div class="education-date">2024 - 2026</div>
+            </div>
+            <div class="education-activities">
+              <h4>Activities:</h4>
+              <ul>
+                <li>Brazilian Jiu Jitsu Club</li>
+              </ul>
+            </div>
+          </div>
+          <div class="education">
+            <div class="education-header">
+              <div>
+                <h3 class="education-school">City College of San Francisco</h3>
+                <div class="education-degree">
+                  Associate's, Computer Science
+                </div>
+              </div>
+              <div class="education-date">2023</div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div id="skills-window" class="app-window" style="display: none;">
-        <div class="window-header">
-            <div class="window-title">
-                <img src="images/icons/Screenshot from 2025-06-08 20-07-50.png" alt="skills" class="window-icon">
-                Skills
-            </div>
-            <div class="window-controls">
-                <button class="minimize-btn" onclick="minimizeApp('skills')">
-                    <i class="fas fa-minus"></i>
-                </button>
-                <button class="close-btn" onclick="closeApp('skills')">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
+    <div id="skills-window" class="app-window" style="display: none">
+      <div class="window-header">
+        <div class="window-title">
+          <img
+            src="images/icons/Screenshot from 2025-06-08 20-07-50.png"
+            alt="skills"
+            class="window-icon"
+          />
+          Skills
         </div>
-        <div class="window-content">
-            <div class="terminal-header">william@personal:~$ ./skills.bin</div>
-            <div class="skills-container">
-                <div class="skill-category">
-                    <div class="skill-list">
-                        <span class="skill">Python</span>
-                        <span class="skill">Agile</span>
-                        <span class="skill">Data Governance</span>
-                        <span class="skill">Snowflake</span>
-                        <span class="skill">Databricks</span>
-                        <span class="skill">Azure</span>
-                        <span class="skill">Google Cloud Platform</span>
-                        <span class="skill">LLMs</span>
-                        <span class="skill">ML Model Training</span>
-                        <span class="skill">MLOps</span>
-                        <span class="skill">Git</span>
-                        <span class="skill">Jupyter Notebook</span>
-                    </div>
-                </div>
-            </div>
+        <div class="window-controls">
+          <button class="minimize-btn" onclick="minimizeApp('skills')">
+            <i class="fas fa-minus"></i>
+          </button>
+          <button class="close-btn" onclick="closeApp('skills')">
+            <i class="fas fa-times"></i>
+          </button>
         </div>
+      </div>
+      <div class="window-content">
+        <div class="terminal-header">william@personal:~$ ./skills.bin</div>
+        <div class="skills-container">
+          <div class="skill-category">
+            <div class="skill-list">
+              <span class="skill">Python</span>
+              <span class="skill">Agile</span>
+              <span class="skill">Data Governance</span>
+              <span class="skill">Snowflake</span>
+              <span class="skill">Databricks</span>
+              <span class="skill">Azure</span>
+              <span class="skill">Google Cloud Platform</span>
+              <span class="skill">LLMs</span>
+              <span class="skill">ML Model Training</span>
+              <span class="skill">MLOps</span>
+              <span class="skill">Git</span>
+              <span class="skill">Jupyter Notebook</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div id="contact-window" class="app-window" style="display: none;">
-        <div class="window-header">
-            <div class="window-title">
-                <img src="images/icons/Screenshot from 2025-06-08 20-08-23.png" alt="contact" class="window-icon">
-                Contact
-            </div>
-            <div class="window-controls">
-                <button class="minimize-btn" onclick="minimizeApp('contact')">
-                    <i class="fas fa-minus"></i>
-                </button>
-                <button class="close-btn" onclick="closeApp('contact')">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
+    <div id="contact-window" class="app-window" style="display: none">
+      <div class="window-header">
+        <div class="window-title">
+          <img
+            src="images/icons/Screenshot from 2025-06-08 20-08-23.png"
+            alt="contact"
+            class="window-icon"
+          />
+          Contact
         </div>
-        <div class="window-content">
-            <div class="terminal-header">william@personal:~$ mail -s "Hello" william@example.com</div>
-            <div class="contact-container">
-                <div class="contact-photo">
-                    <p class="contact-photo-caption">a picture of me hiking...</p>
-                    <img src="images/hiking.jpg" alt="a picture of me hiking">
-                </div>
-                <div class="contact-links">
-                    <a href="mailto:williamjwall@gmail.com" class="contact-link">
-                        <i class="fas fa-envelope"></i>
-                        williamjwall@gmail.com
-                    </a>
-                </div>
-            </div>
+        <div class="window-controls">
+          <button class="minimize-btn" onclick="minimizeApp('contact')">
+            <i class="fas fa-minus"></i>
+          </button>
+          <button class="close-btn" onclick="closeApp('contact')">
+            <i class="fas fa-times"></i>
+          </button>
         </div>
+      </div>
+      <div class="window-content">
+        <div class="terminal-header">
+          william@personal:~$ mail -s "Hello" william@example.com
+        </div>
+        <div class="contact-container">
+          <div class="contact-photo">
+            <p class="contact-photo-caption">a picture of me hiking...</p>
+            <img src="images/hiking.jpg" alt="a picture of me hiking" />
+          </div>
+          <div class="contact-links">
+            <a href="mailto:williamjwall@gmail.com" class="contact-link">
+              <i class="fas fa-envelope"></i>
+              williamjwall@gmail.com
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Taskbar -->
     <div class="taskbar">
-        <div class="taskbar-apps" id="taskbar-apps">
-            <!-- Minimized apps will appear here -->
-        </div>
+      <div class="taskbar-apps" id="taskbar-apps">
+        <!-- Minimized apps will appear here -->
+      </div>
     </div>
 
     <!-- Load only essential libraries -->
     <!-- Removed gl-matrix as it's not actually used for WebGL -->
-    
+
     <!-- Load scripts conditionally based on device capability -->
     <script>
-        // Feature detection and conditional loading
-        function supportsCanvas() {
-            const canvas = document.createElement('canvas');
-            return !!(canvas.getContext && canvas.getContext('2d'));
+      // Feature detection and conditional loading
+      function supportsCanvas() {
+        const canvas = document.createElement("canvas");
+        return !!(canvas.getContext && canvas.getContext("2d"));
+      }
+
+      function isMobile() {
+        return (
+          window.innerWidth <= 768 ||
+          /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+            navigator.userAgent,
+          )
+        );
+      }
+
+      // Load appropriate scripts based on device capability
+      if (supportsCanvas()) {
+        if (!isMobile()) {
+          // Desktop: Load binary trees animation
+          const script1 = document.createElement("script");
+          script1.src = "js/binary_trees.js";
+          script1.async = true;
+          document.head.appendChild(script1);
         }
-        
-        function isMobile() {
-            return window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-        }
-        
-        // Load appropriate scripts based on device capability
-        if (supportsCanvas()) {
-            if (!isMobile()) {
-                // Desktop: Load binary trees animation
-                const script1 = document.createElement('script');
-                script1.src = 'js/binary_trees.js';
-                script1.async = true;
-                document.head.appendChild(script1);
-            }
-        }
+      }
     </script>
-    
+
     <!-- Add marked.js for Markdown parsing -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    
+
     <!-- Load main script after other resources -->
     <script src="js/script.js"></script>
-</body>
-</html> 
+  </body>
+</html>
