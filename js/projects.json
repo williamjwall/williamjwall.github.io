@@ -1,62 +1,55 @@
 {
-    "professionalProjects": [],
-    "personalProjects": [
+  "professionalProjects": [],
+  "personalProjects": [
+    {
+      "title": "Renewable Site Risk Atlas",
+      "date": "2026",
+      "links": [
         {
-            "title": "Renewable Site Risk Atlas",
-            "date": "2026",
-            "links": [
-                {
-                    "text": "View Here",
-                    "url": "https://www.renewablerisk.dev"
-                }
-            ],
-            "description": "An interactive atlas of weather-hazard exposure for 20,000+ wind and solar sites worldwide, covering hail, wind, tornadoes, tropical cyclones, extreme rain and heat. Explore sites on a globe colored by risk, compare site score cards, and query the underlying data.",
-            "technologies": [
-                "Geospatial Data",
-                "Climate Risk",
-                "Data Visualization"
-            ]
-        },
-        {
-            "title": "Tree-LSTM Compositional Semantics",
-            "date": "2025",
-            "links": [
-                {
-                    "text": "GitHub",
-                    "url": "https://github.com/williamjwall/tree-lstm-generator"
-                }
-            ],
-            "description": "An interactive tool for visualizing compositional semantics through constituency parse trees and Tree-LSTM networks. Combines constituency parsing via spaCy/Benepar, contextual embeddings via BERT, and compositional semantics via Child-Sum Tree-LSTM with interactive 2D and 3D visualizations.",
-            "technologies": [
-                "Natural Language Processing"
-            ]
-        },
-        {
-            "title": "WebGL Art Backgrounds",
-            "date": "2024",
-            "links": [
-                {
-                    "text": "View Here",
-                    "url": "https://williamjwall.github.io/webGL-art-backgrounds/"
-                }
-            ],
-            "description": "random webGL canvas I make as a hobby"
-        },
-        {
-            "title": "Data Engineer",
-            "company": "returnPro",
-            "date": "2024",
-            "description": "Built end-to-end pipelines using Retrieval-Augmented Generation (RAG) and LLMs to enrich product metadata and classify taxonomy across diverse e-commerce platforms. Designed scalable ETL pipelines in Databricks, orchestrated Snowflake workloads, and deployed solutions via Azure for near real-time enrichment. Trained and evaluated machine learning models on product and marketplace data, and set up MLOps workflows for model versioning, deployment, and monitoring.",
-            "technologies": [
-                "Python",
-                "Databricks",
-                "Snowflake",
-                "Azure",
-                "LLMs",
-                "RAG",
-                "ML Model Training",
-                "MLOps"
-            ]
+          "text": "View Here",
+          "url": "https://www.renewablerisk.dev"
         }
-    ]
+      ],
+      "description": "An interactive atlas of weather-hazard exposure for 20,000+ wind and solar sites worldwide, covering hail, wind, tornadoes, tropical cyclones, extreme rain and heat. Explore sites on a globe colored by risk, compare site score cards, and query the underlying data."
+    },
+    {
+      "title": "Tree-LSTM Compositional Semantics",
+      "date": "2025",
+      "links": [
+        {
+          "text": "GitHub",
+          "url": "https://github.com/williamjwall/tree-lstm-generator"
+        }
+      ],
+      "description": "An interactive tool for visualizing compositional semantics through constituency parse trees and Tree-LSTM networks. Combines constituency parsing via spaCy/Benepar, contextual embeddings via BERT, and compositional semantics via Child-Sum Tree-LSTM with interactive 2D and 3D visualizations.",
+      "technologies": ["Natural Language Processing"]
+    },
+    {
+      "title": "WebGL Art Backgrounds",
+      "date": "2024",
+      "links": [
+        {
+          "text": "View Here",
+          "url": "https://williamjwall.github.io/webGL-art-backgrounds/"
+        }
+      ],
+      "description": "random webGL canvas I make as a hobby"
+    },
+    {
+      "title": "Data Engineer",
+      "company": "returnPro",
+      "date": "2024",
+      "description": "Built end-to-end pipelines using Retrieval-Augmented Generation (RAG) and LLMs to enrich product metadata and classify taxonomy across diverse e-commerce platforms. Designed scalable ETL pipelines in Databricks, orchestrated Snowflake workloads, and deployed solutions via Azure for near real-time enrichment. Trained and evaluated machine learning models on product and marketplace data, and set up MLOps workflows for model versioning, deployment, and monitoring.",
+      "technologies": [
+        "Python",
+        "Databricks",
+        "Snowflake",
+        "Azure",
+        "LLMs",
+        "RAG",
+        "ML Model Training",
+        "MLOps"
+      ]
+    }
+  ]
 }
