@@ -2,6 +2,22 @@
     "professionalProjects": [],
     "personalProjects": [
         {
+            "title": "Renewable Site Risk Atlas",
+            "date": "2026",
+            "links": [
+                {
+                    "text": "View Here",
+                    "url": "https://www.renewablerisk.dev"
+                }
+            ],
+            "description": "An interactive atlas of weather-hazard exposure for 20,000+ wind and solar sites worldwide, covering hail, wind, tornadoes, tropical cyclones, extreme rain and heat. Explore sites on a globe colored by risk, compare site score cards, and query the underlying data.",
+            "technologies": [
+                "Geospatial Data",
+                "Climate Risk",
+                "Data Visualization"
+            ]
+        },
+        {
             "title": "Tree-LSTM Compositional Semantics",
             "date": "2025",
             "links": [
